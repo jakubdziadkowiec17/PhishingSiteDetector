@@ -118,8 +118,7 @@ namespace PhishingSiteDetector_API.Controllers
         {
             try
             {
-                var result = await _accountService.EditAccountAsync(accountDTO);
-                return Ok(result);
+                return Ok(await _accountService.EditAccountAsync(accountDTO));
             }
             catch (Exception ex)
             {
@@ -143,8 +142,7 @@ namespace PhishingSiteDetector_API.Controllers
         {
             try
             {
-                var result = await _accountService.ResetPasswordAsync(resetPasswordDTO);
-                return Ok(result);
+                return Ok(await _accountService.ResetPasswordAsync(resetPasswordDTO));
             }
             catch (Exception ex)
             {
@@ -172,8 +170,7 @@ namespace PhishingSiteDetector_API.Controllers
         {
             try
             {
-                var result = await _accountService.LogoutAsync(refreshTokenDTO);
-                return Ok(result);
+                return Ok(await _accountService.LogoutAsync(refreshTokenDTO));
             }
             catch (Exception ex)
             {

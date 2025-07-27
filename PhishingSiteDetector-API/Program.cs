@@ -61,9 +61,12 @@ public class Program
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
         builder.Services.AddScoped<IAccountService, AccountService>();
         builder.Services.AddScoped<IErrorLogService, ErrorLogService>();
+        builder.Services.AddScoped<IFileService, FileService>();
+        builder.Services.AddScoped<IUrlPredictionService, UrlPredictionService>();
 
         builder.Services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
         builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        builder.Services.AddScoped<ISiteLogRepository, SiteLogRepository>();
 
         builder.Services.AddControllers();
 

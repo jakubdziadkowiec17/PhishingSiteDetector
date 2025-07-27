@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using PhishingSiteDetector_API.Constants;
 using PhishingSiteDetector_API.Models.DTOs;
 using PhishingSiteDetector_API.Models.Entities;
 

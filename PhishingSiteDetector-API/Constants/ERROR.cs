@@ -19,6 +19,9 @@
         public const string NO_ROLE_SELECTED = "NO_ROLE_SELECTED";
         public const string ROLE_DOES_NOT_EXIST = "ROLE_DOES_NOT_EXIST";
         public const string USER_NOT_FOUND = "USER_NOT_FOUND";
-        public const string GET_CHART = "GET_CHART";
+        public const string FILE_IS_EMPTY = "FILE_IS_EMPTY";
+        public const string FILE_DOES_NOT_EXISTS = "FILE_DOES_NOT_EXISTS";
+        public const string FILE_SHOULD_BE_CSV = "FILE_SHOULD_BE_CSV";
+        public const string FILE_UPLOAD_FAILED = "FILE_UPLOAD_FAILED";
     }
 }
