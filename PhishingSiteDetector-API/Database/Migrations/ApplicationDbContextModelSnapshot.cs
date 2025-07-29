@@ -247,6 +247,35 @@ namespace PhishingSiteDetector_API.Database.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("PhishingSiteDetector_API.Models.Entities.DataSet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActiveDataSet")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreationUserId");
+
+                    b.ToTable("DataSets");
+                });
+
             modelBuilder.Entity("PhishingSiteDetector_API.Models.Entities.ErrorLog", b =>
                 {
                     b.Property<int>("Id")
@@ -380,12 +409,23 @@ namespace PhishingSiteDetector_API.Database.Migrations
                     b.Navigation("Language");
                 });
 
+            modelBuilder.Entity("PhishingSiteDetector_API.Models.Entities.DataSet", b =>
+                {
+                    b.HasOne("PhishingSiteDetector_API.Models.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("DataSets")
+                        .HasForeignKey("CreationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("PhishingSiteDetector_API.Models.Entities.RefreshToken", b =>
                 {
                     b.HasOne("PhishingSiteDetector_API.Models.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("RefreshTokens")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
@@ -393,6 +433,8 @@ namespace PhishingSiteDetector_API.Database.Migrations
 
             modelBuilder.Entity("PhishingSiteDetector_API.Models.Entities.ApplicationUser", b =>
                 {
+                    b.Navigation("DataSets");
+
                     b.Navigation("RefreshTokens");
                 });
 

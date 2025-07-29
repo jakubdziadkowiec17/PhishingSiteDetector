@@ -85,7 +85,7 @@ namespace PhishingSiteDetector_API.Controllers
                     case ERROR.USER_NOT_FOUND:
                         return NotFound(ERROR.USER_NOT_FOUND);
                     default:
-                        return StatusCode(500, ERROR.GET_ACCOUNT_DATA);
+                        return StatusCode(500, ERROR.GETTING_ACCOUNT_DATA_FAILED);
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace PhishingSiteDetector_API.Controllers
                     case ERROR.USER_NOT_FOUND:
                         return NotFound(ERROR.USER_NOT_FOUND);
                     default:
-                        return StatusCode(500, ERROR.GET_USER_DATA);
+                        return StatusCode(500, ERROR.GETTING_USER_DATA_FAILED);
                 }
             }
         }
@@ -156,10 +156,10 @@ namespace PhishingSiteDetector_API.Controllers
                         return BadRequest(ERROR.OLD_PASSWORD_INCORRECT);
                     case ERROR.NOT_THE_SAME_PASSWORD:
                         return BadRequest(ERROR.NOT_THE_SAME_PASSWORD);
-                    case ERROR.PASSWORD_RULES:
-                        return BadRequest(ERROR.PASSWORD_RULES);
+                    case ERROR.INCORRECT_PASSWORD_RULES:
+                        return BadRequest(ERROR.INCORRECT_PASSWORD_RULES);
                     default:
-                        return StatusCode(500, ERROR.RESET_PASSWORD);
+                        return StatusCode(500, ERROR.PASSWORD_RESET_FAILED);
                 }
             }
         }

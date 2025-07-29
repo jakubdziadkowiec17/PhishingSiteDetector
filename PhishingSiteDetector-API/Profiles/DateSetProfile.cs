@@ -4,11 +4,11 @@ using PhishingSiteDetector_API.Models.Entities;
 
 namespace PhishingSiteDetector_API.Profiles
 {
-    public class AccountProfile : Profile
+    public class DateSetProfile : Profile
     {
-        public AccountProfile()
+        public DateSetProfile()
         {
-            CreateMap<ApplicationUser, AccountDTO>().ReverseMap();
+            CreateMap<DataSet, DataSetItemDTO>();
         }
     }
 }

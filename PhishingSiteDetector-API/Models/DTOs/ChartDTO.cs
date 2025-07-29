@@ -2,13 +2,7 @@
 {
     public class ChartDTO
     {
-        public string StartDate { get; set; }
-        public int Value { get; set; }
-
-        public ChartDTO(string startDate, int value)
-        {
-            StartDate = startDate;
-            Value = value;
-        }
+        public int Month { get; set; }
+        public int Count { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.ML;
+using PhishingSiteDetector_API.Constants;
 using PhishingSiteDetector_API.Models.Domain;
 using PhishingSiteDetector_API.Models.DTOs;
 using PhishingSiteDetector_API.Models.Entities;
@@ -10,18 +11,26 @@ namespace PhishingSiteDetector_API.Services.Implementations
 {
     public class UrlPredictionService : IUrlPredictionService
     {
+        private readonly IDataSetRepository _dataSetRepository;
         private readonly ISiteLogRepository _siteLogRepository;
         private readonly IMapper _mapper;
-        public UrlPredictionService(ISiteLogRepository siteLogRepository, IMapper mapper)
+        public UrlPredictionService(IDataSetRepository dataSetRepository, ISiteLogRepository siteLogRepository, IMapper mapper)
         {
+            _dataSetRepository = dataSetRepository;
             _siteLogRepository = siteLogRepository;
             _mapper = mapper;
         }
 
-        public UrlPredictionDTO Predict(UrlDTO urlDTO)
+        public async Task<UrlPredictionDTO> PredictAsync(UrlDTO urlDTO)
         {
+            var activeDataSet = await _dataSetRepository.GetActiveDataSetAsync();
+            if (activeDataSet is null)
+            {
+                throw new Exception(ERROR.NO_ACTIVE_DATA_SET_FOUND);
+            }
+
             var _mlContext = new MLContext();
-            var _model = _mlContext.Model.Load("MLModels/PhishingModel.zip", out _);
+            var _model = _mlContext.Model.Load($"MLModels/{activeDataSet.Id}.zip", out _);
             var _engine = _mlContext.Model.CreatePredictionEngine<UrlFeaturesDTO, UrlPrediction>(_model);
 
             var uri = new UriBuilder(urlDTO.Url).Uri;
@@ -58,7 +67,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 CreationDate = DateTime.Now
             };
 
-            _siteLogRepository.CreateSiteLogAsync(siteLog);
+            await _siteLogRepository.CreateSiteLogAsync(siteLog);
 
             return _mapper.Map<UrlPredictionDTO>(prediction);
         }

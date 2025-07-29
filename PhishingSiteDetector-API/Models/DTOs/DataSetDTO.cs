@@ -2,7 +2,7 @@
 
 namespace PhishingSiteDetector_API.Models.DTOs
 {
-    public class FileDTO
+    public class DataSetDTO
     {
         [Required]
         public IFormFile File { get; set; }

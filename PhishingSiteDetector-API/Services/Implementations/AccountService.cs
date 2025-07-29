@@ -247,7 +247,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             var regex = RegularExpression.Password;
             if (string.IsNullOrEmpty(resetPasswordDTO.NewPassword) || !regex.IsMatch(resetPasswordDTO.NewPassword))
             {
-                throw new Exception(ERROR.PASSWORD_RULES);
+                throw new Exception(ERROR.INCORRECT_PASSWORD_RULES);
             }
 
             var passwordHash = _userManager.PasswordHasher.HashPassword(applicationUser, resetPasswordDTO.NewPassword);
@@ -255,7 +255,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             var result = await _userManager.UpdateAsync(applicationUser);
             if (!result.Succeeded)
             {
-                throw new Exception(ERROR.RESET_PASSWORD);
+                throw new Exception(ERROR.PASSWORD_RESET_FAILED);
             }
 
             return INFO.PASSWORD_RESET;

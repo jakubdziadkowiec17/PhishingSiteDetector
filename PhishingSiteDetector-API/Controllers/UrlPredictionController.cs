@@ -24,7 +24,7 @@ namespace PhishingSiteDetector_API.Controllers
         {
             try
             {
-                return Ok(_urlPredictionService.Predict(urlDTO));
+                return Ok(await _urlPredictionService.PredictAsync(urlDTO));
             }
             catch (Exception ex)
             {
@@ -32,10 +32,10 @@ namespace PhishingSiteDetector_API.Controllers
 
                 switch (ex.Message)
                 {
-                    case ERROR.USER_NOT_RECOGNIZED:
-                        return BadRequest(ERROR.USER_NOT_RECOGNIZED);
+                    case ERROR.NO_ACTIVE_DATA_SET_FOUND:
+                        return BadRequest(ERROR.NO_ACTIVE_DATA_SET_FOUND);
                     default:
-                        return StatusCode(500, ERROR.LOGOUT_FAILED);
+                        return StatusCode(500, ERROR.DATA_SET_PREDICTION_FAILED);
                 }
             }
         }

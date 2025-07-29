@@ -2,8 +2,8 @@
 
 namespace PhishingSiteDetector_API.Services.Interfaces
 {
-    public interface IUrlPredictionService
+    public interface ISiteLogService
     {
-        Task<UrlPredictionDTO> PredictAsync(UrlDTO urlDTO);
+        Task<List<ChartDTO>> GetSiteLogsAsync(int year);
     }
 }

@@ -6,6 +6,7 @@ namespace PhishingSiteDetector_API.Models.Entities
     {
         [Key]
         public string Token { get; set; }
+        [Required]
         public string UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         [Required]

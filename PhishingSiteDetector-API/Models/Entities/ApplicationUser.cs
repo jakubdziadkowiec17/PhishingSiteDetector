@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace PhishingSiteDetector_API.Models.Entities
 {
@@ -25,6 +26,7 @@ namespace PhishingSiteDetector_API.Models.Entities
         [Required]
         public string LanguageCode { get; set; }
         public Language Language { get; set; }
+        public ICollection<DataSet>? DataSets { get; set; }
         public ICollection<RefreshToken>? RefreshTokens { get; set; }
     }
 }
