@@ -17,11 +17,15 @@
         public float NumHash { get; set; }
         public float NumNumericChars { get; set; }
         public float NoHttps { get; set; }
+        public float RandomString { get; set; }
         public float IpAddress { get; set; }
+        public float DomainInSubdomains { get; set; }
+        public float DomainInPaths { get; set; }
         public float HttpsInHostname { get; set; }
         public float HostnameLength { get; set; }
         public float PathLength { get; set; }
         public float QueryLength { get; set; }
         public float DoubleSlashInPath { get; set; }
+        public float EmbeddedBrandName { get; set; }
     }
 }

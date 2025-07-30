@@ -36,17 +36,20 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 throw new Exception(ERROR.DATA_SET_SHOULD_BE_CSV);
             }
 
-            var dataSets = await _dataSetRepository.GetDataSetsAsync();
-            foreach (var item in dataSets)
+            if(dataSetDTO.IsActiveDataSet)
             {
-                item.IsActiveDataSet = false;
-                await _dataSetRepository.UpdateActivityForDataSetAsync(item);
+                var dataSets = await _dataSetRepository.GetDataSetsAsync();
+                foreach(var item in dataSets)
+                {
+                    item.IsActiveDataSet = false;
+                    await _dataSetRepository.UpdateActivityForDataSetAsync(item);
+                }
             }
 
             var dataSet = new DataSet
             {
                 Name = dataSetDTO.File.FileName,
-                IsActiveDataSet = true,
+                IsActiveDataSet = dataSetDTO.IsActiveDataSet,
                 CreationUserId = userId,
                 CreationDate = DateTime.Now
             };
@@ -81,12 +84,16 @@ namespace PhishingSiteDetector_API.Services.Implementations
                     nameof(CsvDTO.NumHash),
                     nameof(CsvDTO.NumNumericChars),
                     nameof(CsvDTO.NoHttps),
+                    nameof(CsvDTO.RandomString),
                     nameof(CsvDTO.IpAddress),
+                    nameof(CsvDTO.DomainInSubdomains),
+                    nameof(CsvDTO.DomainInPaths),
                     nameof(CsvDTO.HttpsInHostname),
                     nameof(CsvDTO.HostnameLength),
                     nameof(CsvDTO.PathLength),
                     nameof(CsvDTO.QueryLength),
-                    nameof(CsvDTO.DoubleSlashInPath)
+                    nameof(CsvDTO.DoubleSlashInPath),
+                    nameof(CsvDTO.EmbeddedBrandName)
                 ).Append(mlContext.Transforms.NormalizeMinMax("Features"))
                 .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: nameof(CsvDTO.ClassLabel)));
 
@@ -134,14 +141,28 @@ namespace PhishingSiteDetector_API.Services.Implementations
 
         public async Task<string> UpdateActivityForDataSetAsync(int id, DataSetItemDTO dataSetItemDTO)
         {
+            if (id != dataSetItemDTO.Id)
+            {
+                throw new Exception(ERROR.DATASETS_ARE_NOT_THE_SAME);
+            }
+
             var dataSet = await _dataSetRepository.GetDataSetAsync(id);
             if (dataSet is null)
             {
                 throw new Exception(ERROR.DATA_SET_NOT_FOUND);
             }
 
-            dataSet.IsActiveDataSet = dataSetItemDTO.IsActiveDataSet;
+            if (dataSetItemDTO.IsActiveDataSet)
+            {
+                var dataSets = await _dataSetRepository.GetDataSetsAsync();
+                foreach (var item in dataSets)
+                {
+                    item.IsActiveDataSet = false;
+                    await _dataSetRepository.UpdateActivityForDataSetAsync(item);
+                }
+            }
 
+            dataSet.IsActiveDataSet = dataSetItemDTO.IsActiveDataSet;
             await _dataSetRepository.UpdateActivityForDataSetAsync(dataSet);
 
             return INFO.DATA_SET_ACTIVITY_UPDATED;

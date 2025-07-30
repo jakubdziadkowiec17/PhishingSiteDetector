@@ -19,12 +19,16 @@ namespace PhishingSiteDetector_API.Models.DTOs
         [LoadColumn(13)] public float NumHash { get; set; }
         [LoadColumn(14)] public float NumNumericChars { get; set; }
         [LoadColumn(15)] public float NoHttps { get; set; }
+        [LoadColumn(16)] public float RandomString { get; set; }
         [LoadColumn(17)] public float IpAddress { get; set; }
+        [LoadColumn(18)] public float DomainInSubdomains { get; set; }
+        [LoadColumn(19)] public float DomainInPaths { get; set; }
         [LoadColumn(20)] public float HttpsInHostname { get; set; }
         [LoadColumn(21)] public float HostnameLength { get; set; }
         [LoadColumn(22)] public float PathLength { get; set; }
         [LoadColumn(23)] public float QueryLength { get; set; }
         [LoadColumn(24)] public float DoubleSlashInPath { get; set; }
+        [LoadColumn(26)] public float EmbeddedBrandName { get; set; }
         [LoadColumn(48)] public bool ClassLabel { get; set; }
     }
 }

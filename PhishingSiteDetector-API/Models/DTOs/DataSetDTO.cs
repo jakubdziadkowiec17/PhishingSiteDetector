@@ -6,5 +6,6 @@ namespace PhishingSiteDetector_API.Models.DTOs
     {
         [Required]
         public IFormFile File { get; set; }
+        public bool IsActiveDataSet { get; set; }
     }
 }

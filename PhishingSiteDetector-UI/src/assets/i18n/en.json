@@ -1,0 +1,13 @@
+{
+    "MAIN":{
+        "DASHBOARD": "Panel",
+        "RENTALS": "Wypożyczenia",
+        "CARS": "Samochody",
+        "EMPLOYEES": "Pracownicy",
+        "CLIENTS": "Klienci",
+        "PAYMENTS": "Płatności",
+        "ACCOUNT": "Konto",
+        "SETTINGS": "Ustawienia",
+        "LOGOUT": "Wyloguj się"
+    }
+}

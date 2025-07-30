@@ -1,7 +1,7 @@
 ﻿using PhishingSiteDetector_API.Constants;
 using PhishingSiteDetector_API.Models.Entities;
 
-namespace Soccerity_API_IntegrationTests.Database.Data
+namespace Soccerity_API_IntegrationTests.Data.Database
 {
     public static class DBSecondAdmin
     {

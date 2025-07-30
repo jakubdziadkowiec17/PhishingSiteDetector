@@ -52,12 +52,16 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 NumHash = urlDTO.Url.Count(c => c == '#'),
                 NumNumericChars = urlDTO.Url.Count(char.IsDigit),
                 NoHttps = urlDTO.Url.StartsWith("https", StringComparison.OrdinalIgnoreCase) ? 0 : 1,
+                RandomString = urlDTO.IsRandomString ? 1 : 0,
                 IpAddress = Uri.CheckHostName(uri.Host) == UriHostNameType.IPv4 ? 1 : 0,
+                DomainInSubdomains = urlDTO.HasDomainInSubdomain ? 1 : 0,
+                DomainInPaths = urlDTO.HasDomainInPath ? 1 : 0,
                 HttpsInHostname = uri.Host.Contains("https") ? 1 : 0,
                 HostnameLength = uri.Host.Length,
                 PathLength = uri.AbsolutePath.Length,
                 QueryLength = uri.Query.Length,
-                DoubleSlashInPath = uri.AbsolutePath.Contains("//") ? 1 : 0
+                DoubleSlashInPath = uri.AbsolutePath.Contains("//") ? 1 : 0,
+                EmbeddedBrandName = urlDTO.HasEmbeddedBrandName ? 1 : 0,
             };
 
             var prediction = _engine.Predict(features);

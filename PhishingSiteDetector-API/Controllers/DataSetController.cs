@@ -7,7 +7,7 @@ using PhishingSiteDetector_API.Services.Interfaces;
 namespace PhishingSiteDetector_API.Controllers
 {
     [ApiController]
-    [Route("api/file")]
+    [Route("api/data-set")]
     [Authorize(Roles = Role.Admin)]
     public class DataSetController : ControllerBase
     {
@@ -73,7 +73,7 @@ namespace PhishingSiteDetector_API.Controllers
                 switch (ex.Message)
                 {
                     case ERROR.DATA_SET_NOT_FOUND:
-                        return NotFound(ERROR.DATA_SET_NOT_FOUND);
+                        return BadRequest(ERROR.DATA_SET_NOT_FOUND);
                     default:
                         return StatusCode(500, ERROR.DOWNLOADING_DATA_SET_FAILED);
                 }
@@ -95,6 +95,8 @@ namespace PhishingSiteDetector_API.Controllers
                 {
                     case ERROR.DATA_SET_NOT_FOUND:
                         return NotFound(ERROR.DATA_SET_NOT_FOUND);
+                    case ERROR.DATASETS_ARE_NOT_THE_SAME:
+                        return BadRequest(ERROR.DATASETS_ARE_NOT_THE_SAME);
                     default:
                         return StatusCode(500, ERROR.UPDATING_DATA_SET_ACTIVITY_FAILED);
                 }

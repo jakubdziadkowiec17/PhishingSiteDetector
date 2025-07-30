@@ -33,7 +33,7 @@ namespace PhishingSiteDetector_API.Controllers
                 switch (ex.Message)
                 {
                     case ERROR.NO_ACTIVE_DATA_SET_FOUND:
-                        return BadRequest(ERROR.NO_ACTIVE_DATA_SET_FOUND);
+                        return NotFound(ERROR.NO_ACTIVE_DATA_SET_FOUND);
                     default:
                         return StatusCode(500, ERROR.DATA_SET_PREDICTION_FAILED);
                 }
