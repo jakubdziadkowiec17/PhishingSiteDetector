@@ -1,13 +1,32 @@
 {
-    "MAIN":{
-        "DASHBOARD": "Panel",
-        "RENTALS": "Wypożyczenia",
-        "CARS": "Samochody",
-        "EMPLOYEES": "Pracownicy",
-        "CLIENTS": "Klienci",
-        "PAYMENTS": "Płatności",
-        "ACCOUNT": "Konto",
-        "SETTINGS": "Ustawienia",
-        "LOGOUT": "Wyloguj się"
+    "ERROR": {
+        "YOUR_SESSION_HAS_EXPIRED": "Your session has expired. Please log in again.",
+        "AN_UNKNOWN_ERROR_OCCURED": "An unknown error occurred.",
+        "LOGIN_FAILED": "An unexpected error occurred during login.",
+        "LOGOUT_FAILED": "An unexpected error occurred during logout.",
+        "USER_NOT_RECOGNIZED": "User not recognized.",
+        "USER_ALREADY_EXISTS": "User already exists.",
+        "USER_NOT_ASSIGNED_TO_ANY_ROLE": "User is not assigned to any role.",
+        "INVALID_EMAIL_OR_PASSWORD": "Invalid email address or password.",
+        "INVALID_CLIENT_REQUEST": "Invalid client request.",
+        "GETTING_ACCOUNT_DATA_FAILED": "An unexpected error occurred while fetching account data.",
+        "GETTING_USER_DATA_FAILED": "An unexpected error occurred while fetching user data.",
+        "EDIT_ACCOUNT_FAILED": "An unexpected error occurred while editing account data.",
+        "OLD_PASSWORD_INCORRECT": "Old password is incorrect.",
+        "NOT_THE_SAME_PASSWORD": "The new password fields do not match.",
+        "INCORRECT_PASSWORD_RULES": "The new password must have: at least 8 characters, at least 1 lowercase letter, at least 1 uppercase letter, at least 1 digit, and at least 1 special character.",
+        "PASSWORD_RESET_FAILED": "An unexpected error occurred while resetting the password.",
+        "USER_NOT_FOUND": "User not found.",
+        "DATA_SET_IS_EMPTY": "The dataset is empty.",
+        "DATA_SET_SHOULD_BE_CSV": "The dataset should be in CSV format.",
+        "DATA_SET_UPLOAD_FAILED": "An unexpected error occurred while uploading the dataset.",
+        "NO_ACTIVE_DATA_SET_FOUND": "No active dataset found.",
+        "DATA_SET_PREDICTION_FAILED": "An unexpected error occurred while verifying the website address.",
+        "GETTING_DATA_SET_LIST_FAILED": "An unexpected error occurred while retrieving the dataset list.",
+        "DATA_SET_NOT_FOUND": "Dataset not found.",
+        "DOWNLOADING_DATA_SET_FAILED": "An unexpected error occurred while downloading the dataset.",
+        "UPDATING_DATA_SET_ACTIVITY_FAILED": "An unexpected error occurred while activating the dataset.",
+        "DELETING_DATA_SET_FAILED": "An unexpected error occurred while deleting the dataset.",
+        "DATASETS_ARE_NOT_THE_SAME": "The datasets are not the same."
     }
 }

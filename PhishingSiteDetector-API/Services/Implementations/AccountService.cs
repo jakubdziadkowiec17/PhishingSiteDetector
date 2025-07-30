@@ -171,12 +171,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 throw new Exception(ERROR.USER_NOT_FOUND);
             }
 
-            var accountData = new AccountDataDTO
-            {
-                LanguageCode = applicationUser.LanguageCode
-            };
-
-            return accountData;
+            return _mapper.Map<AccountDataDTO>(applicationUser);
         }
 
         public async Task<AccountDTO> GetAccountAsync()
@@ -216,7 +211,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             var result = await _userManager.UpdateAsync(applicationUser);
             if (!result.Succeeded)
             {
-                throw new Exception(ERROR.EDIT_ACCOUNT);
+                throw new Exception(ERROR.EDIT_ACCOUNT_FAILED);
             }
 
             return INFO.ACCOUNT_EDITED;

@@ -131,7 +131,7 @@ namespace PhishingSiteDetector_API.Controllers
                     case ERROR.USER_ALREADY_EXISTS:
                         return BadRequest(ERROR.USER_ALREADY_EXISTS);
                     default:
-                        return StatusCode(500, ERROR.EDIT_ACCOUNT);
+                        return StatusCode(500, ERROR.EDIT_ACCOUNT_FAILED);
                 }
             }
         }
