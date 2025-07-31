@@ -12,7 +12,7 @@ import { RefreshTokenDTO } from '../../interfaces/refresh-token-dto';
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService {
+export class AccountApiService {
   private readonly baseUrl = Server.apiUrl + 'account';
 
   constructor(private http: HttpClient) {}

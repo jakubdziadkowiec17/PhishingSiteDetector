@@ -1,18 +1,8 @@
-<main class="main">
-  <div class="content">abc</div>
-  <div class="card flex justify-center">
-    <p-toast />
-
-    <div class="card flex justify-center gap-2">
-    <p-toast />
-    <p-button type="button" pRipple (click)="showSuccess()" label="Success" severity="success" />
-    <p-button type="button" pRipple (click)="showInfo()" label="Info" severity="info" />
-    <p-button type="button" pRipple (click)="showWarn()" label="Warn" severity="warn" />
-    <p-button type="button" pRipple (click)="showError()" label="Error" severity="danger" />
-    <p-button type="button" pRipple (click)="showSecondary()" label="Secondary" severity="secondary" />
-    <p-button type="button" pRipple (click)="showContrast()" label="Contrast" severity="contrast" />
+<div class="app-container">
+  <app-navbar></app-navbar>
+  <main class="main">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer></app-footer>
 </div>
-</div>
-</main>
-<p-toast />
-<router-outlet />
+<p-toast></p-toast>

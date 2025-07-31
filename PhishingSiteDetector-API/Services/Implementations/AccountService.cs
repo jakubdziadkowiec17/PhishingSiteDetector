@@ -126,30 +126,33 @@ namespace PhishingSiteDetector_API.Services.Implementations
                         if (!string.IsNullOrEmpty(userId))
                         {
                             var refreshTokenFromDB = await _refreshTokenRepository.GetRefreshTokenAsync(tokensDTO.RefreshToken);
-                            if (refreshTokenFromDB is not null && userId == refreshTokenFromDB.UserId && refreshTokenFromDB.ExpirationDate >= DateTime.Now)
+                            if (refreshTokenFromDB is not null && userId == refreshTokenFromDB.UserId)
                             {
                                 await _refreshTokenRepository.DeleteRefreshTokenAsync(refreshTokenFromDB);
-
-                                var user = await _userManager.FindByIdAsync(userId);
-                                if (user is not null)
+                                
+                                if (refreshTokenFromDB.ExpirationDate >= DateTime.Now)
                                 {
-                                    string[] roles = [Role.Admin];
-                                    var userRoles = await _userManager.GetRolesAsync(user);
-                                    if (!roles.Any(role => userRoles.Contains(role)))
+                                    var user = await _userManager.FindByIdAsync(userId);
+                                    if (user is not null)
                                     {
-                                        throw new Exception(ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE);
+                                        string[] roles = [Role.Admin];
+                                        var userRoles = await _userManager.GetRolesAsync(user);
+                                        if (!roles.Any(role => userRoles.Contains(role)))
+                                        {
+                                            throw new Exception(ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE);
+                                        }
+
+                                        var accessToken = await CreateAccessToken(user);
+                                        var refreshToken = await CreateRefreshToken(user);
+
+                                        var tokens = new TokensDTO
+                                        {
+                                            AccessToken = accessToken,
+                                            RefreshToken = refreshToken.Token
+                                        };
+
+                                        return tokens;
                                     }
-
-                                    var accessToken = await CreateAccessToken(user);
-                                    var refreshToken = await CreateRefreshToken(user);
-
-                                    var tokens = new TokensDTO
-                                    {
-                                        AccessToken = accessToken,
-                                        RefreshToken = refreshToken.Token
-                                    };
-
-                                    return tokens;
                                 }
                             }
                         }
@@ -214,7 +217,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 throw new Exception(ERROR.EDIT_ACCOUNT_FAILED);
             }
 
-            return INFO.ACCOUNT_EDITED;
+            return SUCCESS.ACCOUNT_EDITED;
         }
 
         public async Task<string> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
@@ -253,7 +256,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 throw new Exception(ERROR.PASSWORD_RESET_FAILED);
             }
 
-            return INFO.PASSWORD_RESET;
+            return SUCCESS.PASSWORD_RESET;
         }
 
         public async Task<string> LogoutAsync(RefreshTokenDTO refreshTokenDTO)
@@ -275,13 +278,11 @@ namespace PhishingSiteDetector_API.Services.Implementations
                         throw new Exception(ERROR.USER_NOT_RECOGNIZED);
                     }
                 }
-
-                await _signInManager.SignOutAsync();
-
-                return INFO.LOGGED_OUT;
             }
 
-            throw new Exception(ERROR.LOGOUT_FAILED);
+            await _signInManager.SignOutAsync();
+
+            return SUCCESS.LOGGED_OUT;
         }
     }
 }

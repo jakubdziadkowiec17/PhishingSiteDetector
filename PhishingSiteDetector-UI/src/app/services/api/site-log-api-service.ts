@@ -7,7 +7,7 @@ import { Server } from '../../constants/server';
 @Injectable({
   providedIn: 'root'
 })
-export class SiteLogService {
+export class SiteLogApiService {
   private readonly baseUrl = Server.apiUrl + 'site-log';
 
   constructor(private http: HttpClient) {}

@@ -3,3 +3,18 @@
     height: 70px;
     background-color: #ffffff;
 }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1 0 auto;
+  padding: 3vh 2vw;
+}
+
+app-footer {
+  flex-shrink: 0;
+}

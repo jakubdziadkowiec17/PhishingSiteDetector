@@ -3,8 +3,8 @@ import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpErrorResp
 import { Observable, catchError, from, switchMap, throwError, of, Subject } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
 import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from '../services/common/notification-service';
 
 let isRefreshing = false;
 const refreshSubject = new Subject<string>();
@@ -12,8 +12,8 @@ const refreshSubject = new Subject<string>();
 export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>,next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const cookieService = inject(CookieService);
   const http = inject(HttpClient);
-  const messageService = inject(MessageService);
-  const translate = inject(TranslateService);
+  const translateService = inject(TranslateService);
+  const notificationService = inject(NotificationService);
   const accessToken = cookieService.get('AccessToken');
 
   const authRequest = accessToken
@@ -54,7 +54,7 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
               isRefreshing = false;
               cookieService.delete('AccessToken');
               cookieService.delete('RefreshToken');
-              showErrorToast('YOUR_SESSION_HAS_EXPIRED');
+              notificationService.showErrorToast('YOUR_SESSION_HAS_EXPIRED');
               return throwError(() => refreshError);
             })
           );
@@ -76,26 +76,21 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
         const errorKey = error?.error?.message;
         if (errorKey && typeof errorKey === 'string') {
           const translationKey = `ERROR.${errorKey}`;
-          translate.get(translationKey).subscribe((translated) => {
+          translateService.get(translationKey).subscribe((translated) => {
             if (translated === translationKey) {
-              showErrorToast('AN_UNKNOWN_ERROR_OCCURED');
+              notificationService.showErrorToast('AN_UNKNOWN_ERROR_OCCURED');
             }
             else {
-              showErrorToast(translationKey);
+              notificationService.showErrorToast(translationKey);
             }
           });
         }
         else {
-          showErrorToast('AN_UNKNOWN_ERROR_OCCURED');
+          notificationService.showErrorToast('AN_UNKNOWN_ERROR_OCCURED');
         }
       }
 
       return throwError(() => error);
     })
   );
-
-  function showErrorToast(translationKey: string) {
-    const message = translate.instant('ERROR.' + translationKey);
-    messageService.add({severity: 'error', summary: message, life: 4000});
-  }
 };

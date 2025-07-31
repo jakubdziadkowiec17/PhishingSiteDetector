@@ -103,7 +103,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             var model = pipeline.Fit(split.TrainSet);
             mlContext.Model.Save(model, split.TrainSet.Schema, modelPath);
 
-            return (INFO.DATA_SET_ADDED);
+            return (SUCCESS.DATA_SET_ADDED);
         }
 
         public async Task<ListPageDTO<DataSetItemDTO>> GetDataSetsAsync(string? searchText, int pageNumber, int pageSize)
@@ -165,7 +165,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             dataSet.IsActiveDataSet = dataSetItemDTO.IsActiveDataSet;
             await _dataSetRepository.UpdateActivityForDataSetAsync(dataSet);
 
-            return INFO.DATA_SET_ACTIVITY_UPDATED;
+            return SUCCESS.DATA_SET_ACTIVITY_UPDATED;
         }
 
         public async Task<string> DeleteDataSetAsync(int id)
@@ -190,7 +190,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 File.Delete(modelPath);
             }
 
-            return INFO.DATA_SET_DELETED;
+            return SUCCESS.DATA_SET_DELETED;
         }
     }
 }

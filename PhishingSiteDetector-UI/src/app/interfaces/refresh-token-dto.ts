@@ -1,3 +1,3 @@
 export interface RefreshTokenDTO {
-  refreshToken: string;
+  refreshToken: string | null;
 }

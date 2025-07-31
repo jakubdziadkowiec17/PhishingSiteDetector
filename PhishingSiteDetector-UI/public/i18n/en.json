@@ -1,5 +1,6 @@
 {
     "ERROR": {
+        "SUMMARY": "Error",
         "YOUR_SESSION_HAS_EXPIRED": "Your session has expired. Please log in again.",
         "AN_UNKNOWN_ERROR_OCCURED": "An unknown error occurred.",
         "LOGIN_FAILED": "An unexpected error occurred during login.",
@@ -28,5 +29,26 @@
         "UPDATING_DATA_SET_ACTIVITY_FAILED": "An unexpected error occurred while activating the dataset.",
         "DELETING_DATA_SET_FAILED": "An unexpected error occurred while deleting the dataset.",
         "DATASETS_ARE_NOT_THE_SAME": "The datasets are not the same."
+    },
+    "SUCCESS": {
+        "SUMMARY": "Success",
+        "ACCOUNT_EDITED": "The account has been edited.",
+        "PASSWORD_RESET": "The password has been reset.",
+        "LOGGED_OUT": "You have been logged out.",
+        "DATA_SET_ADDED": "The data set has been added.",
+        "DATA_SET_ACTIVITY_UPDATED": "The data set has been activated.",
+        "DATA_SET_DELETED": "The data set has been deleted."
+    },
+    "NAVBAR": {
+        "HOME": "Home",
+        "LANGUAGE": "Language",
+        "SIGN_IN": "Sign in",
+        "STATISTICS": "Statistics",
+        "DATA_SETS": "Data sets",
+        "SETTINGS": "Settings",
+        "SIGN_OUT": "Sign out"
+    },
+    "FOOTER": {
+        "CONTENT": "Made with ☕ & code by the PhishingSiteDetector team"
     }
 }

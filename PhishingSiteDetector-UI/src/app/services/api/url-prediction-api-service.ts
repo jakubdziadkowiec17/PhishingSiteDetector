@@ -8,7 +8,7 @@ import { Server } from '../../constants/server';
 @Injectable({
   providedIn: 'root'
 })
-export class UrlPredictionService {
+export class UrlPredictionApiService {
   private readonly baseUrl = Server.apiUrl + 'url-prediction';
 
   constructor(private http: HttpClient) {}

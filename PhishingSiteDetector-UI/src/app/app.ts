@@ -1,39 +1,45 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { ButtonModule } from 'primeng/button';
+import { Navbar } from "./components/navbar/navbar";
+import { Footer } from "./components/footer/footer";
+import { TranslateService } from '@ngx-translate/core';
+import { AccountStoreService } from './services/store/account-store-service';
+import { AccountService } from './services/common/account-service';
+import { LanguageCode } from './constants/languageCode';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ToastModule, ButtonModule],
+  imports: [RouterOutlet, ToastModule, Navbar, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  constructor(private messageService: MessageService) {}
+export class App implements OnInit {
+  constructor(private accountService: AccountService, private translateService: TranslateService, private accountStoreService: AccountStoreService) {}
 
-  showSuccess() {
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
-    }
+  ngOnInit() {
+    this.translateService.addLangs([LanguageCode.EN, LanguageCode.PL]);
+    this.translateService.setDefaultLang(LanguageCode.EN);
 
-    showInfo() {
-        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Message Content' });
-    }
+    const isAuth = this.accountService.isAuthenticated();
 
-    showWarn() {
-        this.messageService.add({ severity: 'warn', summary: 'Warn', detail: 'Message Content' });
-    }
+    if (isAuth) {
+      this.accountStoreService.loadUser();
 
-    showError() {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Message Content' });
+      this.accountStoreService.account$.pipe(take(1)).subscribe(account => {
+        if (account && account.languageCode) {
+          this.accountService.setLanguageCode(account.languageCode);
+        }
+        else {
+          this.accountService.setLanguageCode(LanguageCode.EN);
+        }
+      });
     }
-
-    showContrast() {
-        this.messageService.add({ severity: 'contrast', summary: 'Error', detail: 'Message Content' });
+    else {
+      const languageCodeFromCookies = this.accountService.getLanguageCode();
+      const languageCode = languageCodeFromCookies && [LanguageCode.EN.toString(), LanguageCode.PL.toString()].includes(languageCodeFromCookies) ? languageCodeFromCookies  : LanguageCode.EN;
+      this.accountService.setLanguageCode(languageCode);
     }
-
-    showSecondary() {
-        this.messageService.add({ severity: 'secondary', summary: 'Secondary', detail: 'Message Content' });
-    }
+  }
 }

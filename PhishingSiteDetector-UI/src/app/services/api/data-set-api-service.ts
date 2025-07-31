@@ -8,7 +8,7 @@ import { DataSetItemDTO } from '../../interfaces/data-set-item-dto';
 @Injectable({
   providedIn: 'root'
 })
-export class DataSetService {
+export class DataSetApiService {
   private readonly baseUrl = Server.apiUrl + 'data-set';
 
   constructor(private http: HttpClient) {}

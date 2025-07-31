@@ -1,5 +1,6 @@
 {
     "ERROR": {
+        "SUMMARY": "Błąd",
         "YOUR_SESSION_HAS_EXPIRED": "Twoja sesja wygasła. Zaloguj się ponownie.",
         "AN_UNKNOWN_ERROR_OCCURED": "Wystąpił nieznany błąd.",
         "LOGIN_FAILED": "Wystąpił nieoczekiwany błąd podczas logowania.",
@@ -28,5 +29,26 @@
         "UPDATING_DATA_SET_ACTIVITY_FAILED": "Wystąpił nieoczekiwany błąd podczas aktywacji zestawu danych.",
         "DELETING_DATA_SET_FAILED": "Wystąpił nieoczekiwany błąd podczas usuwania zestawu danych.",
         "DATASETS_ARE_NOT_THE_SAME": "Zestawy danych nie są takie same."
+    },
+    "SUCCESS": {
+        "SUMMARY": "Sukces",
+        "ACCOUNT_EDITED": "Konto zostało edytowane.",
+        "PASSWORD_RESET": "Hasło zostało zresetowane.",
+        "LOGGED_OUT": "Zostałeś wylogowany.",
+        "DATA_SET_ADDED": "Zbiór danych został dodany.",
+        "DATA_SET_ACTIVITY_UPDATED": "Zbiór danych został aktywowany.",
+        "DATA_SET_DELETED": "Zbiór danych został usunięty."
+    },
+    "NAVBAR": {
+        "HOME": "Strona główna",
+        "LANGUAGE": "Język",
+        "SIGN_IN": "Zaloguj się",
+        "STATISTICS": "Statystyki",
+        "DATA_SETS": "Zestawy danych",
+        "SETTINGS": "Ustawienia",
+        "SIGN_OUT": "Wyloguj się"
+    },
+    "FOOTER": {
+        "CONTENT": "Stworzone przy ☕ i kodzie przez zespół PhishingSiteDetector"
     }
 }
