@@ -5,13 +5,14 @@
         public const string LOGIN_FAILED = "LOGIN_FAILED";
         public const string LOGOUT_FAILED = "LOGOUT_FAILED";
         public const string USER_NOT_RECOGNIZED = "USER_NOT_RECOGNIZED";
-        public const string USER_ALREADY_EXISTS = "USER_ALREADY_EXISTS";
+        public const string USER_WITH_THIS_EMAIL_ALREADY_EXISTS = "USER_WITH_THIS_EMAIL_ALREADY_EXISTS";
         public const string USER_NOT_ASSIGNED_TO_ANY_ROLE = "USER_NOT_ASSIGNED_TO_ANY_ROLE";
         public const string INVALID_EMAIL_OR_PASSWORD = "INVALID_EMAIL_OR_PASSWORD";
         public const string INVALID_CLIENT_REQUEST = "INVALID_CLIENT_REQUEST";
         public const string GETTING_ACCOUNT_DATA_FAILED = "GETTING_ACCOUNT_DATA_FAILED";
         public const string GETTING_USER_DATA_FAILED = "GETTING_USER_DATA_FAILED";
-        public const string EDIT_ACCOUNT_FAILED = "EDIT_ACCOUNT_FAILED";
+        public const string EDITING_ACCOUNT_FAILED = "EDITING_ACCOUNT_FAILED";
+        public const string CHANGING_LANGUAGE_FAILED = "CHANGING_LANGUAGE_FAILED";
         public const string OLD_PASSWORD_INCORRECT = "OLD_PASSWORD_INCORRECT";
         public const string NOT_THE_SAME_PASSWORD = "NOT_THE_SAME_PASSWORD";
         public const string INCORRECT_PASSWORD_RULES = "INCORRECT_PASSWORD_RULES";
@@ -27,6 +28,5 @@
         public const string DOWNLOADING_DATA_SET_FAILED = "DOWNLOADING_DATA_SET_FAILED";
         public const string UPDATING_DATA_SET_ACTIVITY_FAILED = "UPDATING_DATA_SET_ACTIVITY_FAILED";
         public const string DELETING_DATA_SET_FAILED = "DELETING_DATA_SET_FAILED";
-        public const string DATASETS_ARE_NOT_THE_SAME = "DATASETS_ARE_NOT_THE_SAME";
     }
 }

@@ -6,13 +6,14 @@
         "LOGIN_FAILED": "An unexpected error occurred during login.",
         "LOGOUT_FAILED": "An unexpected error occurred during logout.",
         "USER_NOT_RECOGNIZED": "User not recognized.",
-        "USER_ALREADY_EXISTS": "User already exists.",
+        "USER_WITH_THIS_EMAIL_ALREADY_EXISTS": "A user with this email address already exists.",
         "USER_NOT_ASSIGNED_TO_ANY_ROLE": "User is not assigned to any role.",
         "INVALID_EMAIL_OR_PASSWORD": "Invalid email address or password.",
         "INVALID_CLIENT_REQUEST": "Invalid client request.",
         "GETTING_ACCOUNT_DATA_FAILED": "An unexpected error occurred while fetching account data.",
         "GETTING_USER_DATA_FAILED": "An unexpected error occurred while fetching user data.",
-        "EDIT_ACCOUNT_FAILED": "An unexpected error occurred while editing account data.",
+        "EDITING_ACCOUNT_FAILED": "An unexpected error occurred while editing account data.",
+        "CHANGING_LANGUAGE_FAILED": "An unexpected error occurred while changing the language of your account.",
         "OLD_PASSWORD_INCORRECT": "Old password is incorrect.",
         "NOT_THE_SAME_PASSWORD": "The new password fields do not match.",
         "INCORRECT_PASSWORD_RULES": "The new password must have: at least 8 characters, at least 1 lowercase letter, at least 1 uppercase letter, at least 1 digit, and at least 1 special character.",
@@ -28,7 +29,7 @@
         "DOWNLOADING_DATA_SET_FAILED": "An unexpected error occurred while downloading the dataset.",
         "UPDATING_DATA_SET_ACTIVITY_FAILED": "An unexpected error occurred while activating the dataset.",
         "DELETING_DATA_SET_FAILED": "An unexpected error occurred while deleting the dataset.",
-        "DATASETS_ARE_NOT_THE_SAME": "The datasets are not the same."
+        "SELECTED_LANGUAGE_DOES_NOT_EXISTS_IN_THE_APP": "The selected language does not exist in the application."
     },
     "SUCCESS": {
         "SUMMARY": "Success",

@@ -24,7 +24,5 @@ namespace PhishingSiteDetector_API.Models.DTOs
         [Required]
         [Range(100000000, 999999999)]
         public int PhoneNumber { get; set; }
-        [Required]
-        public string LanguageCode { get; set; }
     }
 }

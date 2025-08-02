@@ -21,9 +21,7 @@ namespace PhishingSiteDetector_API.Database
 
         public static async Task CreateLanguages(ApplicationDbContext context)
         {
-            List<Language> languages = [DBLanguage.EN, DBLanguage.PL];
-
-            foreach (var language in languages)
+            foreach (var language in DBLanguages.All)
             {
                 if (!await context.Languages.AnyAsync(a => a.Code == language.Code))
                 {
@@ -35,9 +33,7 @@ namespace PhishingSiteDetector_API.Database
 
         public static async Task CreateRoles(RoleManager<IdentityRole> roleManager)
         {
-            List<IdentityRole> roles = [DBRole.Admin];
-
-            foreach (var role in roles)
+            foreach (var role in DBRoles.All)
             {
                 if (await roleManager.FindByIdAsync(role.Id) is null)
                 {
@@ -51,7 +47,7 @@ namespace PhishingSiteDetector_API.Database
             if (await userManager.FindByIdAsync(DBAdmin.Account.Id) is null)
             {
                 await userManager.CreateAsync(DBAdmin.Account, DBAdmin.Password);
-                await userManager.AddToRoleAsync(DBAdmin.Account, DBRole.Admin.Name);
+                await userManager.AddToRoleAsync(DBAdmin.Account, DBRoles.Admin.Name);
             }
         }
     }

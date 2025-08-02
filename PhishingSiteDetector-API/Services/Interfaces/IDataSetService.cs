@@ -8,7 +8,7 @@ namespace PhishingSiteDetector_API.Services.Interfaces
         Task<string> UploadAsync(DataSetDTO dataSetDTO);
         Task<ListPageDTO<DataSetItemDTO>> GetDataSetsAsync(string? searchText, int pageNumber, int pageSize);
         Task<FileData> DownloadDataSetAsync(int id);
-        Task<string> UpdateActivityForDataSetAsync(int id, DataSetItemDTO dataSetItemDTO);
+        Task<string> UpdateActivityForDataSetAsync(int id, DataSetStatusDTO dataSetStatusDTO);
         Task<string> DeleteDataSetAsync(int id);
     }
 }

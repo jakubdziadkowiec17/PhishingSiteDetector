@@ -81,11 +81,11 @@ namespace PhishingSiteDetector_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<string>> UpdateActivityForDataSet(int id, [FromBody] DataSetItemDTO dataSetItemDTO)
+        public async Task<ActionResult<string>> UpdateActivityForDataSet(int id, [FromBody] DataSetStatusDTO dataSetStatusDTO)
         {
             try
             {
-                return Ok(await _dataSetService.UpdateActivityForDataSetAsync(id, dataSetItemDTO));
+                return Ok(await _dataSetService.UpdateActivityForDataSetAsync(id, dataSetStatusDTO));
             }
             catch (Exception ex)
             {
@@ -95,8 +95,6 @@ namespace PhishingSiteDetector_API.Controllers
                 {
                     case ERROR.DATA_SET_NOT_FOUND:
                         return NotFound(ERROR.DATA_SET_NOT_FOUND);
-                    case ERROR.DATASETS_ARE_NOT_THE_SAME:
-                        return BadRequest(ERROR.DATASETS_ARE_NOT_THE_SAME);
                     default:
                         return StatusCode(500, ERROR.UPDATING_DATA_SET_ACTIVITY_FAILED);
                 }

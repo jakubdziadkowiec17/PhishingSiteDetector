@@ -9,6 +9,7 @@ namespace PhishingSiteDetector_API.Profiles
         public DateSetProfile()
         {
             CreateMap<DataSet, DataSetItemDTO>();
+            CreateMap<DataSetStatusDTO, DataSet>();
         }
     }
 }

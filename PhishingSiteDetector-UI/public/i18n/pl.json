@@ -6,13 +6,14 @@
         "LOGIN_FAILED": "Wystąpił nieoczekiwany błąd podczas logowania.",
         "LOGOUT_FAILED": "Wystąpił nieoczekiwany błąd podczas wylogowania.",
         "USER_NOT_RECOGNIZED": "Nie rozpoznano użytkownika.",
-        "USER_ALREADY_EXISTS": "Użytkownik już istnieje.",
+        "USER_WITH_THIS_EMAIL_ALREADY_EXISTS": "Użytkownik z takim adresem e-mail już istnieje.",
         "USER_NOT_ASSIGNED_TO_ANY_ROLE": "Użytkownik nie jest przypisany do żadnej roli.",
         "INVALID_EMAIL_OR_PASSWORD": "Podano niepoprawny adres e-mail lub hasło.",
         "INVALID_CLIENT_REQUEST": "Niepoprawne żądanie klienta.",
         "GETTING_ACCOUNT_DATA_FAILED": "Wystąpił nieoczekiwany błąd podczas pobierania konta.",
         "GETTING_USER_DATA_FAILED": "Wystąpił nieoczekiwany błąd podczas pobierania danych użytkownika.",
-        "EDIT_ACCOUNT_FAILED": "Wystąpił nieoczekiwany błąd podczas edycji danych konta.",
+        "EDITING_ACCOUNT_FAILED": "Wystąpił nieoczekiwany błąd podczas edycji danych konta.",
+        "CHANGING_LANGUAGE_FAILED": "Wystąpił nieoczekiwany błąd podczas zmiany języka Twojego konta.",
         "OLD_PASSWORD_INCORRECT": "Stare hasło jest nie poprawne.",
         "NOT_THE_SAME_PASSWORD": "Pola dotyczące nowego hasła nie są takie same.",
         "INCORRECT_PASSWORD_RULES": "Nowe hasło musi mieć: przynajmniej 8 znaków, przynajmniej 1 małą literę, przynajmniej 1 dużą literę, przynajmniej 1 cyfrę, przynajmniej 1 znak specjalny.",
@@ -28,7 +29,7 @@
         "DOWNLOADING_DATA_SET_FAILED": "Wystąpił nieoczekiwany błąd podczas pobierania zestawu danych.",
         "UPDATING_DATA_SET_ACTIVITY_FAILED": "Wystąpił nieoczekiwany błąd podczas aktywacji zestawu danych.",
         "DELETING_DATA_SET_FAILED": "Wystąpił nieoczekiwany błąd podczas usuwania zestawu danych.",
-        "DATASETS_ARE_NOT_THE_SAME": "Zestawy danych nie są takie same."
+        "SELECTED_LANGUAGE_DOES_NOT_EXISTS_IN_THE_APP": "Wybrany język nie istnieje w aplikacji."
     },
     "SUCCESS": {
         "SUMMARY": "Sukces",

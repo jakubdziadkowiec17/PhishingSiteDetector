@@ -35,8 +35,13 @@
     border-bottom: 0;
 }
 
+::ng-deep app-navbar .sign-in > .p-menubar-item-content > .p-menubar-item-link {
+    border: 1px solid !important;
+    border-radius: var(--p-menubar-base-item-border-radius) !important;
+}
+
 ::ng-deep app-navbar .other-language > .p-menubar-item-content > .p-menubar-item-link {
-  padding-left: 2.31rem !important;
+  padding-left: 2.32rem !important;
 }
 
 ::ng-deep app-navbar .p-menubar-submenu {

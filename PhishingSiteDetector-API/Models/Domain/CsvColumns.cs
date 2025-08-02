@@ -1,8 +1,8 @@
 ﻿using Microsoft.ML.Data;
 
-namespace PhishingSiteDetector_API.Models.DTOs
+namespace PhishingSiteDetector_API.Models.Domain
 {
-    public class CsvDTO
+    public class CsvColumns
     {
         [LoadColumn(1)] public float NumDots { get; set; }
         [LoadColumn(2)] public float SubdomainLevel { get; set; }

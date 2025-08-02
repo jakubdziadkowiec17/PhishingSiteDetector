@@ -48,11 +48,11 @@ namespace PhishingSiteDetector_API.Controllers
 
         [HttpPost("refresh-tokens")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokensDTO>> RefreshTokens([FromBody] TokensDTO tokensDTO)
+        public async Task<ActionResult<TokensDTO>> RefreshTokens([FromBody] TokensForRefreshDTO tokensForRefreshDTO)
         {
             try
             {
-                return Ok(await _accountService.RefreshTokensAsync(tokensDTO));
+                return Ok(await _accountService.RefreshTokensAsync(tokensForRefreshDTO));
             }
             catch (Exception ex)
             {
@@ -128,10 +128,33 @@ namespace PhishingSiteDetector_API.Controllers
                 {
                     case ERROR.USER_NOT_FOUND:
                         return NotFound(ERROR.USER_NOT_FOUND);
-                    case ERROR.USER_ALREADY_EXISTS:
-                        return BadRequest(ERROR.USER_ALREADY_EXISTS);
+                    case ERROR.USER_WITH_THIS_EMAIL_ALREADY_EXISTS:
+                        return BadRequest(ERROR.USER_WITH_THIS_EMAIL_ALREADY_EXISTS);
                     default:
-                        return StatusCode(500, ERROR.EDIT_ACCOUNT_FAILED);
+                        return StatusCode(500, ERROR.EDITING_ACCOUNT_FAILED);
+                }
+            }
+        }
+
+        [HttpPut("change-language")]
+        [Authorize(Roles = Role.Admin)]
+        public async Task<ActionResult> ChangeLanguage([FromBody] LanguageDTO languageDTO)
+        {
+            try
+            {
+                await _accountService.ChangeLanguageAsync(languageDTO);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                await _errorLogService.CreateErrorLogAsync(ex);
+
+                switch (ex.Message)
+                {
+                    case ERROR.USER_NOT_FOUND:
+                        return NotFound(ERROR.USER_NOT_FOUND);
+                    default:
+                        return StatusCode(500, ERROR.CHANGING_LANGUAGE_FAILED);
                 }
             }
         }

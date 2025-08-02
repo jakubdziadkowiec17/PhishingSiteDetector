@@ -6,5 +6,4 @@ export interface AccountDTO {
   address: string;
   areaCode: number;
   phoneNumber: number;
-  languageCode: string;
 }

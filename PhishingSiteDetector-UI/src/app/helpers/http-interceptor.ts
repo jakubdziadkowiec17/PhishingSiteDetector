@@ -1,20 +1,23 @@
 import { inject } from '@angular/core';
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, from, switchMap, throwError, of, Subject } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
+import { Observable, catchError, switchMap, throwError, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../services/common/notification-service';
+import { SessionService } from '../services/common/session-service';
+import { AccountApiService } from '../services/api/account-api-service';
+import { TokensForRefreshDTO } from '../interfaces/tokens-for-refresh-dto';
 
 let isRefreshing = false;
 const refreshSubject = new Subject<string>();
 
-export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>,next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
-  const cookieService = inject(CookieService);
+export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const http = inject(HttpClient);
   const translateService = inject(TranslateService);
   const notificationService = inject(NotificationService);
-  const accessToken = cookieService.get('AccessToken');
+  const sessionService = inject(SessionService);
+  const accountApiService = inject(AccountApiService);
+  const accessToken = sessionService.getAccessToken();
 
   const authRequest = accessToken
     ? request.clone({
@@ -28,18 +31,14 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
         if (!isRefreshing) {
           isRefreshing = true;
 
-          const refreshToken = cookieService.get('RefreshToken');
-          const oldAccessToken = cookieService.get('AccessToken');
+          const refreshToken = sessionService.getRefreshToken();
+          const oldAccessToken = sessionService.getAccessToken();
 
-          return http.post<{ accessToken: string; refreshToken: string }>('/api/auth/refresh',
-              {
-                accessToken: oldAccessToken,
-                refreshToken: refreshToken
-              }
-            )
-            .pipe(switchMap((tokens) => {
-              cookieService.set('AccessToken', tokens.accessToken);
-              cookieService.set('RefreshToken', tokens.refreshToken);
+          const tokensForRefreshDTO: TokensForRefreshDTO = { accessToken: oldAccessToken, refreshToken: refreshToken };
+
+          return accountApiService.refreshTokens(tokensForRefreshDTO).pipe(switchMap((tokens) => {
+              sessionService.setAccessToken(tokens.accessToken);
+              sessionService.setRefreshToken(tokens.refreshToken);
               isRefreshing = false;
               refreshSubject.next(tokens.accessToken);
 
@@ -52,8 +51,7 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
             }),
             catchError((refreshError) => {
               isRefreshing = false;
-              cookieService.delete('AccessToken');
-              cookieService.delete('RefreshToken');
+              sessionService.deleteTokens();
               notificationService.showErrorToast('YOUR_SESSION_HAS_EXPIRED');
               return throwError(() => refreshError);
             })

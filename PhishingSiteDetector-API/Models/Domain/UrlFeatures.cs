@@ -1,6 +1,6 @@
-﻿namespace PhishingSiteDetector_API.Models.DTOs
+﻿namespace PhishingSiteDetector_API.Models.Domain
 {
-    public class UrlFeaturesDTO
+    public class UrlFeatures
     {
         public float NumDots { get; set; }
         public float SubdomainLevel { get; set; }

@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService {
+export class SessionService {
   constructor(private cookieService: CookieService, private translateService: TranslateService) {}
 
   isAuthenticated(): boolean {

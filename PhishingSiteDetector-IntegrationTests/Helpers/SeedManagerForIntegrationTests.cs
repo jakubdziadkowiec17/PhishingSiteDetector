@@ -2,7 +2,7 @@
 using Microsoft.ML;
 using PhishingSiteDetector_API.Database;
 using PhishingSiteDetector_API.Models.Constants;
-using PhishingSiteDetector_API.Models.DTOs;
+using PhishingSiteDetector_API.Models.Domain;
 using PhishingSiteDetector_API.Models.Entities;
 using Soccerity_API_IntegrationTests.Data.Database;
 
@@ -21,9 +21,7 @@ namespace PhishingSiteDetector_API_IntegrationTests.Helpers
 
         public static void CreateLanguages(ApplicationDbContext context)
         {
-            List<Language> languages = [DBLanguage.EN, DBLanguage.PL];
-
-            foreach (var language in languages)
+            foreach (var language in DBLanguages.All)
             {
                 if (!context.Languages.Any(a => a.Code == language.Code))
                 {
@@ -35,9 +33,7 @@ namespace PhishingSiteDetector_API_IntegrationTests.Helpers
 
         public static void CreateRoles(ApplicationDbContext context)
         {
-            List<IdentityRole> roles = [DBRole.Admin];
-
-            foreach (var role in roles)
+            foreach (var role in DBRoles.All)
             {
                 if (!context.Roles.Any(a => a.Id == role.Id))
                 {
@@ -70,8 +66,8 @@ namespace PhishingSiteDetector_API_IntegrationTests.Helpers
         public static void CreateUsersRoles(ApplicationDbContext context)
         {
             List<IdentityUserRole<string>> usersRoles = [
-                new IdentityUserRole<string> { UserId = DBAdmin.Account.Id, RoleId = DBRole.Admin.Id },
-                new IdentityUserRole<string> { UserId = DBSecondAdmin.Account.Id, RoleId = DBRole.Admin.Id }
+                new IdentityUserRole<string> { UserId = DBAdmin.Account.Id, RoleId = DBRoles.Admin.Id },
+                new IdentityUserRole<string> { UserId = DBSecondAdmin.Account.Id, RoleId = DBRoles.Admin.Id }
             ];
 
             foreach (var item in usersRoles)
@@ -115,37 +111,37 @@ namespace PhishingSiteDetector_API_IntegrationTests.Helpers
                 File.Copy(csvFilePath, targetCsvPath, overwrite: true);
 
                 var mlContext = new MLContext();
-                var data = mlContext.Data.LoadFromTextFile<CsvDTO>(targetCsvPath, hasHeader: true, separatorChar: ',');
+                var data = mlContext.Data.LoadFromTextFile<CsvColumns>(targetCsvPath, hasHeader: true, separatorChar: ',');
                 var split = mlContext.Data.TrainTestSplit(data, 0.2);
 
                 var pipeline = mlContext.Transforms.Concatenate("Features",
-                        nameof(CsvDTO.NumDots),
-                        nameof(CsvDTO.SubdomainLevel),
-                        nameof(CsvDTO.PathLevel),
-                        nameof(CsvDTO.UrlLength),
-                        nameof(CsvDTO.NumDash),
-                        nameof(CsvDTO.NumDashInHostname),
-                        nameof(CsvDTO.AtSymbol),
-                        nameof(CsvDTO.TildeSymbol),
-                        nameof(CsvDTO.NumUnderscore),
-                        nameof(CsvDTO.NumPercent),
-                        nameof(CsvDTO.NumQueryComponents),
-                        nameof(CsvDTO.NumAmpersand),
-                        nameof(CsvDTO.NumHash),
-                        nameof(CsvDTO.NumNumericChars),
-                        nameof(CsvDTO.NoHttps),
-                        nameof(CsvDTO.RandomString),
-                        nameof(CsvDTO.IpAddress),
-                        nameof(CsvDTO.DomainInSubdomains),
-                        nameof(CsvDTO.DomainInPaths),
-                        nameof(CsvDTO.HttpsInHostname),
-                        nameof(CsvDTO.HostnameLength),
-                        nameof(CsvDTO.PathLength),
-                        nameof(CsvDTO.QueryLength),
-                        nameof(CsvDTO.DoubleSlashInPath),
-                        nameof(CsvDTO.EmbeddedBrandName)
+                        nameof(CsvColumns.NumDots),
+                        nameof(CsvColumns.SubdomainLevel),
+                        nameof(CsvColumns.PathLevel),
+                        nameof(CsvColumns.UrlLength),
+                        nameof(CsvColumns.NumDash),
+                        nameof(CsvColumns.NumDashInHostname),
+                        nameof(CsvColumns.AtSymbol),
+                        nameof(CsvColumns.TildeSymbol),
+                        nameof(CsvColumns.NumUnderscore),
+                        nameof(CsvColumns.NumPercent),
+                        nameof(CsvColumns.NumQueryComponents),
+                        nameof(CsvColumns.NumAmpersand),
+                        nameof(CsvColumns.NumHash),
+                        nameof(CsvColumns.NumNumericChars),
+                        nameof(CsvColumns.NoHttps),
+                        nameof(CsvColumns.RandomString),
+                        nameof(CsvColumns.IpAddress),
+                        nameof(CsvColumns.DomainInSubdomains),
+                        nameof(CsvColumns.DomainInPaths),
+                        nameof(CsvColumns.HttpsInHostname),
+                        nameof(CsvColumns.HostnameLength),
+                        nameof(CsvColumns.PathLength),
+                        nameof(CsvColumns.QueryLength),
+                        nameof(CsvColumns.DoubleSlashInPath),
+                        nameof(CsvColumns.EmbeddedBrandName)
                     ).Append(mlContext.Transforms.NormalizeMinMax("Features"))
-                    .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: nameof(CsvDTO.ClassLabel)));
+                    .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: nameof(CsvColumns.ClassLabel)));
 
                 var model = pipeline.Fit(split.TrainSet);
 

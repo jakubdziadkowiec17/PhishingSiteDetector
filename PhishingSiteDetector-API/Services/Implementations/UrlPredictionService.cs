@@ -31,11 +31,11 @@ namespace PhishingSiteDetector_API.Services.Implementations
 
             var _mlContext = new MLContext();
             var _model = _mlContext.Model.Load($"MLModels/{activeDataSet.Id}.zip", out _);
-            var _engine = _mlContext.Model.CreatePredictionEngine<UrlFeaturesDTO, UrlPrediction>(_model);
+            var _engine = _mlContext.Model.CreatePredictionEngine<UrlFeatures, UrlPrediction>(_model);
 
             var uri = new UriBuilder(urlDTO.Url).Uri;
 
-            var features = new UrlFeaturesDTO
+            var features = new UrlFeatures
             {
                 UrlLength = urlDTO.Url.Length,
                 NumDots = urlDTO.Url.Count(c => c == '.'),

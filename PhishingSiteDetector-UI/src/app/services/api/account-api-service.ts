@@ -8,6 +8,8 @@ import { AccountDataDTO } from '../../interfaces/account-data-dto';
 import { AccountDTO } from '../../interfaces/account-dto';
 import { ResetPasswordDTO } from '../../interfaces/reset-password-dto';
 import { RefreshTokenDTO } from '../../interfaces/refresh-token-dto';
+import { LanguageDTO } from '../../interfaces/language-dto';
+import { TokensForRefreshDTO } from '../../interfaces/tokens-for-refresh-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +23,8 @@ export class AccountApiService {
     return this.http.post<TokensDTO>(`${this.baseUrl}/login`, loginDTO);
   }
 
-  refreshTokens(tokensDTO: TokensDTO): Observable<TokensDTO> {
-    return this.http.post<TokensDTO>(`${this.baseUrl}/refresh-tokens`, tokensDTO);
+  refreshTokens(tokensForRefreshDTO: TokensForRefreshDTO): Observable<TokensDTO> {
+    return this.http.post<TokensDTO>(`${this.baseUrl}/refresh-tokens`, tokensForRefreshDTO);
   }
 
   getAccountData(): Observable<AccountDataDTO> {
@@ -35,6 +37,10 @@ export class AccountApiService {
 
   editAccount(accountDTO: AccountDTO): Observable<string> {
     return this.http.put<string>(`${this.baseUrl}`, accountDTO);
+  }
+
+  changeLanguage(languageDTO: LanguageDTO): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/change-language`, languageDTO);
   }
 
   resetPassword(resetPasswordDTO: ResetPasswordDTO): Observable<string> {

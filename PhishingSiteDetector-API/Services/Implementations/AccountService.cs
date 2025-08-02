@@ -100,9 +100,9 @@ namespace PhishingSiteDetector_API.Services.Implementations
             return tokens;
         }
 
-        public async Task<TokensDTO> RefreshTokensAsync(TokensDTO tokensDTO)
+        public async Task<TokensDTO> RefreshTokensAsync(TokensForRefreshDTO tokensForRefreshDTO)
         {
-            if (!string.IsNullOrEmpty(tokensDTO.RefreshToken) && !string.IsNullOrEmpty(tokensDTO.AccessToken))
+            if (!string.IsNullOrEmpty(tokensForRefreshDTO.RefreshToken) && !string.IsNullOrEmpty(tokensForRefreshDTO.AccessToken))
             {
                 var parameters = new TokenValidationParameters
                 {
@@ -116,7 +116,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 };
 
                 var jwtTokenHandler = new JwtSecurityTokenHandler();
-                var claimsPrincipal = jwtTokenHandler.ValidateToken(tokensDTO.AccessToken, parameters, out var securityToken);
+                var claimsPrincipal = jwtTokenHandler.ValidateToken(tokensForRefreshDTO.AccessToken, parameters, out var securityToken);
 
                 if (securityToken is JwtSecurityToken jwtSecurityToken && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -125,7 +125,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                         var userId = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                         if (!string.IsNullOrEmpty(userId))
                         {
-                            var refreshTokenFromDB = await _refreshTokenRepository.GetRefreshTokenAsync(tokensDTO.RefreshToken);
+                            var refreshTokenFromDB = await _refreshTokenRepository.GetRefreshTokenAsync(tokensForRefreshDTO.RefreshToken);
                             if (refreshTokenFromDB is not null && userId == refreshTokenFromDB.UserId)
                             {
                                 await _refreshTokenRepository.DeleteRefreshTokenAsync(refreshTokenFromDB);
@@ -205,19 +205,38 @@ namespace PhishingSiteDetector_API.Services.Implementations
             var userFromDb = await _userManager.FindByEmailAsync(userDTO.Email);
             if (userFromDb is not null && userFromDb.Email != applicationUser.Email)
             {
-                throw new Exception(ERROR.USER_ALREADY_EXISTS);
+                throw new Exception(ERROR.USER_WITH_THIS_EMAIL_ALREADY_EXISTS);
             }
 
             _mapper.Map(userDTO, applicationUser);
-            applicationUser.UserName = userDTO.Email;
 
             var result = await _userManager.UpdateAsync(applicationUser);
             if (!result.Succeeded)
             {
-                throw new Exception(ERROR.EDIT_ACCOUNT_FAILED);
+                throw new Exception(ERROR.EDITING_ACCOUNT_FAILED);
             }
 
             return SUCCESS.ACCOUNT_EDITED;
+        }
+
+        public async Task ChangeLanguageAsync(LanguageDTO languageDTO)
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var applicationUser = await _userManager.FindByIdAsync(userId);
+            if (applicationUser is null)
+            {
+                throw new Exception(ERROR.USER_NOT_FOUND);
+            }
+
+            _mapper.Map(languageDTO, applicationUser);
+
+            var result = await _userManager.UpdateAsync(applicationUser);
+            if (!result.Succeeded)
+            {
+                throw new Exception(ERROR.CHANGING_LANGUAGE_FAILED);
+            }
         }
 
         public async Task<string> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)

@@ -4,7 +4,7 @@ import { Menubar } from 'primeng/menubar';
 import { BadgeModule } from 'primeng/badge';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
-import { AccountService } from '../../services/common/account-service';
+import { SessionService } from '../../services/common/session-service';
 import { Router, RouterModule } from '@angular/router';
 import { AccountApiService } from '../../services/api/account-api-service';
 import { RefreshTokenDTO } from '../../interfaces/refresh-token-dto';
@@ -13,6 +13,9 @@ import { Subscription } from 'rxjs';
 import { AccountStoreService } from '../../services/store/account-store-service';
 import { AccountDataDTO } from '../../interfaces/account-data-dto';
 import { LanguageCode } from '../../constants/languageCode';
+import { LanguageDTO } from '../../interfaces/language-dto';
+import { Languages } from '../../constants/languages';
+import { NotificationService } from '../../services/common/notification-service';
 
 @Component({
   selector: 'app-navbar',
@@ -27,7 +30,7 @@ export class Navbar implements OnInit, OnDestroy {
   items: MenuItem[] = [];
   langChangeSub: Subscription | undefined;
 
-  constructor(private accountService: AccountService, private accountApiService: AccountApiService, private router: Router, private translateService: TranslateService, private accountStoreService: AccountStoreService) {}
+  constructor(private sessionService: SessionService, private accountApiService: AccountApiService, private router: Router, private translateService: TranslateService, private accountStoreService: AccountStoreService, private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.accountSub = this.accountStoreService.account$.subscribe(account => {
@@ -47,7 +50,8 @@ export class Navbar implements OnInit, OnDestroy {
   }
   
   buildMenu() {
-    const isAuth = this.accountService.isAuthenticated();
+    const isAuth = this.sessionService.isAuthenticated();
+    const currentLanguage = this.translateService.getCurrentLang();
 
     this.translateService.get([
       'NAVBAR.HOME',
@@ -70,15 +74,15 @@ export class Navbar implements OnInit, OnDestroy {
           items: [
             {
               label: 'English',
-              icon: this.translateService.getCurrentLang() === LanguageCode.EN ? 'pi pi-check' : '',
-              styleClass: this.translateService.getCurrentLang() === LanguageCode.EN ? '' : 'other-language',
-              command: () => this.accountService.setLanguageCode(LanguageCode.EN)
+              icon: currentLanguage === LanguageCode.EN ? 'pi pi-check' : '',
+              styleClass: currentLanguage === LanguageCode.EN ? '' : 'other-language',
+              command: () => this.changeLanguage(LanguageCode.EN)
             },
             {
               label: 'Polski',
-              icon: this.translateService.getCurrentLang() === LanguageCode.PL ? 'pi pi-check' : '',
-              styleClass: this.translateService.getCurrentLang() === LanguageCode.PL ? '' : 'other-language',
-              command: () => this.accountService.setLanguageCode(LanguageCode.PL)
+              icon: currentLanguage === LanguageCode.PL ? 'pi pi-check' : '',
+              styleClass: currentLanguage === LanguageCode.PL ? '' : 'other-language',
+              command: () => this.changeLanguage(LanguageCode.PL)
             }
           ]
         },
@@ -87,6 +91,7 @@ export class Navbar implements OnInit, OnDestroy {
               {
                 label: translations['NAVBAR.SIGN_IN'],
                 icon: 'pi pi-sign-in',
+                styleClass: 'sign-in',
                 routerLink: ['/login']
               }
             ]
@@ -125,13 +130,38 @@ export class Navbar implements OnInit, OnDestroy {
     });
   }
 
+  private changeLanguage(languageCode: string): void {
+    if(Languages.includes(languageCode)) {
+      this.sessionService.setLanguageCode(languageCode);
+      const isAuth = this.sessionService.isAuthenticated();
+      if(isAuth) {
+        const languageDTO: LanguageDTO = { languageCode: languageCode };
+        this.accountApiService.changeLanguage(languageDTO).subscribe({
+          next: () => {
+            const account = this.accountStoreService.account;
+            if (account) {
+              const updatedAccount = {
+                ...account,
+                languageCode: languageCode
+              };
+              this.accountStoreService.setAccount(updatedAccount);
+            }
+          }
+        });
+      }
+    }
+    else {
+      this.notificationService.showErrorToast('SELECTED_LANGUAGE_DOES_NOT_EXISTS_IN_THE_APP');
+    }
+  }
+
   private logout(): void {
-    const refreshToken = this.accountService.getRefreshToken();
+    const refreshToken = this.sessionService.getRefreshToken();
     const refreshTokenDTO: RefreshTokenDTO = {refreshToken: refreshToken};
 
       this.accountApiService.logout(refreshTokenDTO).subscribe({
         next: () => {
-          this.accountService.deleteTokens();
+          this.sessionService.deleteTokens();
           this.router.navigate(['/login']);
         }
       });

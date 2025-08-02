@@ -65,37 +65,37 @@ namespace PhishingSiteDetector_API.Services.Implementations
             }
 
             var mlContext = new MLContext();
-            var data = mlContext.Data.LoadFromTextFile<CsvDTO>(filePath, hasHeader: true, separatorChar: ',');
+            var data = mlContext.Data.LoadFromTextFile<CsvColumns>(filePath, hasHeader: true, separatorChar: ',');
             var split = mlContext.Data.TrainTestSplit(data, 0.2);
 
             var pipeline = mlContext.Transforms.Concatenate("Features",
-                    nameof(CsvDTO.NumDots),
-                    nameof(CsvDTO.SubdomainLevel),
-                    nameof(CsvDTO.PathLevel),
-                    nameof(CsvDTO.UrlLength),
-                    nameof(CsvDTO.NumDash),
-                    nameof(CsvDTO.NumDashInHostname),
-                    nameof(CsvDTO.AtSymbol),
-                    nameof(CsvDTO.TildeSymbol),
-                    nameof(CsvDTO.NumUnderscore),
-                    nameof(CsvDTO.NumPercent),
-                    nameof(CsvDTO.NumQueryComponents),
-                    nameof(CsvDTO.NumAmpersand),
-                    nameof(CsvDTO.NumHash),
-                    nameof(CsvDTO.NumNumericChars),
-                    nameof(CsvDTO.NoHttps),
-                    nameof(CsvDTO.RandomString),
-                    nameof(CsvDTO.IpAddress),
-                    nameof(CsvDTO.DomainInSubdomains),
-                    nameof(CsvDTO.DomainInPaths),
-                    nameof(CsvDTO.HttpsInHostname),
-                    nameof(CsvDTO.HostnameLength),
-                    nameof(CsvDTO.PathLength),
-                    nameof(CsvDTO.QueryLength),
-                    nameof(CsvDTO.DoubleSlashInPath),
-                    nameof(CsvDTO.EmbeddedBrandName)
+                    nameof(CsvColumns.NumDots),
+                    nameof(CsvColumns.SubdomainLevel),
+                    nameof(CsvColumns.PathLevel),
+                    nameof(CsvColumns.UrlLength),
+                    nameof(CsvColumns.NumDash),
+                    nameof(CsvColumns.NumDashInHostname),
+                    nameof(CsvColumns.AtSymbol),
+                    nameof(CsvColumns.TildeSymbol),
+                    nameof(CsvColumns.NumUnderscore),
+                    nameof(CsvColumns.NumPercent),
+                    nameof(CsvColumns.NumQueryComponents),
+                    nameof(CsvColumns.NumAmpersand),
+                    nameof(CsvColumns.NumHash),
+                    nameof(CsvColumns.NumNumericChars),
+                    nameof(CsvColumns.NoHttps),
+                    nameof(CsvColumns.RandomString),
+                    nameof(CsvColumns.IpAddress),
+                    nameof(CsvColumns.DomainInSubdomains),
+                    nameof(CsvColumns.DomainInPaths),
+                    nameof(CsvColumns.HttpsInHostname),
+                    nameof(CsvColumns.HostnameLength),
+                    nameof(CsvColumns.PathLength),
+                    nameof(CsvColumns.QueryLength),
+                    nameof(CsvColumns.DoubleSlashInPath),
+                    nameof(CsvColumns.EmbeddedBrandName)
                 ).Append(mlContext.Transforms.NormalizeMinMax("Features"))
-                .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: nameof(CsvDTO.ClassLabel)));
+                .Append(mlContext.BinaryClassification.Trainers.SdcaLogisticRegression(labelColumnName: nameof(CsvColumns.ClassLabel)));
 
             var modelFolder = "MLModels";
             Directory.CreateDirectory(modelFolder);
@@ -139,20 +139,15 @@ namespace PhishingSiteDetector_API.Services.Implementations
             };
         }
 
-        public async Task<string> UpdateActivityForDataSetAsync(int id, DataSetItemDTO dataSetItemDTO)
+        public async Task<string> UpdateActivityForDataSetAsync(int id, DataSetStatusDTO dataSetStatusDTO)
         {
-            if (id != dataSetItemDTO.Id)
-            {
-                throw new Exception(ERROR.DATASETS_ARE_NOT_THE_SAME);
-            }
-
             var dataSet = await _dataSetRepository.GetDataSetAsync(id);
             if (dataSet is null)
             {
                 throw new Exception(ERROR.DATA_SET_NOT_FOUND);
             }
 
-            if (dataSetItemDTO.IsActiveDataSet)
+            if (dataSetStatusDTO.IsActiveDataSet)
             {
                 var dataSets = await _dataSetRepository.GetDataSetsAsync();
                 foreach (var item in dataSets)
@@ -162,7 +157,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 }
             }
 
-            dataSet.IsActiveDataSet = dataSetItemDTO.IsActiveDataSet;
+            _mapper.Map(dataSetStatusDTO, dataSet);
             await _dataSetRepository.UpdateActivityForDataSetAsync(dataSet);
 
             return SUCCESS.DATA_SET_ACTIVITY_UPDATED;

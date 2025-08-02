@@ -3,6 +3,7 @@ import { CanActivateFn} from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
 import { Role } from '../constants/role';
+import { Claim } from '../constants/claim';
 
 export const AdminGuard: CanActivateFn = (route, state) => {
     const cookieService = inject(CookieService);
@@ -11,7 +12,8 @@ export const AdminGuard: CanActivateFn = (route, state) => {
 
     try {
         const decoded: any = jwtDecode(accessToken);
-        if (decoded?.role === Role.Admin) {
+        const roles: string[] = decoded[Claim.Roles];
+        if (roles?.includes(Role.Admin)) {
             return true;
         }
     }

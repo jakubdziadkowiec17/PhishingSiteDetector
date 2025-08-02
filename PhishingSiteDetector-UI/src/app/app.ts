@@ -5,9 +5,10 @@ import { Navbar } from "./components/navbar/navbar";
 import { Footer } from "./components/footer/footer";
 import { TranslateService } from '@ngx-translate/core';
 import { AccountStoreService } from './services/store/account-store-service';
-import { AccountService } from './services/common/account-service';
+import { SessionService } from './services/common/session-service';
 import { LanguageCode } from './constants/languageCode';
 import { take } from 'rxjs';
+import { Languages } from './constants/languages';
 
 @Component({
   selector: 'app-root',
@@ -16,30 +17,31 @@ import { take } from 'rxjs';
   styleUrl: './app.css'
 })
 export class App implements OnInit {
-  constructor(private accountService: AccountService, private translateService: TranslateService, private accountStoreService: AccountStoreService) {}
+
+  constructor(private sessionService: SessionService, private translateService: TranslateService, private accountStoreService: AccountStoreService) {}
 
   ngOnInit() {
-    this.translateService.addLangs([LanguageCode.EN, LanguageCode.PL]);
+    this.translateService.addLangs(Languages);
     this.translateService.setDefaultLang(LanguageCode.EN);
 
-    const isAuth = this.accountService.isAuthenticated();
+    const isAuth = this.sessionService.isAuthenticated();
 
     if (isAuth) {
       this.accountStoreService.loadUser();
 
       this.accountStoreService.account$.pipe(take(1)).subscribe(account => {
-        if (account && account.languageCode) {
-          this.accountService.setLanguageCode(account.languageCode);
+        if (account && account.languageCode && Languages.includes(account.languageCode)) {
+          this.sessionService.setLanguageCode(account.languageCode);
         }
         else {
-          this.accountService.setLanguageCode(LanguageCode.EN);
+          this.sessionService.setLanguageCode(LanguageCode.EN);
         }
       });
     }
     else {
-      const languageCodeFromCookies = this.accountService.getLanguageCode();
-      const languageCode = languageCodeFromCookies && [LanguageCode.EN.toString(), LanguageCode.PL.toString()].includes(languageCodeFromCookies) ? languageCodeFromCookies  : LanguageCode.EN;
-      this.accountService.setLanguageCode(languageCode);
+      const languageCodeFromCookies = this.sessionService.getLanguageCode();
+      const languageCode = languageCodeFromCookies && Languages.includes(languageCodeFromCookies) ? languageCodeFromCookies  : LanguageCode.EN;
+      this.sessionService.setLanguageCode(languageCode);
     }
   }
 }

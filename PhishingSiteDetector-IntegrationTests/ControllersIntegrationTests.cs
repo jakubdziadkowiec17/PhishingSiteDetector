@@ -40,9 +40,9 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
         public async Task RefreshTokens_ValidUserData_ShouldReturnOkAndTokens()
         {
             var tokensDTO = await Tools.LoginAsync(_httpClient, DBAdmin.Account.Email, DBAdmin.Password);
-            var languageCode = LanguageCode.EN;
+            var tokensForRefreshDTO = new TokensForRefreshDTO { AccessToken = tokensDTO.AccessToken, RefreshToken = tokensDTO.RefreshToken };
 
-            var response = await _httpClient.PostAsJsonAsync($"/api/account/refresh-tokens", tokensDTO);
+            var response = await _httpClient.PostAsJsonAsync($"/api/account/refresh-tokens", tokensForRefreshDTO);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var data = await response.Content.ReadFromJsonAsync<TokensDTO>();
@@ -80,9 +80,21 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
         {
             var tokensDTO = await Tools.LoginAsync(_httpClient, DBAdmin.Account.Email, DBAdmin.Password);
             _httpClient = Tools.GetDefaultRequestHeaders(_httpClient, tokensDTO);
-            var accountDTO = new AccountDTO { FirstName = DBAdmin.Account.FirstName, LastName = DBAdmin.Account.LastName, Email = DBAdmin.Account.Email, DateOfBirth = DBAdmin.Account.DateOfBirth, LanguageCode = LanguageCode.PL, Address = DBAdmin.Account.Address, AreaCode = DBAdmin.Account.AreaCode, PhoneNumber = DBAdmin.Account.PhoneNumber };
+            var accountDTO = new AccountDTO { FirstName = DBAdmin.Account.FirstName, LastName = DBAdmin.Account.LastName, Email = DBAdmin.Account.Email, DateOfBirth = DBAdmin.Account.DateOfBirth, Address = DBAdmin.Account.Address, AreaCode = DBAdmin.Account.AreaCode, PhoneNumber = DBAdmin.Account.PhoneNumber };
 
             var response = await _httpClient.PutAsJsonAsync("/api/account", accountDTO);
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task ChangeLanguage_ValidLanguageData_ShouldReturnOk()
+        {
+            var tokensDTO = await Tools.LoginAsync(_httpClient, DBAdmin.Account.Email, DBAdmin.Password);
+            _httpClient = Tools.GetDefaultRequestHeaders(_httpClient, tokensDTO);
+            var accountDTO = new LanguageDTO { LanguageCode = LanguageCode.PL };
+
+            var response = await _httpClient.PutAsJsonAsync("/api/account/change-language", accountDTO);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
