@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, switchMap, throwError, Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../services/common/notification-service';
 import { SessionService } from '../services/common/session-service';
@@ -12,7 +11,6 @@ let isRefreshing = false;
 const refreshSubject = new Subject<string>();
 
 export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
-  const http = inject(HttpClient);
   const translateService = inject(TranslateService);
   const notificationService = inject(NotificationService);
   const sessionService = inject(SessionService);
