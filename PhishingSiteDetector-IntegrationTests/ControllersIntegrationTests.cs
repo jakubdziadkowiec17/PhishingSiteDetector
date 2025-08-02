@@ -34,6 +34,9 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
             var response = await _httpClient.PostAsJsonAsync($"/api/account/login", loginDTO);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            var data = await response.Content.ReadFromJsonAsync<ResponseDTO>();
+            Assert.NotNull(data);
+            Assert.NotNull(data.Message);
         }
 
         [Fact]
@@ -85,6 +88,9 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
             var response = await _httpClient.PutAsJsonAsync("/api/account", accountDTO);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await response.Content.ReadFromJsonAsync<ResponseDTO>();
+            Assert.NotNull(data);
+            Assert.NotNull(data.Message);
         }
 
         [Fact]
@@ -109,6 +115,9 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
             var response = await _httpClient.PutAsJsonAsync("/api/account/reset-password", resetPasswordDTO);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await response.Content.ReadFromJsonAsync<ResponseDTO>();
+            Assert.NotNull(data);
+            Assert.NotNull(data.Message);
         }
 
         [Fact]
@@ -121,6 +130,9 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
             var response = await _httpClient.PostAsJsonAsync("/api/account/logout", refreshTokenDTO);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await response.Content.ReadFromJsonAsync<ResponseDTO>();
+            Assert.NotNull(data);
+            Assert.NotNull(data.Message);
         }
 
         //DATASET CONTROLLER
@@ -144,6 +156,9 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
             var response = await _httpClient.PostAsync("/api/data-set", dataSetDTO);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await response.Content.ReadFromJsonAsync<ResponseDTO>();
+            Assert.NotNull(data);
+            Assert.NotNull(data.Message);
         }
 
         [Fact]
@@ -193,6 +208,9 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
             var response = await _httpClient.PutAsJsonAsync($"/api/data-set/{id}", dataSetItemDTO);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await response.Content.ReadFromJsonAsync<ResponseDTO>();
+            Assert.NotNull(data);
+            Assert.NotNull(data.Message);
         }
 
         [Fact]
@@ -205,6 +223,9 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
             var response = await _httpClient.DeleteAsync($"/api/data-set/{id}");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            var data = await response.Content.ReadFromJsonAsync<ResponseDTO>();
+            Assert.NotNull(data);
+            Assert.NotNull(data.Message);
         }
 
         //SITELOG CONTROLLER

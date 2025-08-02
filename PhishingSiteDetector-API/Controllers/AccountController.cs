@@ -22,28 +22,24 @@ namespace PhishingSiteDetector_API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<TokensDTO>> Login([FromBody] LoginDTO loginDTO)
         {
-
             try
             {
                 return Ok(await _accountService.LoginAsync(loginDTO));
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.INVALID_EMAIL_OR_PASSWORD:
-                        return Unauthorized(ERROR.INVALID_EMAIL_OR_PASSWORD);
+                        return Unauthorized(await _errorLogService.CreateErrorLogAsync(ERROR.INVALID_EMAIL_OR_PASSWORD, ex));
                     case ERROR.USER_NOT_FOUND:
-                        return Unauthorized(ERROR.USER_NOT_FOUND);
+                        return Unauthorized(await _errorLogService.CreateErrorLogAsync(ERROR.USER_NOT_FOUND, ex));
                     case ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE:
-                        return Unauthorized(ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE);
+                        return Unauthorized(await _errorLogService.CreateErrorLogAsync(ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE, ex));
                     default:
-                        return Unauthorized(ERROR.LOGIN_FAILED);
+                        return Unauthorized(await _errorLogService.CreateErrorLogAsync(ERROR.LOGIN_FAILED, ex));
                 }
             }
-
         }
 
         [HttpPost("refresh-tokens")]
@@ -56,14 +52,14 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
+                    case ERROR.YOUR_SESSION_HAS_EXPIRED:
+                        return Unauthorized(await _errorLogService.CreateErrorLogAsync(ERROR.YOUR_SESSION_HAS_EXPIRED, ex));
                     case ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE:
-                        return Unauthorized(ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE);
+                        return Unauthorized(await _errorLogService.CreateErrorLogAsync(ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE, ex));
                     default:
-                        return Unauthorized(ERROR.INVALID_CLIENT_REQUEST);
+                        return Unauthorized(await _errorLogService.CreateErrorLogAsync(ERROR.INVALID_CLIENT_REQUEST, ex));
                 }
             }
         }
@@ -78,14 +74,12 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.USER_NOT_FOUND:
-                        return NotFound(ERROR.USER_NOT_FOUND);
+                        return NotFound(await _errorLogService.CreateErrorLogAsync(ERROR.USER_NOT_FOUND, ex));
                     default:
-                        return StatusCode(500, ERROR.GETTING_ACCOUNT_DATA_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.GETTING_ACCOUNT_DATA_FAILED, ex));
                 }
             }
         }
@@ -100,21 +94,19 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.USER_NOT_FOUND:
-                        return NotFound(ERROR.USER_NOT_FOUND);
+                        return NotFound(await _errorLogService.CreateErrorLogAsync(ERROR.USER_NOT_FOUND, ex));
                     default:
-                        return StatusCode(500, ERROR.GETTING_USER_DATA_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.GETTING_USER_DATA_FAILED, ex));
                 }
             }
         }
 
         [HttpPut]
         [Authorize(Roles = Role.Admin)]
-        public async Task<ActionResult<string>> EditAccount([FromBody] AccountDTO accountDTO)
+        public async Task<ActionResult<ResponseDTO>> EditAccount([FromBody] AccountDTO accountDTO)
         {
             try
             {
@@ -122,16 +114,14 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.USER_NOT_FOUND:
-                        return NotFound(ERROR.USER_NOT_FOUND);
+                        return NotFound(await _errorLogService.CreateErrorLogAsync(ERROR.USER_NOT_FOUND, ex));
                     case ERROR.USER_WITH_THIS_EMAIL_ALREADY_EXISTS:
-                        return BadRequest(ERROR.USER_WITH_THIS_EMAIL_ALREADY_EXISTS);
+                        return BadRequest(await _errorLogService.CreateErrorLogAsync(ERROR.USER_WITH_THIS_EMAIL_ALREADY_EXISTS, ex));
                     default:
-                        return StatusCode(500, ERROR.EDITING_ACCOUNT_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.EDITING_ACCOUNT_FAILED, ex));
                 }
             }
         }
@@ -147,21 +137,19 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.USER_NOT_FOUND:
-                        return NotFound(ERROR.USER_NOT_FOUND);
+                        return NotFound(await _errorLogService.CreateErrorLogAsync(ERROR.USER_NOT_FOUND, ex));
                     default:
-                        return StatusCode(500, ERROR.CHANGING_LANGUAGE_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.CHANGING_LANGUAGE_FAILED, ex));
                 }
             }
         }
 
         [HttpPut("reset-password")]
         [Authorize(Roles = Role.Admin)]
-        public async Task<ActionResult<string>> ResetPassword([FromBody] ResetPasswordDTO resetPasswordDTO)
+        public async Task<ActionResult<ResponseDTO>> ResetPassword([FromBody] ResetPasswordDTO resetPasswordDTO)
         {
             try
             {
@@ -169,27 +157,25 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.USER_NOT_FOUND:
-                        return NotFound(ERROR.USER_NOT_FOUND);
+                        return NotFound(await _errorLogService.CreateErrorLogAsync(ERROR.USER_NOT_FOUND, ex));
                     case ERROR.OLD_PASSWORD_INCORRECT:
-                        return BadRequest(ERROR.OLD_PASSWORD_INCORRECT);
+                        return BadRequest(await _errorLogService.CreateErrorLogAsync(ERROR.OLD_PASSWORD_INCORRECT, ex));
                     case ERROR.NOT_THE_SAME_PASSWORD:
-                        return BadRequest(ERROR.NOT_THE_SAME_PASSWORD);
+                        return BadRequest(await _errorLogService.CreateErrorLogAsync(ERROR.NOT_THE_SAME_PASSWORD, ex));
                     case ERROR.INCORRECT_PASSWORD_RULES:
-                        return BadRequest(ERROR.INCORRECT_PASSWORD_RULES);
+                        return BadRequest(await _errorLogService.CreateErrorLogAsync(ERROR.INCORRECT_PASSWORD_RULES, ex));
                     default:
-                        return StatusCode(500, ERROR.PASSWORD_RESET_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.PASSWORD_RESET_FAILED, ex));
                 }
             }
         }
 
         [HttpPost("logout")]
         [Authorize(Roles = Role.Admin)]
-        public async Task<ActionResult<string>> Logout([FromBody] RefreshTokenDTO refreshTokenDTO)
+        public async Task<ActionResult<ResponseDTO>> Logout([FromBody] RefreshTokenDTO refreshTokenDTO)
         {
             try
             {
@@ -197,14 +183,12 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.USER_NOT_RECOGNIZED:
-                        return Unauthorized(ERROR.USER_NOT_RECOGNIZED);
+                        return Unauthorized(await _errorLogService.CreateErrorLogAsync(ERROR.USER_NOT_RECOGNIZED, ex));
                     default:
-                        return StatusCode(500, ERROR.LOGOUT_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.LOGOUT_FAILED, ex));
                 }
             }
         }

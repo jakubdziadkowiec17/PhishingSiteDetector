@@ -40,7 +40,7 @@ export const appConfig: ApplicationConfig = {
         loader: {
           provide: TranslateLoader,
           useFactory: createTranslateLoader,
-          deps: [HttpClient],
+          deps: [HttpClient]
         },
       })
     ),

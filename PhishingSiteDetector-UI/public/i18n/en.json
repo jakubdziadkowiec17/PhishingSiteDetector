@@ -1,7 +1,8 @@
 {
     "ERROR": {
         "SUMMARY": "Error",
-        "YOUR_SESSION_HAS_EXPIRED": "Your session has expired. Please log in again.",
+        "UNABLE_TO_CONNECT_TO_THE_APP_SERVER": "Unable to connect to the application server.",
+        "YOUR_SESSION_HAS_EXPIRED": "Your session has expired. Please sign in again.",
         "AN_UNKNOWN_ERROR_OCCURED": "An unknown error occurred.",
         "LOGIN_FAILED": "An unexpected error occurred during login.",
         "LOGOUT_FAILED": "An unexpected error occurred during logout.",
@@ -35,14 +36,14 @@
         "SUMMARY": "Success",
         "ACCOUNT_EDITED": "The account has been edited.",
         "PASSWORD_RESET": "The password has been reset.",
-        "LOGGED_OUT": "You have been logged out.",
+        "LOGGED_OUT": "You have been successfully logged out.",
         "DATA_SET_ADDED": "The data set has been added.",
         "DATA_SET_ACTIVITY_UPDATED": "The data set has been activated.",
         "DATA_SET_DELETED": "The data set has been deleted."
     },
     "NAVBAR": {
         "HOME": "Home",
-        "LANGUAGE": "Language",
+        "LANGUAGES": "Languages",
         "SIGN_IN": "Sign in",
         "STATISTICS": "Statistics",
         "DATA_SETS": "Data sets",

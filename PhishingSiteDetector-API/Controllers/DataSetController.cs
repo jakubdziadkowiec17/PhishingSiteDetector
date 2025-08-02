@@ -21,7 +21,7 @@ namespace PhishingSiteDetector_API.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<ActionResult<string>> Upload([FromForm] DataSetDTO dataSet)
+        public async Task<ActionResult<ResponseDTO>> Upload([FromForm] DataSetDTO dataSet)
         {
             try
             {
@@ -29,16 +29,14 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.DATA_SET_IS_EMPTY:
-                        return BadRequest(ERROR.DATA_SET_IS_EMPTY);
+                        return BadRequest(await _errorLogService.CreateErrorLogAsync(ERROR.DATA_SET_IS_EMPTY, ex));
                     case ERROR.DATA_SET_SHOULD_BE_CSV:
-                        return BadRequest(ERROR.DATA_SET_SHOULD_BE_CSV);
+                        return BadRequest(await _errorLogService.CreateErrorLogAsync(ERROR.DATA_SET_SHOULD_BE_CSV, ex));
                     default:
-                        return StatusCode(500, ERROR.DATA_SET_UPLOAD_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.DATA_SET_UPLOAD_FAILED, ex));
                 }
             }
         }
@@ -52,9 +50,7 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
-                return StatusCode(500, ERROR.GETTING_DATA_SET_LIST_FAILED);
+                return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.GETTING_DATA_SET_LIST_FAILED, ex));
             }
         }
 
@@ -68,20 +64,18 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.DATA_SET_NOT_FOUND:
-                        return BadRequest(ERROR.DATA_SET_NOT_FOUND);
+                        return BadRequest(await _errorLogService.CreateErrorLogAsync(ERROR.DATA_SET_NOT_FOUND, ex));
                     default:
-                        return StatusCode(500, ERROR.DOWNLOADING_DATA_SET_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.DOWNLOADING_DATA_SET_FAILED, ex));
                 }
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<string>> UpdateActivityForDataSet(int id, [FromBody] DataSetStatusDTO dataSetStatusDTO)
+        public async Task<ActionResult<ResponseDTO>> UpdateActivityForDataSet(int id, [FromBody] DataSetStatusDTO dataSetStatusDTO)
         {
             try
             {
@@ -89,20 +83,18 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.DATA_SET_NOT_FOUND:
-                        return NotFound(ERROR.DATA_SET_NOT_FOUND);
+                        return NotFound(await _errorLogService.CreateErrorLogAsync(ERROR.DATA_SET_NOT_FOUND, ex));
                     default:
-                        return StatusCode(500, ERROR.UPDATING_DATA_SET_ACTIVITY_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.UPDATING_DATA_SET_ACTIVITY_FAILED, ex));
                 }
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<string>> DeleteDataSet(int id)
+        public async Task<ActionResult<ResponseDTO>> DeleteDataSet(int id)
         {
             try
             {
@@ -110,14 +102,12 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.DATA_SET_NOT_FOUND:
-                        return NotFound(ERROR.DATA_SET_NOT_FOUND);
+                        return NotFound(await _errorLogService.CreateErrorLogAsync(ERROR.DATA_SET_NOT_FOUND, ex));
                     default:
-                        return StatusCode(500, ERROR.DELETING_DATA_SET_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.DELETING_DATA_SET_FAILED, ex));
                 }
             }
         }

@@ -22,7 +22,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<string> UploadAsync(DataSetDTO dataSetDTO)
+        public async Task<ResponseDTO> UploadAsync(DataSetDTO dataSetDTO)
         {
             var user = _httpContextAccessor.HttpContext?.User;
             var userId = user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -103,7 +103,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             var model = pipeline.Fit(split.TrainSet);
             mlContext.Model.Save(model, split.TrainSet.Schema, modelPath);
 
-            return (SUCCESS.DATA_SET_ADDED);
+            return new ResponseDTO(SUCCESS.DATA_SET_ADDED);
         }
 
         public async Task<ListPageDTO<DataSetItemDTO>> GetDataSetsAsync(string? searchText, int pageNumber, int pageSize)
@@ -139,7 +139,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             };
         }
 
-        public async Task<string> UpdateActivityForDataSetAsync(int id, DataSetStatusDTO dataSetStatusDTO)
+        public async Task<ResponseDTO> UpdateActivityForDataSetAsync(int id, DataSetStatusDTO dataSetStatusDTO)
         {
             var dataSet = await _dataSetRepository.GetDataSetAsync(id);
             if (dataSet is null)
@@ -160,10 +160,10 @@ namespace PhishingSiteDetector_API.Services.Implementations
             _mapper.Map(dataSetStatusDTO, dataSet);
             await _dataSetRepository.UpdateActivityForDataSetAsync(dataSet);
 
-            return SUCCESS.DATA_SET_ACTIVITY_UPDATED;
+            return new ResponseDTO(SUCCESS.DATA_SET_ACTIVITY_UPDATED);
         }
 
-        public async Task<string> DeleteDataSetAsync(int id)
+        public async Task<ResponseDTO> DeleteDataSetAsync(int id)
         {
             var dataSet = await _dataSetRepository.GetDataSetAsync(id);
             if (dataSet is null)
@@ -185,7 +185,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 File.Delete(modelPath);
             }
 
-            return SUCCESS.DATA_SET_DELETED;
+            return new ResponseDTO(SUCCESS.DATA_SET_DELETED);
         }
     }
 }

@@ -1,6 +1,7 @@
 {
     "ERROR": {
         "SUMMARY": "Błąd",
+        "UNABLE_TO_CONNECT_TO_THE_APP_SERVER": "Nie można nawiązać połączenia z serwerem aplikacji.",
         "YOUR_SESSION_HAS_EXPIRED": "Twoja sesja wygasła. Zaloguj się ponownie.",
         "AN_UNKNOWN_ERROR_OCCURED": "Wystąpił nieznany błąd.",
         "LOGIN_FAILED": "Wystąpił nieoczekiwany błąd podczas logowania.",
@@ -35,14 +36,14 @@
         "SUMMARY": "Sukces",
         "ACCOUNT_EDITED": "Konto zostało edytowane.",
         "PASSWORD_RESET": "Hasło zostało zresetowane.",
-        "LOGGED_OUT": "Zostałeś wylogowany.",
+        "LOGGED_OUT": "Zostałeś pomyślnie wylogowany.",
         "DATA_SET_ADDED": "Zbiór danych został dodany.",
         "DATA_SET_ACTIVITY_UPDATED": "Zbiór danych został aktywowany.",
         "DATA_SET_DELETED": "Zbiór danych został usunięty."
     },
     "NAVBAR": {
         "HOME": "Strona główna",
-        "LANGUAGE": "Język",
+        "LANGUAGES": "Języki",
         "SIGN_IN": "Zaloguj się",
         "STATISTICS": "Statystyki",
         "DATA_SETS": "Zestawy danych",

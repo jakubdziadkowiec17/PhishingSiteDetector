@@ -35,8 +35,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
         {
             string[] roles = [Role.Admin];
             var userRoles = await _userManager.GetRolesAsync(applicationUser);
-            var role = userRoles.FirstOrDefault();
-            if (role is null || !roles.Contains(role))
+            if (userRoles is null || userRoles.Count == 0)
             {
                 throw new Exception(ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE);
             }
@@ -46,7 +45,10 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 new(ClaimTypes.NameIdentifier, applicationUser.Id),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
-            authClaims.Add(new Claim(ClaimTypes.Role, role));
+            foreach (var role in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:IssuerSigningKey"]));
 
@@ -129,30 +131,31 @@ namespace PhishingSiteDetector_API.Services.Implementations
                             if (refreshTokenFromDB is not null && userId == refreshTokenFromDB.UserId)
                             {
                                 await _refreshTokenRepository.DeleteRefreshTokenAsync(refreshTokenFromDB);
-                                
-                                if (refreshTokenFromDB.ExpirationDate >= DateTime.Now)
+
+                                if (refreshTokenFromDB.ExpirationDate < DateTime.Now)
                                 {
-                                    var user = await _userManager.FindByIdAsync(userId);
-                                    if (user is not null)
+                                    throw new Exception(ERROR.YOUR_SESSION_HAS_EXPIRED);
+                                }
+
+                                var user = await _userManager.FindByIdAsync(userId);
+                                if (user is not null)
+                                {
+                                    var userRoles = await _userManager.GetRolesAsync(user);
+                                    if (userRoles is null || userRoles.Count == 0)
                                     {
-                                        string[] roles = [Role.Admin];
-                                        var userRoles = await _userManager.GetRolesAsync(user);
-                                        if (!roles.Any(role => userRoles.Contains(role)))
-                                        {
-                                            throw new Exception(ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE);
-                                        }
-
-                                        var accessToken = await CreateAccessToken(user);
-                                        var refreshToken = await CreateRefreshToken(user);
-
-                                        var tokens = new TokensDTO
-                                        {
-                                            AccessToken = accessToken,
-                                            RefreshToken = refreshToken.Token
-                                        };
-
-                                        return tokens;
+                                        throw new Exception(ERROR.USER_NOT_ASSIGNED_TO_ANY_ROLE);
                                     }
+                                    
+                                    var accessToken = await CreateAccessToken(user);
+                                    var refreshToken = await CreateRefreshToken(user);
+                                    
+                                    var tokens = new TokensDTO
+                                    {
+                                        AccessToken = accessToken,
+                                        RefreshToken = refreshToken.Token
+                                    };
+
+                                    return tokens;
                                 }
                             }
                         }
@@ -191,7 +194,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             return _mapper.Map<AccountDTO>(applicationUser);
         }
 
-        public async Task<string> EditAccountAsync(AccountDTO userDTO)
+        public async Task<ResponseDTO> EditAccountAsync(AccountDTO userDTO)
         {
             var user = _httpContextAccessor.HttpContext?.User;
             var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -216,7 +219,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 throw new Exception(ERROR.EDITING_ACCOUNT_FAILED);
             }
 
-            return SUCCESS.ACCOUNT_EDITED;
+            return new ResponseDTO(SUCCESS.ACCOUNT_EDITED);
         }
 
         public async Task ChangeLanguageAsync(LanguageDTO languageDTO)
@@ -239,7 +242,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             }
         }
 
-        public async Task<string> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
+        public async Task<ResponseDTO> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO)
         {
             var user = _httpContextAccessor.HttpContext?.User;
             var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -275,10 +278,10 @@ namespace PhishingSiteDetector_API.Services.Implementations
                 throw new Exception(ERROR.PASSWORD_RESET_FAILED);
             }
 
-            return SUCCESS.PASSWORD_RESET;
+            return new ResponseDTO(SUCCESS.PASSWORD_RESET);
         }
 
-        public async Task<string> LogoutAsync(RefreshTokenDTO refreshTokenDTO)
+        public async Task<ResponseDTO> LogoutAsync(RefreshTokenDTO refreshTokenDTO)
         {
             if (!string.IsNullOrEmpty(refreshTokenDTO.RefreshToken))
             {
@@ -301,7 +304,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
 
             await _signInManager.SignOutAsync();
 
-            return SUCCESS.LOGGED_OUT;
+            return new ResponseDTO(SUCCESS.LOGGED_OUT);
         }
     }
 }

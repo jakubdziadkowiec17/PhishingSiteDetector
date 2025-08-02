@@ -12,9 +12,9 @@ namespace PhishingSiteDetector_API.Services.Interfaces
         Task<TokensDTO> RefreshTokensAsync(TokensForRefreshDTO tokensForRefreshDTO);
         Task<AccountDataDTO> GetAccountDataAsync();
         Task<AccountDTO> GetAccountAsync();
-        Task<string> EditAccountAsync(AccountDTO userDTO);
+        Task<ResponseDTO> EditAccountAsync(AccountDTO userDTO);
         Task ChangeLanguageAsync(LanguageDTO languageDTO);
-        Task<string> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO);
-        Task<string> LogoutAsync(RefreshTokenDTO refreshTokenDTO);
+        Task<ResponseDTO> ResetPasswordAsync(ResetPasswordDTO resetPasswordDTO);
+        Task<ResponseDTO> LogoutAsync(RefreshTokenDTO refreshTokenDTO);
     }
 }

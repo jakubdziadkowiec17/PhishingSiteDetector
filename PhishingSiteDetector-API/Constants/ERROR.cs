@@ -2,6 +2,7 @@
 {
     public static class ERROR
     {
+        public const string YOUR_SESSION_HAS_EXPIRED = "YOUR_SESSION_HAS_EXPIRED";
         public const string LOGIN_FAILED = "LOGIN_FAILED";
         public const string LOGOUT_FAILED = "LOGOUT_FAILED";
         public const string USER_NOT_RECOGNIZED = "USER_NOT_RECOGNIZED";

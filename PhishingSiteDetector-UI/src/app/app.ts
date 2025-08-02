@@ -1,13 +1,12 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { Navbar } from "./components/navbar/navbar";
 import { Footer } from "./components/footer/footer";
 import { TranslateService } from '@ngx-translate/core';
-import { AccountStoreService } from './services/store/account-store-service';
-import { SessionService } from './services/common/session-service';
+import { AccountService } from './services/common/account-service';
 import { LanguageCode } from './constants/languageCode';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { Languages } from './constants/languages';
 
 @Component({
@@ -16,32 +15,21 @@ import { Languages } from './constants/languages';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit {
+export class App implements OnInit, OnDestroy {
+  private accessTokenSub?: Subscription;
 
-  constructor(private sessionService: SessionService, private translateService: TranslateService, private accountStoreService: AccountStoreService) {}
+  constructor(private accountService: AccountService, private translateService: TranslateService) {}
 
   ngOnInit() {
     this.translateService.addLangs(Languages);
     this.translateService.setDefaultLang(LanguageCode.EN);
 
-    const isAuth = this.sessionService.isAuthenticated();
+    this.accessTokenSub = this.accountService.accessToken$.subscribe(() => {
+      this.accountService.initializeUserContext();
+    });
+  }
 
-    if (isAuth) {
-      this.accountStoreService.loadUser();
-
-      this.accountStoreService.account$.pipe(take(1)).subscribe(account => {
-        if (account && account.languageCode && Languages.includes(account.languageCode)) {
-          this.sessionService.setLanguageCode(account.languageCode);
-        }
-        else {
-          this.sessionService.setLanguageCode(LanguageCode.EN);
-        }
-      });
-    }
-    else {
-      const languageCodeFromCookies = this.sessionService.getLanguageCode();
-      const languageCode = languageCodeFromCookies && Languages.includes(languageCodeFromCookies) ? languageCodeFromCookies  : LanguageCode.EN;
-      this.sessionService.setLanguageCode(languageCode);
-    }
+  ngOnDestroy() {
+    this.accessTokenSub?.unsubscribe();
   }
 }

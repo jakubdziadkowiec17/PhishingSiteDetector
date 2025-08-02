@@ -10,6 +10,7 @@ import { ResetPasswordDTO } from '../../interfaces/reset-password-dto';
 import { RefreshTokenDTO } from '../../interfaces/refresh-token-dto';
 import { LanguageDTO } from '../../interfaces/language-dto';
 import { TokensForRefreshDTO } from '../../interfaces/tokens-for-refresh-dto';
+import { ResponseDTO } from '../../interfaces/response-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -35,19 +36,19 @@ export class AccountApiService {
     return this.http.get<AccountDTO>(`${this.baseUrl}`);
   }
 
-  editAccount(accountDTO: AccountDTO): Observable<string> {
-    return this.http.put<string>(`${this.baseUrl}`, accountDTO);
+  editAccount(accountDTO: AccountDTO): Observable<ResponseDTO> {
+    return this.http.put<ResponseDTO>(`${this.baseUrl}`, accountDTO);
   }
 
   changeLanguage(languageDTO: LanguageDTO): Observable<void> {
     return this.http.put<void>(`${this.baseUrl}/change-language`, languageDTO);
   }
 
-  resetPassword(resetPasswordDTO: ResetPasswordDTO): Observable<string> {
-    return this.http.put<string>(`${this.baseUrl}/reset-password`, resetPasswordDTO);
+  resetPassword(resetPasswordDTO: ResetPasswordDTO): Observable<ResponseDTO> {
+    return this.http.put<ResponseDTO>(`${this.baseUrl}/reset-password`, resetPasswordDTO);
   }
 
-  logout(refreshTokenDTO: RefreshTokenDTO): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/logout`, refreshTokenDTO);
+  logout(refreshTokenDTO: RefreshTokenDTO): Observable<ResponseDTO> {
+    return this.http.post<ResponseDTO>(`${this.baseUrl}/logout`, refreshTokenDTO);
   }
 }

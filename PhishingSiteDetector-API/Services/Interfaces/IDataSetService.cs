@@ -5,10 +5,10 @@ namespace PhishingSiteDetector_API.Services.Interfaces
 {
     public interface IDataSetService
     {
-        Task<string> UploadAsync(DataSetDTO dataSetDTO);
+        Task<ResponseDTO> UploadAsync(DataSetDTO dataSetDTO);
         Task<ListPageDTO<DataSetItemDTO>> GetDataSetsAsync(string? searchText, int pageNumber, int pageSize);
         Task<FileData> DownloadDataSetAsync(int id);
-        Task<string> UpdateActivityForDataSetAsync(int id, DataSetStatusDTO dataSetStatusDTO);
-        Task<string> DeleteDataSetAsync(int id);
+        Task<ResponseDTO> UpdateActivityForDataSetAsync(int id, DataSetStatusDTO dataSetStatusDTO);
+        Task<ResponseDTO> DeleteDataSetAsync(int id);
     }
 }

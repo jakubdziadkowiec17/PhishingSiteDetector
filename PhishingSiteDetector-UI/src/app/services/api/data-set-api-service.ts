@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Server } from '../../constants/server';
 import { ListPageDTO } from '../../interfaces/list-page-dto';
 import { DataSetItemDTO } from '../../interfaces/data-set-item-dto';
+import { ResponseDTO } from '../../interfaces/response-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class DataSetApiService {
 
   constructor(private http: HttpClient) {}
 
-  upload(dataSet: FormData): Observable<string> {
-    return this.http.post<string>(this.baseUrl, dataSet);
+  upload(dataSet: FormData): Observable<ResponseDTO> {
+    return this.http.post<ResponseDTO>(this.baseUrl, dataSet);
   }
 
   getDataSets(searchText: string = "", pageNumber: number, pageSize: number): Observable<ListPageDTO<DataSetItemDTO>> {
@@ -32,11 +33,11 @@ export class DataSetApiService {
     });
   }
 
-  updateActivity(id: number, dataSetItem: DataSetItemDTO): Observable<string> {
-    return this.http.put<string>(`${this.baseUrl}/${id}`, dataSetItem);
+  updateActivity(id: number, dataSetItem: DataSetItemDTO): Observable<ResponseDTO> {
+    return this.http.put<ResponseDTO>(`${this.baseUrl}/${id}`, dataSetItem);
   }
 
-  deleteDataSet(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.baseUrl}/${id}`);
+  deleteDataSet(id: number): Observable<ResponseDTO> {
+    return this.http.delete<ResponseDTO>(`${this.baseUrl}/${id}`);
   }
 }

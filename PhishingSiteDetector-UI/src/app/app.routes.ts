@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login';
 import { SettingsComponent } from './components/settings/settings';
 import { StatisticsComponent } from './components/statistics/statistics';
 import { DataSetsComponent } from './components/data-sets/data-sets';
+import { GuestGuard } from './helpers/guest-guard';
 
 export const routes: Routes = [
     {
@@ -14,7 +15,8 @@ export const routes: Routes = [
     },
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [GuestGuard]
     },
     {
         path: 'settings',

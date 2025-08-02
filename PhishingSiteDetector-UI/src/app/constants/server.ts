@@ -1,3 +1,3 @@
 export const Server = {
-  apiUrl: 'https://localhost:5163/api/',
+  apiUrl: 'https://localhost:7086/api/',
 };

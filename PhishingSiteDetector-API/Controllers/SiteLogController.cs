@@ -28,14 +28,12 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                await _errorLogService.CreateErrorLogAsync(ex);
-
                 switch (ex.Message)
                 {
                     case ERROR.DATA_SET_NOT_FOUND:
-                        return NotFound(ERROR.DATA_SET_NOT_FOUND);
+                        return NotFound(await _errorLogService.CreateErrorLogAsync(ERROR.DATA_SET_NOT_FOUND, ex));
                     default:
-                        return StatusCode(500, ERROR.DELETING_DATA_SET_FAILED);
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.DELETING_DATA_SET_FAILED, ex));
                 }
             }
         }

@@ -1,31 +1,33 @@
-import { inject} from '@angular/core';
-import { CanActivateFn} from '@angular/router';
+import { inject, Injectable} from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { CookieService } from 'ngx-cookie-service';
 import { Role } from '../constants/role';
 import { Claim } from '../constants/claim';
+import { AccountService } from '../services/common/account-service';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 
-export const AdminGuard: CanActivateFn = (route, state) => {
-    const cookieService = inject(CookieService);
-    const accessToken = cookieService.get('AccessToken');
-    if (!accessToken) return redirectToLogin(state.url);
+@Injectable({ providedIn: 'root' })
+export class AdminGuard implements CanActivate {
+  constructor(private accountService: AccountService, private router: Router) {}
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const accessToken = this.accountService.getAccessToken();
+    if (!accessToken) return this.redirectToLogin(state.url);
 
     try {
-        const decoded: any = jwtDecode(accessToken);
-        const roles: string[] = decoded[Claim.Roles];
-        if (roles?.includes(Role.Admin)) {
-            return true;
-        }
+        const decoded = jwtDecode<{ [Claim.Roles]: string[] }>(accessToken);
+        const roles = decoded[Claim.Roles];
+        if (roles?.includes(Role.Admin)) return true;
     }
-    catch (e) {
-        cookieService.delete('AccessToken');
-        cookieService.delete('RefreshToken');
+    catch {
+        this.accountService.deleteTokens();
+        return this.redirectToLogin(state.url);
     }
+    
+    return this.redirectToLogin(state.url);
+  }
 
-    return redirectToLogin(state.url);
-};
-
-function redirectToLogin(redirectUrl: string) {
-    window.location.href = `/login?redirect=${encodeURIComponent(redirectUrl)}`;
+  private redirectToLogin(redirectUrl: string): boolean {
+    this.router.navigate(['/login'], { queryParams: { redirect: redirectUrl } });
     return false;
+  }
 }

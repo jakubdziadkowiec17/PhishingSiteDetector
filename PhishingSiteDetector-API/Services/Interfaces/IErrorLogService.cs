@@ -1,7 +1,9 @@
-﻿namespace PhishingSiteDetector_API.Services.Interfaces
+﻿using PhishingSiteDetector_API.Models.DTOs;
+
+namespace PhishingSiteDetector_API.Services.Interfaces
 {
     public interface IErrorLogService
     {
-        Task CreateErrorLogAsync(Exception ex);
+        Task<ResponseDTO?> CreateErrorLogAsync(string message, Exception ex);
     }
 }

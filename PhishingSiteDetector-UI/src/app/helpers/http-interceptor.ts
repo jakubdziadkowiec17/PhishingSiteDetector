@@ -3,7 +3,7 @@ import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest, HttpErrorResp
 import { Observable, catchError, switchMap, throwError, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../services/common/notification-service';
-import { SessionService } from '../services/common/session-service';
+import { AccountService } from '../services/common/account-service';
 import { AccountApiService } from '../services/api/account-api-service';
 import { TokensForRefreshDTO } from '../interfaces/tokens-for-refresh-dto';
 
@@ -13,11 +13,12 @@ const refreshSubject = new Subject<string>();
 export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const translateService = inject(TranslateService);
   const notificationService = inject(NotificationService);
-  const sessionService = inject(SessionService);
+  const accountService= inject(AccountService);
   const accountApiService = inject(AccountApiService);
-  const accessToken = sessionService.getAccessToken();
+  const accessToken = accountService.getAccessToken();
+  const isAuth = accountService.isAuthenticated();
 
-  const authRequest = accessToken
+  const authRequest = isAuth
     ? request.clone({
         headers: request.headers.set('Authorization', `Bearer ${accessToken}`)
       })
@@ -25,18 +26,17 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
 
   return next(authRequest).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 && !authRequest.headers.has('X-Retry')) {
+      const isLoginOrRefresh = request.url.includes('/login') || request.url.includes('/refresh-tokens');
+      if (error.status === 401 && !authRequest.headers.has('X-Retry') && !isLoginOrRefresh) {
         if (!isRefreshing) {
           isRefreshing = true;
-
-          const refreshToken = sessionService.getRefreshToken();
-          const oldAccessToken = sessionService.getAccessToken();
-
+          const refreshToken = accountService.getRefreshToken();
+          const oldAccessToken = accountService.getAccessToken();
           const tokensForRefreshDTO: TokensForRefreshDTO = { accessToken: oldAccessToken, refreshToken: refreshToken };
 
           return accountApiService.refreshTokens(tokensForRefreshDTO).pipe(switchMap((tokens) => {
-              sessionService.setAccessToken(tokens.accessToken);
-              sessionService.setRefreshToken(tokens.refreshToken);
+              accountService.setAccessToken(tokens.accessToken);
+              accountService.setRefreshToken(tokens.refreshToken);
               isRefreshing = false;
               refreshSubject.next(tokens.accessToken);
 
@@ -45,12 +45,13 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
                   .set('Authorization', `Bearer ${tokens.accessToken}`)
                   .set('X-Retry', 'true')
               });
+
               return next(retryReq);
             }),
             catchError((refreshError) => {
               isRefreshing = false;
-              sessionService.deleteTokens();
-              notificationService.showErrorToast('YOUR_SESSION_HAS_EXPIRED');
+              accountService.deleteTokensWithRedirect();
+
               return throwError(() => refreshError);
             })
           );
@@ -63,12 +64,13 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
                   .set('Authorization', `Bearer ${newAccessToken}`)
                   .set('X-Retry', 'true')
               });
+
               return next(retryReq);
             })
           );
         }
       }
-      if (error.status >= 400 && error.status !== 401) {
+      else if (error.status >= 400) {
         const errorKey = error?.error?.message;
         if (errorKey && typeof errorKey === 'string') {
           const translationKey = `ERROR.${errorKey}`;
@@ -77,13 +79,16 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
               notificationService.showErrorToast('AN_UNKNOWN_ERROR_OCCURED');
             }
             else {
-              notificationService.showErrorToast(translationKey);
+              notificationService.showErrorToast(errorKey);
             }
           });
         }
         else {
           notificationService.showErrorToast('AN_UNKNOWN_ERROR_OCCURED');
         }
+      }
+      else {
+        notificationService.showErrorToast('UNABLE_TO_CONNECT_TO_THE_APP_SERVER');
       }
 
       return throwError(() => error);

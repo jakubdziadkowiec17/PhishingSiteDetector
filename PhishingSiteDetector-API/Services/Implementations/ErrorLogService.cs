@@ -1,4 +1,5 @@
-﻿using PhishingSiteDetector_API.Models.Entities;
+﻿using PhishingSiteDetector_API.Models.DTOs;
+using PhishingSiteDetector_API.Models.Entities;
 using PhishingSiteDetector_API.Repositories.Interfaces;
 using PhishingSiteDetector_API.Services.Interfaces;
 using System.Security.Claims;
@@ -15,7 +16,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
             _errorLogRepository = errorLogRepository;
         }
 
-        public async Task CreateErrorLogAsync(Exception ex)
+        public async Task<ResponseDTO?> CreateErrorLogAsync(string message, Exception ex)
         {
             try
             {
@@ -24,17 +25,19 @@ namespace PhishingSiteDetector_API.Services.Implementations
 
                 var errorLog = new ErrorLog
                 {
-                    Message = ex.Message,
+                    Message = message,
                     StackTrace = ex.StackTrace,
                     UserId = userId,
                     CreationDate = DateTime.Now
                 };
 
                 await _errorLogRepository.CreateErrorLogAsync(errorLog);
+
+                return new ResponseDTO(message);
             }
             catch (Exception)
             {
-                return;
+                return null;
             }
         }
     }
