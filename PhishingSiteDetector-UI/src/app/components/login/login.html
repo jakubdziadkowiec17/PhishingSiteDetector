@@ -1,20 +1,26 @@
-<p-card header="Login" styleClass="w-full max-w-md mx-auto mt-8 shadow-md">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="mb-4">
-      <label for="email" class="block mb-1">Email</label>
-      <input id="email" type="email" pInputText formControlName="email" class="w-full"
-        [ngClass]="{ 'p-invalid': loginForm.controls['email'].invalid && loginForm.controls['email'].touched }" />
+<p-card [header]="'LOGIN.SIGN_IN_HEADER' | translate" styleClass="w-full max-w-lg mx-auto">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+    <div class="flex flex-col gap-1">
+      <p-floatlabel variant="on">
+        <input pInputText type="email" formControlName="email" id="email" autocomplete="email" class="w-full"
+          [ngClass]="{ 'p-invalid': loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched) }" />
+        <label for="email">{{ 'LOGIN.EMAIL' | translate }}</label>
+      </p-floatlabel>
+      <p-message *ngIf="loginForm.get('email')?.errors?.['required'] && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+      <p-message *ngIf="loginForm.get('email')?.errors?.['email'] && !loginForm.get('email')?.errors?.['required'] && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.EMAIL' | translate }}" />
     </div>
 
-    <div class="mb-4">
-      <label for="password" class="block mb-1">Password</label>
-      <p-password id="password" formControlName="password" [feedback]="false" toggleMask class="w-full"></p-password>
+    <div class="flex flex-col gap-1">
+      <p-floatlabel variant="on">
+        <p-password formControlName="password" inputId="password" [feedback]="false" [toggleMask]="true" autocomplete="current-password" class="w-full"
+          [ngClass]="{ 'p-invalid': loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched) }" />
+        <label for="password">{{ 'LOGIN.PASSWORD' | translate }}</label>
+      </p-floatlabel>
+      <p-message *ngIf="loginForm.get('password')?.errors?.['required'] && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
     </div>
 
-    <p-message *ngIf="loginError" severity="error" text="Invalid email or password."></p-message>
-
-    <div class="mt-4 text-right">
-      <button pButton type="submit" label="Login" [disabled]="loading || loginForm.invalid" [loading]="loading" class="w-full"></button>
+    <div class="mt-2">
+      <p-button type="submit" [label]="'LOGIN.SIGN_IN' | translate" icon="pi pi-sign-in" [disabled]="loadingLogin" [loading]="loadingLogin" styleClass="w-full block" />
     </div>
   </form>
 </p-card>

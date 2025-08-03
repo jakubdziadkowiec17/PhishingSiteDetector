@@ -15,3 +15,30 @@ body {
   backdrop-filter: blur(14px) !important;
   background: color-mix(in srgb,var(--p-red-500),transparent 84%) !important;
 }
+
+.full-width-btn {
+  display: block;
+  width: 100%;
+
+  button {
+    width: 100%;
+  }
+}
+
+.p-card-title {
+  text-align: center;
+  font-size: 19px !important;
+  margin-bottom: 0.8rem;
+}
+
+.p-password-input {
+    width: 100%;
+}
+
+.p-message {
+  margin-left: 2px;
+}
+
+.p-password.p-invalid input {
+  border-color: var(--p-inputtext-invalid-border-color);
+}

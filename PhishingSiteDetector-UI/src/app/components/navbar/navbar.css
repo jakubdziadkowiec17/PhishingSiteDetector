@@ -6,7 +6,7 @@
     box-shadow: var(--p-card-shadow);
     border-radius: 0;
     min-height: 66px;
-    padding: 0 2vw;
+    padding: 0 2.25vw;
 }
 
 @media (max-height: 900px) {

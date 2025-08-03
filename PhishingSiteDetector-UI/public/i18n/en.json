@@ -52,5 +52,28 @@
     },
     "FOOTER": {
         "CONTENT": "Made with ☕ & code by the PhishingSiteDetector team"
+    },
+    "VALIDATION": {
+        "REQUIRED": "This field is required.",
+        "EMAIL": "Please enter a valid email address.",
+        "MAX_LENGTH": "The maximum number of characters is "
+    },
+    "LOGIN": {
+        "SIGN_IN_HEADER": "Sign in",
+        "SIGN_IN": "Sign in",
+        "EMAIL": "Email",
+        "PASSWORD": "Password"
+    },
+    "HOME": {
+        "": ""
+    },
+    "STATISTICS": {
+        "": ""
+    },
+    "DATA_SETS": {
+        "": ""
+    },
+    "SETTINGS": {
+        "": ""
     }
 }

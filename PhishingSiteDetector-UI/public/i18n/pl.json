@@ -42,7 +42,7 @@
         "DATA_SET_DELETED": "Zbiór danych został usunięty."
     },
     "NAVBAR": {
-        "HOME": "Strona główna",
+        "HOME": "Start",
         "LANGUAGES": "Języki",
         "SIGN_IN": "Zaloguj się",
         "STATISTICS": "Statystyki",
@@ -52,5 +52,28 @@
     },
     "FOOTER": {
         "CONTENT": "Stworzone przy ☕ i kodzie przez zespół PhishingSiteDetector"
+    },
+    "VALIDATION": {
+        "REQUIRED": "To pole jest wymagane.",
+        "EMAIL": "Podaj poprawny adres email.",
+        "MAX_LENGTH": "Maksymalna liczba znaków to "
+    },
+    "LOGIN": {
+        "SIGN_IN_HEADER": "Logowanie",
+        "SIGN_IN": "Zaloguj się",
+        "EMAIL": "Email",
+        "PASSWORD": "Hasło"
+    },
+    "HOME": {
+        "": ""
+    },
+    "STATISTICS": {
+        "": ""
+    },
+    "DATA_SETS": {
+        "": ""
+    },
+    "SETTINGS": {
+        "": ""
     }
 }

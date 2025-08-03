@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { LoginDTO } from '../../interfaces/login-dto';
 import { AccountApiService } from '../../services/api/account-api-service';
@@ -8,19 +8,20 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { MessageModule } from 'primeng/message';
+import { FloatLabel } from 'primeng/floatlabel';
 import { CardModule } from 'primeng/card';
 import { AccountService } from '../../services/common/account-service';
 import { finalize } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
-  imports: [NgClass, ReactiveFormsModule, InputTextModule, PasswordModule, ButtonModule, CardModule, MessageModule],
+  imports: [NgIf, NgClass, ReactiveFormsModule, TranslateModule, InputTextModule, PasswordModule, ButtonModule, CardModule, MessageModule, FloatLabel],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class LoginComponent {
-  loading = false;
-  loginError = false;
+  loadingLogin = false;
   loginForm!: FormGroup;
   redirectUrl: string = '';
 
@@ -37,14 +38,16 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
 
-    this.loading = true;
-    this.loginError = false;
+    this.loadingLogin = true;
     const loginDTO: LoginDTO = this.loginForm.value;
 
     this.accountApiService.login(loginDTO).pipe(
-      finalize(() => this.loading = false)
+      finalize(() => this.loadingLogin= false)
     ).subscribe({
       next: (tokens) => {
         this.accountService.setAccessToken(tokens.accessToken);
@@ -52,7 +55,7 @@ export class LoginComponent {
         this.router.navigateByUrl(this.redirectUrl);
       },
       error: () => {
-        this.loginError = true;
+        this.loginForm.reset();
       }
     });
   }
