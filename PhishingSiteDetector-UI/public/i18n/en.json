@@ -53,14 +53,23 @@
     "FOOTER": {
         "CONTENT": "Made with ☕ & code by the PhishingSiteDetector team"
     },
+    "BUTTON": {
+        "SIGN_IN": "Sign in",
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
+        "DELETE": "Delete",
+        "RESET": "Reset"
+    },
     "VALIDATION": {
         "REQUIRED": "This field is required.",
-        "EMAIL": "Please enter a valid email address.",
-        "MAX_LENGTH": "The maximum number of characters is "
-    },
+        "EMAIL": "Invalid email format.",
+        "MAX_LENGTH": "Maximum number of characters is {{max}}.",
+        "MIN_LENGTH": "Minimum number of characters is {{min}}.",
+        "MAX_VALUE": "The value cannot be greater than {{max}}.",
+        "MIN_VALUE": "The value cannot be less than {{min}}."
+        },
     "LOGIN": {
-        "SIGN_IN_HEADER": "Sign in",
-        "SIGN_IN": "Sign in",
+        "HEADER": "Sign in",
         "EMAIL": "Email",
         "PASSWORD": "Password"
     },
@@ -74,6 +83,18 @@
         "": ""
     },
     "SETTINGS": {
-        "": ""
+        "HEADER": "Settings",
+        "EDIT_ACCOUNT": "Edit account",
+        "RESET_PASSWORD": "Reset password",
+        "FIRST_NAME": "First Name",
+        "LAST_NAME": "Last Name",
+        "EMAIL": "Email",
+        "DATE_OF_BIRTH": "Date of Birth",
+        "ADDRESS": "Address",
+        "AREA_CODE": "Area Code",
+        "PHONE_NUMBER": "Phone Number",
+        "OLD_PASSWORD": "Old password",
+        "NEW_PASSWORD": "New password",
+        "CONFIRM_NEW_PASSWORD": "Confirm new password"
     }
 }

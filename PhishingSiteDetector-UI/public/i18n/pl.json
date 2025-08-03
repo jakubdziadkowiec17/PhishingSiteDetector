@@ -53,14 +53,23 @@
     "FOOTER": {
         "CONTENT": "Stworzone przy ☕ i kodzie przez zespół PhishingSiteDetector"
     },
+    "BUTTON": {
+        "SIGN_IN": "Zaloguj się",
+        "SAVE": "Zapisz",
+        "CANCEL": "Anuluj",
+        "DELETE": "Usuń",
+        "RESET": "Resetuj"
+    },
     "VALIDATION": {
         "REQUIRED": "To pole jest wymagane.",
-        "EMAIL": "Podaj poprawny adres email.",
-        "MAX_LENGTH": "Maksymalna liczba znaków to "
+        "EMAIL": "Niepoprawny format adresu e-mail.",
+        "MAX_LENGTH": "Maksymalna liczba znaków to {{max}}.",
+        "MIN_LENGTH": "Minimalna liczba znaków to {{min}}.",
+        "MAX_VALUE": "Wartość nie może być większa niż {{max}}.",
+        "MIN_VALUE": "Wartość nie może być mniejsza niż {{min}}."
     },
     "LOGIN": {
-        "SIGN_IN_HEADER": "Logowanie",
-        "SIGN_IN": "Zaloguj się",
+        "HEADER": "Logowanie",
         "EMAIL": "Email",
         "PASSWORD": "Hasło"
     },
@@ -74,6 +83,18 @@
         "": ""
     },
     "SETTINGS": {
-        "": ""
+        "HEADER": "Ustawienia",
+        "EDIT_ACCOUNT": "Edytuj konto",
+        "RESET_PASSWORD": "Resetuj hasło",
+        "FIRST_NAME": "Imię",
+        "LAST_NAME": "Nazwisko",
+        "EMAIL": "Email",
+        "DATE_OF_BIRTH": "Data urodzenia",
+        "ADDRESS": "Adres",
+        "AREA_CODE": "Kod kierunkowy",
+        "PHONE_NUMBER": "Numer telefonu",
+        "OLD_PASSWORD": "Stare hasło",
+        "NEW_PASSWORD": "Nowe hasło",
+        "CONFIRM_NEW_PASSWORD": "Potwierdź nowe hasło"
     }
 }

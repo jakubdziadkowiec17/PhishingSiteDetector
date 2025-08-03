@@ -33,8 +33,10 @@ export class LoginComponent {
       password: ['', Validators.required]
     });
 
-    const redirectParam = this.route.snapshot.queryParamMap.get('redirect');
-    if (redirectParam) this.redirectUrl = redirectParam;
+    this.route.queryParamMap.subscribe(params => {
+      const redirectParam = params.get('redirect');
+      this.redirectUrl = redirectParam ?? '';
+    });
   }
 
   onSubmit(): void {
@@ -47,7 +49,7 @@ export class LoginComponent {
     const loginDTO: LoginDTO = this.loginForm.value;
 
     this.accountApiService.login(loginDTO).pipe(
-      finalize(() => this.loadingLogin= false)
+      finalize(() => this.loadingLogin = false)
     ).subscribe({
       next: (tokens) => {
         this.accountService.setAccessToken(tokens.accessToken);
