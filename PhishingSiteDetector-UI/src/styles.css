@@ -42,3 +42,7 @@ body {
 .p-password.p-invalid input {
   border-color: var(--p-inputtext-invalid-border-color);
 }
+
+.p-progressspinner {
+  display: flex !important;
+}

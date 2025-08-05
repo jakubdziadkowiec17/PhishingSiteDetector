@@ -34,6 +34,7 @@
     },
     "SUCCESS": {
         "SUMMARY": "Success",
+        "OPERATION_COMPLETED_SUCCESSFULLY": "Operation completed successfully.",
         "ACCOUNT_EDITED": "The account has been edited.",
         "PASSWORD_RESET": "The password has been reset.",
         "LOGGED_OUT": "You have been successfully logged out.",
@@ -51,7 +52,7 @@
         "SIGN_OUT": "Sign out"
     },
     "FOOTER": {
-        "CONTENT": "Made with ☕ & code by the PhishingSiteDetector team"
+        "CONTENT": "Made with ☕ & code"
     },
     "BUTTON": {
         "SIGN_IN": "Sign in",
@@ -77,10 +78,28 @@
         "": ""
     },
     "STATISTICS": {
-        "": ""
+        "HEADER": "Statistics",
+        "MONTH": "Month",
+        "COUNT": "Log count",
+        "TOOLTIP_PREV": "Previous year",
+        "TOOLTIP_NEXT": "Next year",
+        "MONTHS": {
+            "1": "January",
+            "2": "February",
+            "3": "March",
+            "4": "April",
+            "5": "May",
+            "6": "June",
+            "7": "July",
+            "8": "August",
+            "9": "September",
+            "10": "October",
+            "11": "November",
+            "12": "December"
+        }
     },
     "DATA_SETS": {
-        "": ""
+        "HEADER": "Data sets"
     },
     "SETTINGS": {
         "HEADER": "Settings",

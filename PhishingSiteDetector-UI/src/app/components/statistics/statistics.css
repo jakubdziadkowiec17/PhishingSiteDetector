@@ -1,0 +1,19 @@
+.chart-container {
+  width: 100% !important;
+}
+
+.year-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1.5rem;
+  font-weight: 600
+}
+
+.spinner {
+  display: flex; 
+  justify-content: center;
+  align-items: center; 
+  height: 400px;
+}

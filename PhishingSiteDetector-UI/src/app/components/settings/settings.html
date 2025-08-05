@@ -1,99 +1,117 @@
 <p-card [header]="'SETTINGS.HEADER' | translate" styleClass="w-full max-w-xl mx-auto">
-  <p-tabs value="0">
+  <p-tabs [value]="activeTabIndex" (valueChange)="onTabChange($event)">
     <p-tablist>
-      <p-tab value="0">{{'SETTINGS.EDIT_ACCOUNT' | translate}}</p-tab>
-      <p-tab value="1">{{'SETTINGS.RESET_PASSWORD' | translate}}</p-tab>
+      <p-tab [value]="0">{{'SETTINGS.EDIT_ACCOUNT' | translate}}</p-tab>
+      <p-tab [value]="1">{{'SETTINGS.RESET_PASSWORD' | translate}}</p-tab>
     </p-tablist>
     <p-tabpanels>
-      <p-tabpanel value="0">
-        <form [formGroup]="editAccountForm" (ngSubmit)="editAccount()" class="flex flex-col gap-4">
+      <p-tabpanel [value]="0">
+        <form *ngIf="!loadingAccount" [formGroup]="editAccountForm" (ngSubmit)="editAccount()" class="flex flex-col gap-4">
 
           <div class="flex flex-col gap-1">
             <p-floatlabel variant="on">
-              <input pInputText id="firstName" formControlName="firstName" class="w-full" [ngClass]="{ 'p-invalid': editAccountForm.get('firstName')?.invalid && 
-                  (editAccountForm.get('firstName')?.touched || editAccountForm.get('firstName')?.dirty) }" />
+              <input pInputText id="firstName" formControlName="firstName" class="w-full"
+                [ngClass]="{ 'p-invalid': editAccountForm.get('firstName')?.invalid && (editAccountForm.get('firstName')?.touched || editAccountForm.get('firstName')?.dirty) }" />
               <label for="firstName">{{ 'SETTINGS.FIRST_NAME' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="editAccountForm.get('firstName')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
-            <p-message *ngIf="editAccountForm.get('firstName')?.hasError('maxlength')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_LENGTH' | translate:{max:30} }}" />
+            <ng-container *ngIf="editAccountForm.get('firstName')?.invalid && (editAccountForm.get('firstName')?.touched || editAccountForm.get('firstName')?.dirty)">
+              <p-message *ngIf="editAccountForm.get('firstName')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+              <p-message *ngIf="editAccountForm.get('firstName')?.hasError('maxlength')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_LENGTH' | translate:{max:30} }}" />
+            </ng-container>
           </div>
 
           <div class="flex flex-col gap-1">
             <p-floatlabel variant="on">
-              <input pInputText id="lastName" formControlName="lastName" class="w-full" [ngClass]="{ 'p-invalid': editAccountForm.get('lastName')?.invalid && 
-                  (editAccountForm.get('lastName')?.touched || editAccountForm.get('lastName')?.dirty) }" />
+              <input pInputText id="lastName" formControlName="lastName" class="w-full"
+                [ngClass]="{ 'p-invalid': editAccountForm.get('lastName')?.invalid && (editAccountForm.get('lastName')?.touched || editAccountForm.get('lastName')?.dirty) }" />
               <label for="lastName">{{ 'SETTINGS.LAST_NAME' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="editAccountForm.get('lastName')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
-            <p-message *ngIf="editAccountForm.get('lastName')?.hasError('maxlength')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_LENGTH' | translate:{max:30} }}" />
+            <ng-container *ngIf="editAccountForm.get('lastName')?.invalid && (editAccountForm.get('lastName')?.touched || editAccountForm.get('lastName')?.dirty)">
+              <p-message *ngIf="editAccountForm.get('lastName')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+              <p-message *ngIf="editAccountForm.get('lastName')?.hasError('maxlength')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_LENGTH' | translate:{max:30} }}" />
+            </ng-container>
           </div>
 
           <div class="flex flex-col gap-1">
             <p-floatlabel variant="on">
-              <input pInputText type="email" id="email" formControlName="email" autocomplete="email" class="w-full" 
-                  [ngClass]="{ 'p-invalid': editAccountForm.get('email')?.invalid && (editAccountForm.get('email')?.touched || editAccountForm.get('email')?.dirty) }" />
+              <input pInputText type="email" id="email" formControlName="email" autocomplete="email" class="w-full"
+                [ngClass]="{ 'p-invalid': editAccountForm.get('email')?.invalid && (editAccountForm.get('email')?.touched || editAccountForm.get('email')?.dirty) }" />
               <label for="email">{{ 'SETTINGS.EMAIL' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="editAccountForm.get('email')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
-            <p-message *ngIf="editAccountForm.get('email')?.hasError('email')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.EMAIL' | translate }}" />
+            <ng-container *ngIf="editAccountForm.get('email')?.invalid && (editAccountForm.get('email')?.touched || editAccountForm.get('email')?.dirty)">
+              <p-message *ngIf="editAccountForm.get('email')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+              <p-message *ngIf="editAccountForm.get('email')?.hasError('email')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.EMAIL' | translate }}" />
+            </ng-container>
           </div>
 
           <div class="flex flex-col gap-1">
             <p-floatlabel variant="on">
-              <input pInputText type="date" id="dateOfBirth" formControlName="dateOfBirth" class="w-full" 
-                  [ngClass]="{ 'p-invalid': editAccountForm.get('dateOfBirth')?.invalid && (editAccountForm.get('dateOfBirth')?.touched || editAccountForm.get('dateOfBirth')?.dirty) }" />
+              <input pInputText type="date" id="dateOfBirth" formControlName="dateOfBirth" class="w-full"
+                [ngClass]="{ 'p-invalid': editAccountForm.get('dateOfBirth')?.invalid && (editAccountForm.get('dateOfBirth')?.touched || editAccountForm.get('dateOfBirth')?.dirty) }" />
               <label for="dateOfBirth">{{ 'SETTINGS.DATE_OF_BIRTH' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="editAccountForm.get('dateOfBirth')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+            <ng-container *ngIf="editAccountForm.get('dateOfBirth')?.invalid && (editAccountForm.get('dateOfBirth')?.touched || editAccountForm.get('dateOfBirth')?.dirty)">
+              <p-message *ngIf="editAccountForm.get('dateOfBirth')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+            </ng-container>
           </div>
 
           <div class="flex flex-col gap-1">
             <p-floatlabel variant="on">
-              <input pInputText id="address" formControlName="address" class="w-full" [ngClass]="{ 'p-invalid': editAccountForm.get('address')?.invalid && 
-                  (editAccountForm.get('address')?.touched || editAccountForm.get('address')?.dirty) }" />
+              <input pInputText id="address" formControlName="address" class="w-full"
+                [ngClass]="{ 'p-invalid': editAccountForm.get('address')?.invalid && (editAccountForm.get('address')?.touched || editAccountForm.get('address')?.dirty) }" />
               <label for="address">{{ 'SETTINGS.ADDRESS' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="editAccountForm.get('address')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
-            <p-message *ngIf="editAccountForm.get('address')?.hasError('maxlength')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_LENGTH' | translate:{max:100} }}" />
+            <ng-container *ngIf="editAccountForm.get('address')?.invalid && (editAccountForm.get('address')?.touched || editAccountForm.get('address')?.dirty)">
+              <p-message *ngIf="editAccountForm.get('address')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+              <p-message *ngIf="editAccountForm.get('address')?.hasError('maxlength')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_LENGTH' | translate:{max:100} }}" />
+            </ng-container>
           </div>
 
           <div class="flex flex-col gap-1">
             <p-floatlabel variant="on">
-              <input pInputText id="areaCode" type="number" formControlName="areaCode" class="w-full" [ngClass]="{ 'p-invalid': editAccountForm.get('areaCode')?.invalid && 
-                  (editAccountForm.get('areaCode')?.touched || editAccountForm.get('areaCode')?.dirty) }" />
+              <input pInputText id="areaCode" type="number" formControlName="areaCode" class="w-full"
+                [ngClass]="{ 'p-invalid': editAccountForm.get('areaCode')?.invalid && (editAccountForm.get('areaCode')?.touched || editAccountForm.get('areaCode')?.dirty) }" />
               <label for="areaCode">{{ 'SETTINGS.AREA_CODE' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="editAccountForm.get('areaCode')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
-            <p-message *ngIf="editAccountForm.get('areaCode')?.hasError('min')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MIN_VALUE' | translate:{min:1} }}" />
-            <p-message *ngIf="editAccountForm.get('areaCode')?.hasError('max')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_VALUE' | translate:{max:9999} }}" />
+            <ng-container *ngIf="editAccountForm.get('areaCode')?.invalid && (editAccountForm.get('areaCode')?.touched || editAccountForm.get('areaCode')?.dirty)">
+              <p-message *ngIf="editAccountForm.get('areaCode')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+              <p-message *ngIf="editAccountForm.get('areaCode')?.hasError('min')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MIN_VALUE' | translate:{min:1} }}" />
+              <p-message *ngIf="editAccountForm.get('areaCode')?.hasError('max')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_VALUE' | translate:{max:9999} }}" />
+            </ng-container>
           </div>
 
           <div class="flex flex-col gap-1">
             <p-floatlabel variant="on">
-              <input pInputText id="phoneNumber" type="number" formControlName="phoneNumber" class="w-full" 
-                  [ngClass]="{ 'p-invalid': editAccountForm.get('phoneNumber')?.invalid && (editAccountForm.get('phoneNumber')?.touched || editAccountForm.get('phoneNumber')?.dirty) }" />
+              <input pInputText id="phoneNumber" type="number" formControlName="phoneNumber" class="w-full"
+                [ngClass]="{ 'p-invalid': editAccountForm.get('phoneNumber')?.invalid && (editAccountForm.get('phoneNumber')?.touched || editAccountForm.get('phoneNumber')?.dirty) }" />
               <label for="phoneNumber">{{ 'SETTINGS.PHONE_NUMBER' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="editAccountForm.get('phoneNumber')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
-            <p-message *ngIf="editAccountForm.get('phoneNumber')?.hasError('min')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MIN_VALUE' | translate:{min:100000000} }}" />
-            <p-message *ngIf="editAccountForm.get('phoneNumber')?.hasError('max')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_VALUE' | translate:{max:999999999} }}" />
+            <ng-container *ngIf="editAccountForm.get('phoneNumber')?.invalid && (editAccountForm.get('phoneNumber')?.touched || editAccountForm.get('phoneNumber')?.dirty)">
+              <p-message *ngIf="editAccountForm.get('phoneNumber')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+              <p-message *ngIf="editAccountForm.get('phoneNumber')?.hasError('min')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MIN_VALUE' | translate:{min:100000000} }}" />
+              <p-message *ngIf="editAccountForm.get('phoneNumber')?.hasError('max')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.MAX_VALUE' | translate:{max:999999999} }}" />
+            </ng-container>
           </div>
 
           <div class="mt-2">
             <p-button type="submit" [label]="'BUTTON.SAVE' | translate" icon="pi pi-save" [disabled]="loadingEdit" [loading]="loadingEdit" styleClass="w-full block" />
           </div>
+
         </form>
+        <p-progressSpinner *ngIf="loadingAccount" />
       </p-tabpanel>
-      <p-tabpanel value="1">
+      <p-tabpanel [value]="1">
         <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()" class="flex flex-col gap-4">
 
           <div class="flex flex-col gap-1">
             <p-floatlabel variant="on">
-              <p-password formControlName="oldPassword" inputId="oldPassword" [feedback]="false" [toggleMask]="true" class="w-full" 
+              <p-password formControlName="oldPassword" inputId="oldPassword" [feedback]="false" [toggleMask]="true" class="w-full"
                 [ngClass]="{ 'p-invalid': resetPasswordForm.get('oldPassword')?.invalid && (resetPasswordForm.get('oldPassword')?.touched || resetPasswordForm.get('oldPassword')?.dirty) }" />
               <label for="oldPassword">{{ 'SETTINGS.OLD_PASSWORD' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="resetPasswordForm.get('oldPassword')?.invalid && (resetPasswordForm.get('oldPassword')?.touched || resetPasswordForm.get('oldPassword')?.dirty)" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+            <ng-container *ngIf="resetPasswordForm.get('oldPassword')?.invalid && (resetPasswordForm.get('oldPassword')?.touched || resetPasswordForm.get('oldPassword')?.dirty)">
+              <p-message *ngIf="resetPasswordForm.get('oldPassword')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+            </ng-container>
           </div>
 
           <div class="flex flex-col gap-1">
@@ -102,7 +120,9 @@
                 [ngClass]="{ 'p-invalid': resetPasswordForm.get('newPassword')?.invalid && (resetPasswordForm.get('newPassword')?.touched || resetPasswordForm.get('newPassword')?.dirty) }" />
               <label for="newPassword">{{ 'SETTINGS.NEW_PASSWORD' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="resetPasswordForm.get('newPassword')?.invalid && (resetPasswordForm.get('newPassword')?.touched || resetPasswordForm.get('newPassword')?.dirty)" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+            <ng-container *ngIf="resetPasswordForm.get('newPassword')?.invalid && (resetPasswordForm.get('newPassword')?.touched || resetPasswordForm.get('newPassword')?.dirty)">
+              <p-message *ngIf="resetPasswordForm.get('newPassword')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+            </ng-container>
           </div>
 
           <div class="flex flex-col gap-1">
@@ -111,12 +131,15 @@
                 [ngClass]="{ 'p-invalid': resetPasswordForm.get('confirmNewPassword')?.invalid && (resetPasswordForm.get('confirmNewPassword')?.touched || resetPasswordForm.get('confirmNewPassword')?.dirty) }" />
               <label for="confirmNewPassword">{{ 'SETTINGS.CONFIRM_NEW_PASSWORD' | translate }}</label>
             </p-floatlabel>
-            <p-message *ngIf="resetPasswordForm.get('confirmNewPassword')?.invalid && (resetPasswordForm.get('confirmNewPassword')?.touched || resetPasswordForm.get('confirmNewPassword')?.dirty)" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+            <ng-container *ngIf="resetPasswordForm.get('confirmNewPassword')?.invalid && (resetPasswordForm.get('confirmNewPassword')?.touched || resetPasswordForm.get('confirmNewPassword')?.dirty)">
+              <p-message *ngIf="resetPasswordForm.get('confirmNewPassword')?.hasError('required')" severity="error" size="small" variant="simple" text="{{ 'VALIDATION.REQUIRED' | translate }}" />
+            </ng-container>
           </div>
 
           <div class="mt-2">
             <p-button type="submit" [label]="'BUTTON.RESET' | translate" icon="pi pi-refresh" [disabled]="loadingReset" [loading]="loadingReset" styleClass="w-full block" />
           </div>
+
         </form>
       </p-tabpanel>
     </p-tabpanels>

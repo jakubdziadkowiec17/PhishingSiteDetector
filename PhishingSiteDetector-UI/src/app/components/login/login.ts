@@ -1,5 +1,5 @@
 import { NgClass, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginDTO } from '../../interfaces/login-dto';
 import { AccountApiService } from '../../services/api/account-api-service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -20,7 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loadingLogin = false;
   loginForm!: FormGroup;
   redirectUrl: string = '';

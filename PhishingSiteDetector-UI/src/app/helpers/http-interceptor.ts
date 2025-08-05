@@ -71,21 +71,7 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
         }
       }
       else if (error.status >= 400) {
-        const errorKey = error?.error?.message;
-        if (errorKey && typeof errorKey === 'string') {
-          const translationKey = `ERROR.${errorKey}`;
-          translateService.get(translationKey).subscribe((translated) => {
-            if (translated === translationKey) {
-              notificationService.showErrorToast('AN_UNKNOWN_ERROR_OCCURED');
-            }
-            else {
-              notificationService.showErrorToast(errorKey);
-            }
-          });
-        }
-        else {
-          notificationService.showErrorToast('AN_UNKNOWN_ERROR_OCCURED');
-        }
+        notificationService.showErrorToast(error?.error?.message);
       }
       else {
         notificationService.showErrorToast('UNABLE_TO_CONNECT_TO_THE_APP_SERVER');

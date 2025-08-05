@@ -1,1 +1,26 @@
-<p>statistics works!</p>
+<p-card [header]="'STATISTICS.HEADER' | translate" styleClass="w-full max-w-xxl mx-auto">
+
+  <div class="year-selector">
+    <button type="button" (click)="previousYear()" pTooltip="{{ 'STATISTICS.TOOLTIP_PREV' | translate }}" tooltipPosition="top" aria-label="Previous Year" style="font-size:1.5rem; cursor:pointer;">&#9664;</button>
+    <span style="min-width:4rem; text-align:center;">{{ currentYear }}</span>
+    <button type="button" (click)="nextYear()" pTooltip="{{ 'STATISTICS.TOOLTIP_NEXT' | translate }}" tooltipPosition="top" aria-label="Next Year" style="font-size:1.5rem; cursor:pointer;">&#9654;</button>
+  </div>
+
+  <div #chartContainer class="chart-container">
+    <ngx-charts-bar-vertical *ngIf="!loadingStatistics"
+      [view]="view"
+      [results]="chartData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="false"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="'STATISTICS.MONTH' | translate"
+      [yAxisLabel]="'STATISTICS.COUNT' | translate"
+      [roundDomains]="true"
+      [animations]="false">
+    </ngx-charts-bar-vertical>
+    <p-progressSpinner *ngIf="loadingStatistics" />
+  </div>
+
+</p-card>

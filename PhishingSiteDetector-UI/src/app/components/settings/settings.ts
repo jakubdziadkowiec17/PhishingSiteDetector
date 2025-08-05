@@ -13,22 +13,30 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NotificationService } from '../../services/common/notification-service';
 import { AccountService } from '../../services/common/account-service';
 import { PasswordModule } from 'primeng/password';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-settings',
-  imports: [NgIf, NgClass, ReactiveFormsModule, TranslateModule, InputTextModule, ButtonModule, CardModule, MessageModule, FloatLabel, TabsModule, PasswordModule],
+  imports: [NgIf, NgClass, ReactiveFormsModule, TranslateModule, InputTextModule, ButtonModule, CardModule, MessageModule, FloatLabel, TabsModule, ProgressSpinnerModule, PasswordModule],
   templateUrl: './settings.html',
   styleUrl: './settings.css'
 })
 export class SettingsComponent implements OnInit {
   editAccountForm!: FormGroup;
   resetPasswordForm!: FormGroup;
+  loadingAccount = false;
   loadingEdit = false;
   loadingReset = false;
+  activeTabIndex = 0;
 
   constructor(private fb: FormBuilder, private accountApiService: AccountApiService, private accountService: AccountService, private notificationService: NotificationService) {}
 
   ngOnInit(): void {
+    this.initForms();
+    this.loadAccountData();
+  }
+
+  initForms(): void {
     this.editAccountForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.maxLength(30)]],
       lastName: ['', [Validators.required, Validators.maxLength(30)]],
@@ -44,18 +52,38 @@ export class SettingsComponent implements OnInit {
       newPassword: ['', Validators.required],
       confirmNewPassword: ['', Validators.required]
     });
+  }
 
-    this.accountApiService.getAccount().subscribe({
+  loadAccountData(): void {
+    this.loadingAccount = true;
+    this.accountApiService.getAccount().pipe(
+      finalize(() => {
+        this.loadingAccount = false;
+      })
+    ).subscribe({
       next: (account) => {
-        this.editAccountForm.patchValue(account);
-
-        const current = this.accountService.account;
-        if (current) {
-          const updatedAccount = { ...current, firstName: account.firstName };
+        this.editAccountForm.reset(account);
+        const currentAccount = this.accountService.account;
+        if (currentAccount) {
+          const updatedAccount = { ...currentAccount, firstName: account.firstName };
           this.accountService.setAccount(updatedAccount);
         }
+      },
+      error: () => {
+        this.editAccountForm.reset();
       }
     });
+  }
+
+  onTabChange(index: any): void {
+    this.activeTabIndex = index;
+
+    if (index === 0) {
+      this.loadAccountData();
+    }
+    else if (index === 1) {
+      this.resetPasswordForm.reset();
+    }
   }
 
   editAccount(): void {
