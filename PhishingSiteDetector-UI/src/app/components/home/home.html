@@ -1,3 +1,4 @@
+<div class="title">{{ 'HOME.HEADER' | translate }}</div>
 <div class="home-container">
   <p-card class="w-full max-w-xl mx-auto">
     <p-stepper [(value)]="activeStep" class="basis-[40rem]">
@@ -41,7 +42,7 @@
 
         <p-step-panel [value]="1">
           <ng-template #content let-activateCallback="activateCallback">
-            <p-message severity="info" class="flex flex-col mt-1 mb-4 ml-11 mr-11">
+            <p-message severity="info" class="flex flex-col mt-1 mb-4 ml-8 mr-8">
               <div class="small-info">
                 <i class="pi pi-info-circle mr-2"></i>
                 <span>{{ 'HOME.INFO_1' | translate }}</span>
@@ -50,7 +51,7 @@
                 <span>{{ 'HOME.INFO_5' | translate }}</span>
               </div>
             </p-message>
-            <form [formGroup]="form" class="flex flex-col gap-2 mx-auto ml-11 mr-11">
+            <form [formGroup]="form" class="flex flex-col gap-2 mx-auto ml-8 mr-8">
               <div class="text-center mt-2 mb-4 text-xl font-semibold">{{ 'HOME.ENTER_LINK' | translate }}</div>
 
               <div class="field flex flex-col gap-1">
@@ -65,15 +66,15 @@
               </div>
             </form>
 
-            <div class="flex mt-9 ml-2 mr-2 justify-end">
-              <p-button label="{{ 'HOME.NEXT' | translate }}" icon="pi pi-arrow-right" iconPos="right" (onClick)="goToStep2()" />
+            <div class="flex mt-8 justify-end">
+              <p-button label="{{ 'BUTTON.NEXT' | translate }}" icon="pi pi-arrow-right" iconPos="right" (onClick)="goToStep2()" />
             </div>
           </ng-template>
         </p-step-panel>
 
         <p-step-panel [value]="2">
           <ng-template #content let-activateCallback="activateCallback">
-            <form [formGroup]="form" class="flex flex-col gap-2 mx-auto ml-11 mr-11">
+            <form [formGroup]="form" class="flex flex-col gap-2 mx-auto ml-8 mr-8">
               <div class="text-center mt-2 mb-4 text-xl font-semibold">{{ 'HOME.FILL_LINK_OPTIONS' | translate }}</div>
 
               <div class="flex flex-col gap-4">
@@ -96,16 +97,16 @@
               </div>
             </form>
 
-            <div class="flex mt-9 ml-2 mr-2 justify-between">
-              <p-button label="{{ 'HOME.BACK' | translate }}" icon="pi pi-arrow-left" severity="secondary" (onClick)="activateCallback(1)" />
-              <p-button label="{{ 'HOME.NEXT' | translate }}" icon="pi pi-arrow-right" iconPos="right" (onClick)="goToStep3()" />
+            <div class="flex mt-8 justify-between">
+              <p-button label="{{ 'BUTTON.BACK' | translate }}" icon="pi pi-arrow-left" severity="secondary" (onClick)="activateCallback(1)" />
+              <p-button label="{{ 'BUTTON.NEXT' | translate }}" icon="pi pi-arrow-right" iconPos="right" (onClick)="goToStep3()" />
             </div>
           </ng-template>
         </p-step-panel>
 
         <p-step-panel [value]="3">
             <ng-template #content let-activateCallback="activateCallback">
-                <form [formGroup]="form" class="flex flex-col gap-2 mx-auto ml-11 mr-11">
+                <form [formGroup]="form" class="flex flex-col gap-2 mx-auto ml-8 mr-8">
                   <div class="text-xl font-semibold mt-2 mb-4 text-center">{{ 'HOME.SUMMARY' | translate }}</div>
 
                   <div class="flex flex-col gap-3">
@@ -115,19 +116,19 @@
                       </div>
                       <div class="flex flex-col sm:flex-row justify-between gap-1">
                         <span>{{ 'HOME.RANDOM_STRING' | translate }}:</span>
-                        <span class="sm:text-text-right break-all"><b>{{ form.value.isRandomString ? 'Tak' : 'Nie' }}</b></span>
+                        <span class="sm:text-text-right break-all"><b>{{ form.value.isRandomString ? ('HOME.YES' | translate) : ('HOME.NO' | translate) }}</b></span>
                       </div>
                       <div class="flex flex-col sm:flex-row justify-between gap-1">
                         <span>{{ 'HOME.BRAND_IN_SUBDOMAIN' | translate }}:</span>
-                        <span class="sm:text-text-right break-all"><b>{{ form.value.hasDomainInSubdomain ? 'Tak' : 'Nie' }}</b></span>
+                        <span class="sm:text-text-right break-all"><b>{{ form.value.hasDomainInSubdomain ? ('HOME.YES' | translate) : ('HOME.NO' | translate) }}</b></span>
                       </div>
                       <div class="flex flex-col sm:flex-row justify-between gap-1">
                         <span>{{ 'HOME.BRAND_IN_PATH' | translate }}:</span>
-                        <span class="sm:text-text-right break-all"><b>{{ form.value.hasDomainInPath ? 'Tak' : 'Nie' }}</b></span>
+                        <span class="sm:text-text-right break-all"><b>{{ form.value.hasDomainInPath ? ('HOME.YES' | translate) : ('HOME.NO' | translate) }}</b></span>
                       </div>
                       <div class="flex flex-col sm:flex-row justify-between gap-1">
                         <span>{{ 'HOME.HAS_BRAND_NAME' | translate }}:</span>
-                        <span class="sm:text-text-right break-all"><b>{{ form.value.hasEmbeddedBrandName ? 'Tak' : 'Nie' }}</b></span>
+                        <span class="sm:text-text-right break-all"><b>{{ form.value.hasEmbeddedBrandName ? ('HOME.YES' | translate) : ('HOME.NO' | translate) }}</b></span>
                       </div>
                   </div>
 
@@ -142,8 +143,8 @@
 
                 </form>
 
-                <div class="flex mt-9 ml-2 mr-2 justify-between">
-                <p-button label="{{ 'HOME.BACK' | translate }}" icon="pi pi-arrow-left" severity="secondary" (onClick)="activateCallback(2)" />
+                <div class="flex mt-8 justify-between">
+                <p-button label="{{ 'BUTTON.BACK' | translate }}" icon="pi pi-arrow-left" severity="secondary" (onClick)="activateCallback(2)" />
                 <p-button *ngIf="!predictionResult" label="{{ 'HOME.CHECK_LINK' | translate }}" icon="pi pi-search" (onClick)="predict()" [loading]="loadingPredict" />
                 </div>
             </ng-template>

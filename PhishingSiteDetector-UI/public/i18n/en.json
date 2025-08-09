@@ -30,7 +30,8 @@
         "DOWNLOADING_DATA_SET_FAILED": "An unexpected error occurred while downloading the dataset.",
         "UPDATING_DATA_SET_ACTIVITY_FAILED": "An unexpected error occurred while activating the dataset.",
         "DELETING_DATA_SET_FAILED": "An unexpected error occurred while deleting the dataset.",
-        "SELECTED_LANGUAGE_DOES_NOT_EXISTS_IN_THE_APP": "The selected language does not exist in the application."
+        "SELECTED_LANGUAGE_DOES_NOT_EXISTS_IN_THE_APP": "The selected language does not exist in the application.",
+        "INVALID_SORT_FIELD_SPECIFIED": "Invalid sort field specified."
     },
     "SUCCESS": {
         "SUMMARY": "Success",
@@ -39,7 +40,7 @@
         "PASSWORD_RESET": "The password has been reset.",
         "LOGGED_OUT": "You have been successfully logged out.",
         "DATA_SET_ADDED": "The data set has been added.",
-        "DATA_SET_ACTIVITY_UPDATED": "The data set has been activated.",
+        "DATA_SET_ACTIVITY_UPDATED": "The activity of the selected data set has been updated.",
         "DATA_SET_DELETED": "The data set has been deleted."
     },
     "NAVBAR": {
@@ -59,7 +60,9 @@
         "SAVE": "Save",
         "CANCEL": "Cancel",
         "DELETE": "Delete",
-        "RESET": "Reset"
+        "RESET": "Reset",
+        "NEXT": "Next",
+        "BACK": "Back"
     },
     "VALIDATION": {
         "REQUIRED": "This field is required.",
@@ -75,6 +78,7 @@
         "PASSWORD": "Password"
     },
     "HOME": {
+        "HEADER": "Home",
         "INFO_1": "The model uses data excerpts from the work ",
         "INFO_2": "Tan, Choon Lin (2018), “Phishing Dataset for Machine Learning: Feature Evaluation”, Mendeley Data, V1, doi: 10.17632/h3cgnj8hft.1",
         "INFO_3": " and from the dataset ",
@@ -87,11 +91,11 @@
         "BRAND_IN_SUBDOMAIN": "Known brand in subdomain",
         "BRAND_IN_PATH": "Known brand in path",
         "HAS_BRAND_NAME": "Contains brand name",
-        "NEXT": "Next",
-        "BACK": "Back",
         "CHECK_LINK": "Check link",
         "SUMMARY": "Summary",
-        "SCORE": "Phishing probability"
+        "SCORE": "Phishing probability",
+        "YES": "Yes",
+        "NO": "No"
     },
     "STATISTICS": {
         "HEADER": "Statistics",
@@ -115,7 +119,9 @@
         }
     },
     "DATA_SETS": {
-        "HEADER": "Data sets"
+        "HEADER": "Data sets",
+        "CONFIRM_DELETE": "Confirm deletion",
+        "DELETE_DESCRIPTION": "Are you sure you want to delete the data set with Id "
     },
     "SETTINGS": {
         "HEADER": "Settings",

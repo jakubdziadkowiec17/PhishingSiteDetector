@@ -29,7 +29,7 @@ namespace PhishingSiteDetector_API.Database
             modelBuilder.Entity<DataSet>()
                 .HasOne(a => a.ApplicationUser)
                 .WithMany(b => b.DataSets)
-                .HasForeignKey(a => a.CreationUserId)
+                .HasForeignKey(a => a.AddedByUserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<RefreshToken>()

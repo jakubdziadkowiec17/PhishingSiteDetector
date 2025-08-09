@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PhishingSiteDetector_API.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialmigration : Migration
+    public partial class Migration1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,7 +34,7 @@ namespace PhishingSiteDetector_API.Database.Migrations
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StackTrace = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,7 +58,7 @@ namespace PhishingSiteDetector_API.Database.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -216,15 +216,15 @@ namespace PhishingSiteDetector_API.Database.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActiveDataSet = table.Column<bool>(type: "bit", nullable: false),
-                    CreationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    AddedByUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DataSets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DataSets_AspNetUsers_CreationUserId",
-                        column: x => x.CreationUserId,
+                        name: "FK_DataSets_AspNetUsers_AddedByUserId",
+                        column: x => x.AddedByUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -294,9 +294,9 @@ namespace PhishingSiteDetector_API.Database.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DataSets_CreationUserId",
+                name: "IX_DataSets_AddedByUserId",
                 table: "DataSets",
-                column: "CreationUserId");
+                column: "AddedByUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",

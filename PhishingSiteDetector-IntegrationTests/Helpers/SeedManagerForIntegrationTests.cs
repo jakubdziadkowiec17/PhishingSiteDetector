@@ -99,8 +99,8 @@ namespace PhishingSiteDetector_API_IntegrationTests.Helpers
                 {
                     Name = "Phishing_Legitimate_full.csv",
                     IsActiveDataSet = i == 0 ? true : false,
-                    CreationUserId = DBAdmin.Account.Id,
-                    CreationDate = DateTime.Now
+                    AddedByUserId = DBAdmin.Account.Id,
+                    AddedDate = DateTime.Now
                 };
 
                 context.DataSets.Add(dataSet);

@@ -68,7 +68,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
 
             var siteLog = new SiteLog
             {
-                CreationDate = DateTime.Now
+                AddedDate = DateTime.Now
             };
 
             await _siteLogRepository.CreateSiteLogAsync(siteLog);

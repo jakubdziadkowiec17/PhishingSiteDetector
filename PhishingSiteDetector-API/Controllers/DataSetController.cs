@@ -21,7 +21,7 @@ namespace PhishingSiteDetector_API.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<ActionResult<ResponseDTO>> Upload([FromForm] DataSetDTO dataSet)
+        public async Task<ActionResult<ResponseDTO>> UploadDataSet([FromForm] DataSetDTO dataSet)
         {
             try
             {
@@ -42,11 +42,11 @@ namespace PhishingSiteDetector_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ListPageDTO<DataSetItemDTO>>> GetDataSets([FromQuery] string? searchText, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<ActionResult<ListPageDTO<DataSetItemDTO>>> GetDataSets([FromQuery] string? searchText, [FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] string sortField, [FromQuery] int sortOrder)
         {
             try
             {
-                return Ok(await _dataSetService.GetDataSetsAsync(searchText, pageNumber, pageSize));
+                return Ok(await _dataSetService.GetDataSetsAsync(searchText, pageNumber, pageSize, sortField, sortOrder));
             }
             catch (Exception ex)
             {

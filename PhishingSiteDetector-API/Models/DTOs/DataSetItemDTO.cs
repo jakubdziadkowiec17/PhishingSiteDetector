@@ -10,8 +10,8 @@ namespace PhishingSiteDetector_API.Models.DTOs
         public string Name { get; set; }
         public bool IsActiveDataSet { get; set; }
         [Required]
-        public string CreationUserId { get; set; }
+        public string AddedByUserFullName { get; set; }
         [Required]
-        public DateTime CreationDate { get; set; }
+        public DateTime AddedDate { get; set; }
     }
 }

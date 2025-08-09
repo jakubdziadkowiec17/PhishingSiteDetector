@@ -7,6 +7,6 @@ namespace PhishingSiteDetector_API.Models.Entities
         [Key]
         public int Id { get; set; }
         [Required]
-        public DateTime CreationDate { get; set; }
+        public DateTime AddedDate { get; set; }
     }
 }

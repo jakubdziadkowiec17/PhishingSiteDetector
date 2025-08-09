@@ -10,9 +10,9 @@ namespace PhishingSiteDetector_API.Models.Entities
         public string Name { get; set; }
         public bool IsActiveDataSet { get; set; }
         [Required]
-        public string CreationUserId { get; set; }
+        public string AddedByUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         [Required]
-        public DateTime CreationDate { get; set; }
+        public DateTime AddedDate { get; set; }
     }
 }

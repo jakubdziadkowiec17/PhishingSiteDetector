@@ -28,7 +28,7 @@ namespace PhishingSiteDetector_API.Services.Implementations
                     Message = message,
                     StackTrace = ex.StackTrace,
                     UserId = userId,
-                    CreationDate = DateTime.Now
+                    AddedDate = DateTime.Now
                 };
 
                 await _errorLogRepository.CreateErrorLogAsync(errorLog);

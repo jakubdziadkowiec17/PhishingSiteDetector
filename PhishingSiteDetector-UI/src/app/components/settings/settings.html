@@ -1,4 +1,5 @@
-<p-card [header]="'SETTINGS.HEADER' | translate" styleClass="w-full max-w-xl mx-auto">
+<div class="title">{{'SETTINGS.HEADER' | translate}}</div>
+<p-card styleClass="w-full max-w-xl mx-auto">
   <p-tabs [value]="activeTabIndex" (valueChange)="onTabChange($event)">
     <p-tablist>
       <p-tab [value]="0">{{'SETTINGS.EDIT_ACCOUNT' | translate}}</p-tab>

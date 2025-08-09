@@ -1,1 +1,79 @@
-<p>data-sets works!</p>
+<div class="title">Zestawy danych</div>
+<div class="w-full max-w-6xl mx-auto">
+
+  <div class="mb-3 flex justify-end">
+    <button pButton type="button" label="Dodaj" icon="pi pi-plus" (click)="showUploadDialog()"></button>
+  </div>
+
+  <div class="mb-3">
+    <p-iconfield class="w-full block">
+        <p-inputicon class="pi pi-search" />
+        <input pInputText id="on_label" placeholder="Szukaj po nazwie pliku" [(ngModel)]="searchText" (ngModelChange)="onSearch()" autocomplete="off" class="w-full" />
+    </p-iconfield>
+  </div>
+
+  <p-card>
+    <p-table [value]="dataSets" [paginator]="true" [rows]="pageSize" [totalRecords]="count" [lazy]="true" (onPage)="onPage($event)" (onSort)="onSort($event)" [loading]="loadingDataSets" dataKey="id" [sortField]="sortField" [sortOrder]="sortOrder">
+        <ng-template pTemplate="header">
+            <tr>
+                <th [pSortableColumn]="dataSetSortField.Id">
+                    <div class="flex items-center gap-2">Id<p-sortIcon [field]="dataSetSortField.Id" /></div>
+                </th>
+                <th [pSortableColumn]="dataSetSortField.Name">
+                    <div class="flex items-center gap-2">Nazwa pliku<p-sortIcon [field]="dataSetSortField.Name" /></div>
+                </th>
+                <th [pSortableColumn]="dataSetSortField.IsActiveDataSet">
+                    <div class="flex items-center gap-2">Aktywny<p-sortIcon [field]="dataSetSortField.IsActiveDataSet" /></div>
+                </th>
+                <th [pSortableColumn]="dataSetSortField.AddedByUserFullName">
+                    <div class="flex items-center gap-2">Osoba dodająca<p-sortIcon [field]="dataSetSortField.AddedByUserFullName" /></div>
+                </th>
+                <th [pSortableColumn]="dataSetSortField.AddedDate">
+                    <div class="flex items-center gap-2">Data dodania<p-sortIcon [field]="dataSetSortField.AddedDate" /></div>
+                </th>
+                <th></th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-dataSet>
+        <tr>
+            <td>{{ dataSet.id }}</td>
+            <td>{{ dataSet.name }}</td>
+            <td>
+            <p-toggleswitch [ngModel]="dataSet.isActiveDataSet" (onChange)="updateActivityForDataSet(dataSet)" />
+            </td>
+            <td>{{ dataSet.addedByUserFullName }}</td>
+            <td>{{ dataSet.addedDate | date: 'short' }}</td>
+            <td>
+            <button pButton icon="pi pi-download" class="p-button-text p-button-sm p-button-info" (click)="downloadDataSet(dataSet)" pTooltip="Pobierz" tooltipPosition="top"></button>
+            <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="showDeleteDialog(dataSet.id)" pTooltip="Usuń" tooltipPosition="top"></button>
+            </td>
+        </tr>
+        </ng-template>
+    </p-table>
+  </p-card>
+
+  <p-dialog maskStyleClass="backdrop-blur-sm" header="Dodaj nowy zestaw danych" [(visible)]="uploadDialogVisible" [modal]="true" [resizable]="true" [style]="{ width: '35rem' }" (onHide)="hideUploadDialog()">
+    <form [formGroup]="uploadForm" class="flex flex-col gap-3">
+      <p-fileUpload name="file" customUpload="true" (onSelect)="onFileSelected($event)" [auto]="true" [chooseLabel]="'Wybierz plik'" [multiple]="false" chooseIcon="pi pi-upload"/>
+
+      <div class="flex align-items-center gap-2">
+        <label for="activeSwitch">Aktywny zestaw:</label>
+        <p-toggleswitch id="activeSwitch" formControlName="isActiveDataSet"></p-toggleswitch>
+      </div>
+
+      <div class="flex justify-end gap-2 mt-5">
+        <button pButton label="Anuluj" type="button" (click)="hideUploadDialog()" severity="secondary"></button>
+        <button pButton label="Wgraj" type="button" (click)="uploadDataSet()"></button>
+      </div>
+    </form>
+  </p-dialog>
+  
+  <p-dialog maskStyleClass="backdrop-blur-sm" header="{{ 'DATA_SETS.CONFIRM_DELETE' | translate }}" [(visible)]="deleteDialogVisible" [modal]="true" [resizable]="true" [style]="{ width: '30rem' }" (onHide)="hideDeleteDialog()">
+    <p>{{ 'DATA_SETS.DELETE_DESCRIPTION' | translate }}<b>{{ dataSetToDeleteId }}</b>?</p>
+    <div class="flex justify-end gap-2 mt-5">
+        <p-button label="{{ 'BUTTON.CANCEL' | translate }}" type="button" (click)="hideDeleteDialog()" severity="secondary"></p-button>
+        <p-button label="{{ 'BUTTON.DELETE' | translate }}" type="button" (click)="deleteDataSetConfirmed()" severity="danger"></p-button>
+    </div>
+  </p-dialog>
+</div>

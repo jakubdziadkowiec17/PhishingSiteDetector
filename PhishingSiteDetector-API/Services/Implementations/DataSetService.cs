@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.ML;
 using PhishingSiteDetector_API.Constants;
 using PhishingSiteDetector_API.Models.Domain;
@@ -50,8 +51,8 @@ namespace PhishingSiteDetector_API.Services.Implementations
             {
                 Name = dataSetDTO.File.FileName,
                 IsActiveDataSet = dataSetDTO.IsActiveDataSet,
-                CreationUserId = userId,
-                CreationDate = DateTime.Now
+                AddedByUserId = userId,
+                AddedDate = DateTime.Now
             };
             var dataSetId = await _dataSetRepository.CreateDataSetAsync(dataSet);
 
@@ -106,10 +107,10 @@ namespace PhishingSiteDetector_API.Services.Implementations
             return new ResponseDTO(SUCCESS.DATA_SET_ADDED);
         }
 
-        public async Task<ListPageDTO<DataSetItemDTO>> GetDataSetsAsync(string? searchText, int pageNumber, int pageSize)
+        public async Task<ListPageDTO<DataSetItemDTO>> GetDataSetsAsync(string? searchText, int pageNumber, int pageSize, string sortField, int sortOrder)
         {
             if (string.IsNullOrEmpty(searchText)) searchText = "";
-            var dataSetListPageDTO = await _dataSetRepository.GetDataSetsAsync(searchText, pageNumber, pageSize);
+            var dataSetListPageDTO = await _dataSetRepository.GetDataSetsAsync(searchText, pageNumber, pageSize, sortField, sortOrder);
             var dataSets = _mapper.Map<List<DataSetItemDTO>>(dataSetListPageDTO.Items);
 
             return new ListPageDTO<DataSetItemDTO>(dataSets, dataSetListPageDTO.Count, dataSetListPageDTO.PageNumber);

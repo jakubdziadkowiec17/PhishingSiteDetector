@@ -11,6 +11,6 @@ namespace PhishingSiteDetector_API.Models.Entities
         public string? StackTrace { get; set; }
         public string? UserId { get; set; }
         [Required]
-        public DateTime CreationDate { get; set; }
+        public DateTime AddedDate { get; set; }
     }
 }

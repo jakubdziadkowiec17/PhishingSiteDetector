@@ -12,7 +12,10 @@
 
 .main {
   flex: 1 0 auto;
-  padding: 4.5vh 2.25vw;
+  padding-top: 3vh;
+  padding-bottom: 4vh;
+  padding-right: 2.25vw;
+  padding-left: 2.25vw;
 }
 
 app-footer {

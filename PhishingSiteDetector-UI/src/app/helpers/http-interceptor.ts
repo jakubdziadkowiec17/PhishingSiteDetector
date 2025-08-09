@@ -50,7 +50,7 @@ export const HTTPInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>
             }),
             catchError((refreshError) => {
               isRefreshing = false;
-              accountService.deleteTokensWithRedirect();
+              if (refreshError.status === 401) accountService.deleteTokensWithRedirect();
 
               return throwError(() => refreshError);
             })

@@ -12,8 +12,8 @@ using PhishingSiteDetector_API.Database;
 namespace PhishingSiteDetector_API.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250729155039_Initial-migration")]
-    partial class Initialmigration
+    [Migration("20250809224903_Migration1")]
+    partial class Migration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -258,12 +258,12 @@ namespace PhishingSiteDetector_API.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreationUserId")
+                    b.Property<string>("AddedByUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActiveDataSet")
                         .HasColumnType("bit");
@@ -274,7 +274,7 @@ namespace PhishingSiteDetector_API.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreationUserId");
+                    b.HasIndex("AddedByUserId");
 
                     b.ToTable("DataSets");
                 });
@@ -287,7 +287,7 @@ namespace PhishingSiteDetector_API.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreationDate")
+                    b.Property<DateTime>("AddedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Message")
@@ -342,7 +342,7 @@ namespace PhishingSiteDetector_API.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreationDate")
+                    b.Property<DateTime>("AddedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -416,7 +416,7 @@ namespace PhishingSiteDetector_API.Database.Migrations
                 {
                     b.HasOne("PhishingSiteDetector_API.Models.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("DataSets")
-                        .HasForeignKey("CreationUserId")
+                        .HasForeignKey("AddedByUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

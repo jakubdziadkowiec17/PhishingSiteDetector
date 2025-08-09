@@ -196,16 +196,12 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
             var tokensDTO = await Tools.LoginAsync(_httpClient, DBAdmin.Account.Email, DBAdmin.Password);
             _httpClient = Tools.GetDefaultRequestHeaders(_httpClient, tokensDTO);
             var id = 1;
-            var dataSetItemDTO = new DataSetItemDTO
+            var dataSetStatusDTO = new DataSetStatusDTO
             {
-                Id = 1,
-                Name = "Phishing_Legitimate_full.csv",
-                IsActiveDataSet = true,
-                CreationUserId = DBAdmin.Account.Id,
-                CreationDate = DateTime.Now
+                IsActiveDataSet = true
             };
 
-            var response = await _httpClient.PutAsJsonAsync($"/api/data-set/{id}", dataSetItemDTO);
+            var response = await _httpClient.PutAsJsonAsync($"/api/data-set/{id}", dataSetStatusDTO);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var data = await response.Content.ReadFromJsonAsync<ResponseDTO>();

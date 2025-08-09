@@ -9,7 +9,7 @@ namespace PhishingSiteDetector_API.Repositories.Interfaces
 
         Task<IEnumerable<DataSet>> GetDataSetsAsync();
 
-        Task<ListPageDTO<DataSet>> GetDataSetsAsync(string searchText, int pageNumber, int pageSize);
+        Task<ListPageDTO<DataSet>> GetDataSetsAsync(string searchText, int pageNumber, int pageSize, string sortField, int sortOrder);
 
         Task<DataSet?> GetDataSetAsync(int id);
 

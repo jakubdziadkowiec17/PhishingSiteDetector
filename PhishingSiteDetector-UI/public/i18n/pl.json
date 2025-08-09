@@ -30,7 +30,8 @@
         "DOWNLOADING_DATA_SET_FAILED": "Wystąpił nieoczekiwany błąd podczas pobierania zestawu danych.",
         "UPDATING_DATA_SET_ACTIVITY_FAILED": "Wystąpił nieoczekiwany błąd podczas aktywacji zestawu danych.",
         "DELETING_DATA_SET_FAILED": "Wystąpił nieoczekiwany błąd podczas usuwania zestawu danych.",
-        "SELECTED_LANGUAGE_DOES_NOT_EXISTS_IN_THE_APP": "Wybrany język nie istnieje w aplikacji."
+        "SELECTED_LANGUAGE_DOES_NOT_EXISTS_IN_THE_APP": "Wybrany język nie istnieje w aplikacji.",
+        "INVALID_SORT_FIELD_SPECIFIED": "Podano nieprawidłowe pole sortowania."
     },
     "SUCCESS": {
         "SUMMARY": "Sukces",
@@ -39,7 +40,7 @@
         "PASSWORD_RESET": "Hasło zostało zresetowane.",
         "LOGGED_OUT": "Zostałeś pomyślnie wylogowany.",
         "DATA_SET_ADDED": "Zbiór danych został dodany.",
-        "DATA_SET_ACTIVITY_UPDATED": "Zbiór danych został aktywowany.",
+        "DATA_SET_ACTIVITY_UPDATED": "Aktwność wybranego zbioru danych została zaktualizowana.",
         "DATA_SET_DELETED": "Zbiór danych został usunięty."
     },
     "NAVBAR": {
@@ -59,7 +60,9 @@
         "SAVE": "Zapisz",
         "CANCEL": "Anuluj",
         "DELETE": "Usuń",
-        "RESET": "Resetuj"
+        "RESET": "Resetuj",
+        "NEXT": "Dalej",
+        "BACK": "Wstecz"
     },
     "VALIDATION": {
         "REQUIRED": "To pole jest wymagane.",
@@ -75,6 +78,7 @@
         "PASSWORD": "Hasło"
     },
     "HOME": {
+        "HEADER": "Start",
         "INFO_1": "Model wykorzystuje fragmenty danych z pracy ",
         "INFO_2": "Tan, Choon Lin (2018), “Phishing Dataset for Machine Learning: Feature Evaluation”, Mendeley Data, V1, doi: 10.17632/h3cgnj8hft.1",
         "INFO_3": " oraz z zestawu ",
@@ -87,11 +91,11 @@
         "BRAND_IN_SUBDOMAIN": "Znana marka w subdomenie",
         "BRAND_IN_PATH": "Znana marka w ścieżce",
         "HAS_BRAND_NAME": "Zawiera nazwę marki",
-        "NEXT": "Dalej",
-        "BACK": "Wstecz",
         "CHECK_LINK": "Sprawdź link",
         "SUMMARY": "Podsumowanie",
-        "SCORE": "Prawdopodobieństwo phishingu"
+        "SCORE": "Prawdopodobieństwo phishingu",
+        "YES": "Tak",
+        "NO": "Nie"
     },
     "STATISTICS": {
         "HEADER": "Statystyki",
@@ -115,7 +119,9 @@
         }
     },
     "DATA_SETS": {
-        "HEADER": "Zestawy danych"
+        "HEADER": "Zestawy danych",
+        "CONFIRM_DELETE": "Potwierdź usunięcie",
+        "DELETE_DESCRIPTION": "Czy na pewno chcesz usunąć zestaw danych o identyfikatorze "
     },
     "SETTINGS": {
         "HEADER": "Ustawienia",

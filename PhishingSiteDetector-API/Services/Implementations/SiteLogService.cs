@@ -19,8 +19,8 @@ namespace PhishingSiteDetector_API.Services.Implementations
             var result = Enumerable.Range(1, 12).Select(month =>
             {
                 var count = siteLogs.Count(log =>
-                    log.CreationDate.Year == year &&
-                    log.CreationDate.Month == month);
+                    log.AddedDate.Year == year &&
+                    log.AddedDate.Month == month);
 
                 return new ChartDTO
                 {

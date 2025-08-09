@@ -8,7 +8,8 @@ namespace PhishingSiteDetector_API.Profiles
     {
         public DateSetProfile()
         {
-            CreateMap<DataSet, DataSetItemDTO>();
+            CreateMap<DataSet, DataSetItemDTO>()
+                .ForMember(dest => dest.AddedByUserFullName, opt => opt.MapFrom(src => src.ApplicationUser.FirstName + " " + src.ApplicationUser.LastName));
             CreateMap<DataSetStatusDTO, DataSet>();
         }
     }

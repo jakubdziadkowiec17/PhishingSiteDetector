@@ -6,6 +6,10 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+.p-card-body {
+  padding: 1.5rem !important;
+}
+
 .p-toast-message-success {
   backdrop-filter: blur(14px) !important;
   background: color-mix(in srgb,var(--p-green-500),transparent 84%) !important;
@@ -39,10 +43,21 @@ body {
   --p-button-secondary-active-border: var(--p-surface-500) !important;
 }
 
+.title {
+  font-size: 19px;
+  text-align: center;
+  word-break: break-word;
+  margin-bottom: 1.75vh;
+}
+
 .p-card-title {
   text-align: center;
-  font-size: 19px !important;
-  margin-bottom: 0.8rem;
+  font-size: 18px !important;
+  margin-bottom: 1rem;
+}
+
+.p-tablist-active-bar {
+  width: 50% !important;
 }
 
 .p-password-input {
@@ -81,6 +96,19 @@ input.p-inputtext.p-invalid:focus {
 .p-floatlabel:has(input.p-invalid) > label,
 .p-floatlabel:has(.p-password.p-invalid input) > label {
   color: var(--p-floatlabel-invalid-color) !important;
+}
+
+.p-step {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.p-step:first-child {
+  padding-left: 0 !important
+}
+
+.p-step:last-child {
+  padding-right: 0 !important
 }
 
 .p-step:has(~ .p-step-active) .p-stepper-separator {
