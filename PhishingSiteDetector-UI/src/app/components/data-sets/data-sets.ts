@@ -73,6 +73,19 @@ export class DataSetsComponent implements OnInit {
     ).subscribe();
   }
 
+  private updateUrl(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        search: this.searchText || null,
+        page: this.pageNumber || null,
+        sortField: this.sortField || null,
+        sortOrder: this.sortOrder || null
+      },
+      queryParamsHandling: 'merge'
+    });
+  }
+
   getDataSets(): void {
     this.loadingDataSets = true;
     this.dataSetApiService.getDataSets(this.searchText, this.pageNumber, this.pageSize, this.sortField, this.sortOrder).pipe(
@@ -103,19 +116,6 @@ export class DataSetsComponent implements OnInit {
     this.sortOrder = event.order;
     this.pageNumber = 1;
     this.updateUrl();
-  }
-
-  private updateUrl(): void {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        search: this.searchText || null,
-        page: this.pageNumber || null,
-        sortField: this.sortField || null,
-        sortOrder: this.sortOrder || null
-      },
-      queryParamsHandling: 'merge'
-    });
   }
 
   updateActivityForDataSet(dataSet: DataSetItemDTO): void {
