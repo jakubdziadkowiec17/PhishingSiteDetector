@@ -10,7 +10,7 @@ namespace PhishingSiteDetector_API.Profiles
         {
             CreateMap<UrlPrediction, UrlPredictionDTO>()
                 .ForMember(dest => dest.IsPhishing, opt => opt.MapFrom(src => src.PredictedLabel))
-                .ForMember(dest => dest.Score, opt => opt.MapFrom(src => Math.Round(src.Probability, 2)));
+                .ForMember(dest => dest.Score, opt => opt.MapFrom(src => Math.Round(src.Probability * 100, 2)));
         }
     }
 }

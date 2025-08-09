@@ -1,9 +1,9 @@
-<p-card [header]="'STATISTICS.HEADER' | translate" styleClass="w-full max-w-xxl mx-auto">
+<p-card [header]="'STATISTICS.HEADER' | translate" styleClass="w-full max-w-6xl mx-auto">
 
   <div class="year-selector">
-    <button type="button" (click)="previousYear()" pTooltip="{{ 'STATISTICS.TOOLTIP_PREV' | translate }}" tooltipPosition="top" aria-label="Previous Year" style="font-size:1.5rem; cursor:pointer;">&#9664;</button>
+    <button type="button" (click)="previousYear()" pTooltip="{{ 'STATISTICS.TOOLTIP_PREV' | translate }}" tooltipPosition="top" class="arrow">&#9664;</button>
     <span style="min-width:4rem; text-align:center;">{{ currentYear }}</span>
-    <button type="button" (click)="nextYear()" pTooltip="{{ 'STATISTICS.TOOLTIP_NEXT' | translate }}" tooltipPosition="top" aria-label="Next Year" style="font-size:1.5rem; cursor:pointer;">&#9654;</button>
+    <button type="button" (click)="nextYear()" pTooltip="{{ 'STATISTICS.TOOLTIP_NEXT' | translate }}" tooltipPosition="top" class="arrow">&#9654;</button>
   </div>
 
   <div #chartContainer class="chart-container">

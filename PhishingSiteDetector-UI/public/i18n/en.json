@@ -52,7 +52,7 @@
         "SIGN_OUT": "Sign out"
     },
     "FOOTER": {
-        "CONTENT": "Made with ☕ & code"
+        "CONTENT": "An app created with ☕ & code"
     },
     "BUTTON": {
         "SIGN_IN": "Sign in",
@@ -75,7 +75,23 @@
         "PASSWORD": "Password"
     },
     "HOME": {
-        "": ""
+        "INFO_1": "The model uses data excerpts from the work ",
+        "INFO_2": "Tan, Choon Lin (2018), “Phishing Dataset for Machine Learning: Feature Evaluation”, Mendeley Data, V1, doi: 10.17632/h3cgnj8hft.1",
+        "INFO_3": " and from the dataset ",
+        "INFO_4": "Phishing Dataset for Machine Learning",
+        "INFO_5": ". Both sources are provided under the CC BY 4.0 license. The results are approximate and may contain errors.",
+        "ENTER_LINK": "Enter the website link",
+        "LINK": "Link",
+        "FILL_LINK_OPTIONS": "Fill in additional link options",
+        "RANDOM_STRING": "Random character string",
+        "BRAND_IN_SUBDOMAIN": "Known brand in subdomain",
+        "BRAND_IN_PATH": "Known brand in path",
+        "HAS_BRAND_NAME": "Contains brand name",
+        "NEXT": "Next",
+        "BACK": "Back",
+        "CHECK_LINK": "Check link",
+        "SUMMARY": "Summary",
+        "SCORE": "Phishing probability"
     },
     "STATISTICS": {
         "HEADER": "Statistics",

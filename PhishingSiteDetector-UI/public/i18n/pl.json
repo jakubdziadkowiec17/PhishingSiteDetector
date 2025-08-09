@@ -52,7 +52,7 @@
         "SIGN_OUT": "Wyloguj się"
     },
     "FOOTER": {
-        "CONTENT": "Stworzone przy ☕ i kodzie"
+        "CONTENT": "Aplikacja stworzona przy ☕ i kodzie"
     },
     "BUTTON": {
         "SIGN_IN": "Zaloguj się",
@@ -75,7 +75,23 @@
         "PASSWORD": "Hasło"
     },
     "HOME": {
-        "": ""
+        "INFO_1": "Model wykorzystuje fragmenty danych z pracy ",
+        "INFO_2": "Tan, Choon Lin (2018), “Phishing Dataset for Machine Learning: Feature Evaluation”, Mendeley Data, V1, doi: 10.17632/h3cgnj8hft.1",
+        "INFO_3": " oraz z zestawu ",
+        "INFO_4": "Phishing Dataset for Machine Learning",
+        "INFO_5": ". Oba źródła są udostępnione na licencji CC BY 4.0. Wyniki są orientacyjne i mogą zawierać błędy.",
+        "ENTER_LINK": "Wprowadź link do strony",
+        "LINK": "Link",
+        "FILL_LINK_OPTIONS": "Uzupełnij dodatkowe opcje dotyczące linku",
+        "RANDOM_STRING": "Losowy ciąg znaków",
+        "BRAND_IN_SUBDOMAIN": "Znana marka w subdomenie",
+        "BRAND_IN_PATH": "Znana marka w ścieżce",
+        "HAS_BRAND_NAME": "Zawiera nazwę marki",
+        "NEXT": "Dalej",
+        "BACK": "Wstecz",
+        "CHECK_LINK": "Sprawdź link",
+        "SUMMARY": "Podsumowanie",
+        "SCORE": "Prawdopodobieństwo phishingu"
     },
     "STATISTICS": {
         "HEADER": "Statystyki",

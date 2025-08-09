@@ -25,6 +25,20 @@ body {
   }
 }
 
+:root {
+  --p-button-secondary-background: var(--p-surface-300) !important;
+  --p-button-secondary-color: var(--p-button-primary-color) !important;
+  --p-button-secondary-border: var(--p-surface-300) !important;
+
+  --p-button-secondary-hover-background: var(--p-surface-400) !important;
+  --p-button-secondary-hover-color: var(--p-button-primary-hover-color) !important;
+  --p-button-secondary-hover-border: var(--p-surface-400) !important;
+
+  --p-button-secondary-active-background: var(--p-surface-500) !important;
+  --p-button-secondary-active-color: var(--p-button-primary-active-color) !important;
+  --p-button-secondary-active-border: var(--p-surface-500) !important;
+}
+
 .p-card-title {
   text-align: center;
   font-size: 19px !important;
@@ -37,12 +51,78 @@ body {
 
 .p-message {
   margin-left: 2px;
+  margin-right: 2px;
+}
+
+.p-progressspinner {
+  display: flex !important;
 }
 
 .p-password.p-invalid input {
   border-color: var(--p-inputtext-invalid-border-color);
 }
 
-.p-progressspinner {
-  display: flex !important;
+input.p-inputtext.p-invalid:hover {
+  border-color: var(--p-inputtext-invalid-border-color) !important;
+}
+
+.p-password.p-invalid input:hover {
+  border-color: var(--p-inputtext-invalid-border-color) !important;
+}
+
+input.p-inputtext.p-invalid:focus {
+  border-color: var(--p-inputtext-invalid-border-color) !important;
+}
+
+.p-password.p-invalid input:focus {
+  border-color: var(--p-inputtext-invalid-border-color) !important;
+}
+
+.p-floatlabel:has(input.p-invalid) > label,
+.p-floatlabel:has(.p-password.p-invalid input) > label {
+  color: var(--p-floatlabel-invalid-color) !important;
+}
+
+.p-step:has(~ .p-step-active) .p-stepper-separator {
+  background: var(--p-button-primary-background) !important;
+}
+
+.step-active {
+  background-color: var(--p-button-primary-background);
+  color: var(--p-button-primary-color);
+  border-color: var(--p-button-primary-background);
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.step-active:hover {
+  background-color: var(--p-button-primary-hover-background);
+  color: var(--p-button-primary-hover-color);
+  border-color: var(--p-button-primary-hover-background);
+  cursor: pointer;
+}
+
+.step-active:active {
+  background-color: var(--p-button-primary-active-background);
+  color: var(--p-button-primary-active-color);
+  border-color: var(--p-button-primary-active-background);
+}
+
+.step-inactive {
+  background-color: var(--p-surface-300);
+  color: var(--p-button-primary-color);
+  border-color: var(--p-surface-300);
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.step-inactive:hover {
+  background-color: var(--p-surface-400);
+  color: var(--p-button-primary-hover-color);
+  border-color: var(--p-surface-400);
+  cursor: pointer;
+}
+
+.step-inactive:active {
+  background-color: var(--p-surface-500);
+  color: var(--p-button-primary-active-color);
+  border-color: var(--p-surface-500);
 }
