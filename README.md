@@ -18,7 +18,7 @@ The model uses data excerpts from the work [Tan, Choon Lin (2018), “Phishing D
     - Machine learning (ML.NET)
     - Polish and English translation (ngx-translate)
     - Reactive Extensions (RxJS)
-    - Toast notifications
+    - Notifications
     - Bar charts (ngx-charts)
     - Tokens stored in cookies
     - API communication
