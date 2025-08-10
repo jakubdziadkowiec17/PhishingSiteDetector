@@ -1,10 +1,10 @@
 # PhishingSiteDetector
 
 ## About project
-The project includes a responsive web application that supports the detection of phishing websites. A classification model was used to assign websites to a specific class based on selected input features. The model also returns a probability value, calculated based on the output layer's activation function. The application communicates with the server to exchange data and provides secure, authorized access to resources. Users can select Polish or English as the application language, adapting it to their individual needs. Key system functions include link checking, viewing statistics, managing datasets, and managing settings. Integration testing was conducted, which allowed for the detection and elimination of potential errors.
+The project includes a responsive web application that supports the detection of phishing websites. A classification model was used to assign websites to a specific class based on selected input features. The model also returns a probability value, calculated based on the output layer's activation function. Prediction results are approximate and may contain errors. The application communicates with the server to exchange data and provides secure, authorized access to resources. Users can select Polish or English as the application language, adapting it to their individual needs. Key system functions include link checking, viewing statistics, managing datasets, and managing settings. Integration testing was conducted, which allowed for the detection and elimination of potential errors.
 
 ## Data source
-The model uses data excerpts from the work [Tan, Choon Lin (2018), “Phishing Dataset for Machine Learning: Feature Evaluation”, Mendeley Data, V1, doi: 10.17632/h3cgnj8hft.1](https://data.mendeley.com/datasets/h3cgnj8hft/1) and Shashwat Tiwari's [Phishing Dataset for Machine Learning](https://www.kaggle.com/datasets/shashwatwork/phishing-dataset-for-machine-learning). Both sources are provided under the CC BY 4.0 license. The results are approximate and may contain errors.
+The model uses data excerpts from the work [Tan, Choon Lin (2018), “Phishing Dataset for Machine Learning: Feature Evaluation”, Mendeley Data, V1, doi: 10.17632/h3cgnj8hft.1](https://data.mendeley.com/datasets/h3cgnj8hft/1) and Shashwat Tiwari's [Phishing Dataset for Machine Learning](https://www.kaggle.com/datasets/shashwatwork/phishing-dataset-for-machine-learning). Both sources are provided under the CC BY 4.0 license.
 
 ## Technologies
 ### Web application
