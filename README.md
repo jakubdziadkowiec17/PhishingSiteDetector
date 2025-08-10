@@ -15,7 +15,6 @@ The model uses data excerpts from the work [Tan, Choon Lin (2018), “Phishing D
     - HTML
     - CSS
 - Key Features
-    - Machine learning (ML.NET)
     - Polish and English translation (ngx-translate)
     - Reactive Extensions (RxJS)
     - Notifications
@@ -33,6 +32,7 @@ The model uses data excerpts from the work [Tan, Choon Lin (2018), “Phishing D
 - Language
     - C#
 - Key Features
+    - Machine learning (ML.NET)
     - REST API
     - Dependency Injection, DTO, Controller, Service and Repository patterns
     - Authentication and authorization
