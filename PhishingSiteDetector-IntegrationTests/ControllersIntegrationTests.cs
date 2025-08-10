@@ -167,9 +167,12 @@ namespace PhishingSiteDetector_API_IntegrationTests.Controllers
             var tokensDTO = await Tools.LoginAsync(_httpClient, DBAdmin.Account.Email, DBAdmin.Password);
             _httpClient = Tools.GetDefaultRequestHeaders(_httpClient, tokensDTO);
             var pageNumber = 1;
-            var pageSize = 10;
+            var pageSize = 1;
+            var searchText = "";
+            var sortField = DataSetSortField.Id;
+            var sortOrder = (int)SortOrder.Desc;
 
-            var response = await _httpClient.GetAsync($"/api/data-set?pageNumber={pageNumber}&pageSize={pageSize}");
+            var response = await _httpClient.GetAsync($"/api/data-set?pageNumber={pageNumber}&pageSize={pageSize}&searchText={searchText}&sortField={sortField}&sortOrder={sortOrder}");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var data = await response.Content.ReadFromJsonAsync<ListPageDTO<DataSetItemDTO>>();

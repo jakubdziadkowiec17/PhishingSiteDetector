@@ -30,17 +30,17 @@ body {
 }
 
 :root {
-  --p-button-secondary-background: var(--p-surface-300) !important;
+  --p-button-secondary-background: var(--p-surface-400) !important;
   --p-button-secondary-color: var(--p-button-primary-color) !important;
-  --p-button-secondary-border: var(--p-surface-300) !important;
+  --p-button-secondary-border: var(--p-surface-400) !important;
 
-  --p-button-secondary-hover-background: var(--p-surface-400) !important;
-  --p-button-secondary-hover-color: var(--p-button-primary-hover-color) !important;
-  --p-button-secondary-hover-border: var(--p-surface-400) !important;
+  --p-button-secondary-hover-background: var(--p-surface-500) !important;
+  --p-button-secondary-hover-color: var(--p-button-primary-color) !important;
+  --p-button-secondary-hover-border: var(--p-surface-500) !important;
 
-  --p-button-secondary-active-background: var(--p-surface-500) !important;
-  --p-button-secondary-active-color: var(--p-button-primary-active-color) !important;
-  --p-button-secondary-active-border: var(--p-surface-500) !important;
+  --p-button-secondary-active-background: var(--p-surface-600) !important;
+  --p-button-secondary-active-color: var(--p-button-primary-color) !important;
+  --p-button-secondary-active-border: var(--p-surface-600) !important;
 }
 
 .title {
@@ -98,6 +98,22 @@ input.p-inputtext.p-invalid:focus {
   color: var(--p-floatlabel-invalid-color) !important;
 }
 
+.p-toggleswitch-slider {
+  background: var(--p-surface-400) !important;
+}
+
+.p-toggleswitch:not(.p-disabled):has(.p-toggleswitch-input:hover) .p-toggleswitch-slider {
+  background: var(--p-surface-500) !important;
+}
+
+.p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider {
+  background: var(--p-toggleswitch-checked-background) !important;
+}
+
+.p-toggleswitch:not(.p-disabled):has(.p-toggleswitch-input:hover).p-toggleswitch-checked .p-toggleswitch-slider {
+  background: var(--p-toggleswitch-checked-hover-background) !important;
+}
+
 .p-step {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -109,6 +125,10 @@ input.p-inputtext.p-invalid:focus {
 
 .p-step:last-child {
   padding-right: 0 !important
+}
+
+.p-stepper-separator {
+  background: var(--p-surface-400) !important;
 }
 
 .p-step:has(~ .p-step-active) .p-stepper-separator {
@@ -136,21 +156,31 @@ input.p-inputtext.p-invalid:focus {
 }
 
 .step-inactive {
-  background-color: var(--p-surface-300);
+  background-color: var(--p-surface-400);
   color: var(--p-button-primary-color);
-  border-color: var(--p-surface-300);
+  border-color: var(--p-surface-400);
   transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .step-inactive:hover {
-  background-color: var(--p-surface-400);
-  color: var(--p-button-primary-hover-color);
-  border-color: var(--p-surface-400);
+  background-color: var(--p-surface-500);
+  color: var(--p-button-primary-color);
+  border-color: var(--p-surface-500);
   cursor: pointer;
 }
 
 .step-inactive:active {
-  background-color: var(--p-surface-500);
-  color: var(--p-button-primary-active-color);
-  border-color: var(--p-surface-500);
+  background-color: var(--p-surface-600);
+  color: var(--p-button-primary-color);
+  border-color: var(--p-surface-600);
+}
+
+.p-datatable-mask {
+  backdrop-filter: blur(4px);
+  border-radius: var(--p-card-border-radius);
+}
+
+.empty-data {
+  text-align: center !important;
+  padding: 1.5rem !important;
 }

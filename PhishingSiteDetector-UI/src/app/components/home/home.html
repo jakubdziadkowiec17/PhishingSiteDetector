@@ -56,7 +56,7 @@
 
               <div class="field flex flex-col gap-1">
                 <p-floatlabel variant="on">
-                  <input pInputText type="text" id="url" formControlName="url" (input)="resetPrediction()" class="w-full"
+                  <input pInputText type="text" id="url" formControlName="url" (input)="resetPrediction()" class="w-full" autocomplete="off"
                     [ngClass]="{'p-invalid': form.get('url')?.invalid && (form.get('url')?.dirty || form.get('url')?.touched)}" />
                   <label for="url">{{ 'HOME.LINK' | translate }}</label>
                 </p-floatlabel>
@@ -83,11 +83,11 @@
                   <p-toggleswitch formControlName="isRandomString" (onChange)="resetPrediction()" />
                 </div>
                 <div class="flex justify-between items-center">
-                  <label>{{ 'HOME.BRAND_IN_SUBDOMAIN' | translate }}:</label>
+                  <label>{{ 'HOME.DOMAIN_IN_SUBDOMAIN' | translate }}:</label>
                   <p-toggleswitch formControlName="hasDomainInSubdomain" (onChange)="resetPrediction()" />
                 </div>
                 <div class="flex justify-between items-center">
-                  <label>{{ 'HOME.BRAND_IN_PATH' | translate }}:</label>
+                  <label>{{ 'HOME.DOMAIN_IN_PATH' | translate }}:</label>
                   <p-toggleswitch formControlName="hasDomainInPath" (onChange)="resetPrediction()" />
                 </div>
                 <div class="flex justify-between items-center">
@@ -119,11 +119,11 @@
                         <span class="sm:text-text-right break-all"><b>{{ form.value.isRandomString ? ('HOME.YES' | translate) : ('HOME.NO' | translate) }}</b></span>
                       </div>
                       <div class="flex flex-col sm:flex-row justify-between gap-1">
-                        <span>{{ 'HOME.BRAND_IN_SUBDOMAIN' | translate }}:</span>
+                        <span>{{ 'HOME.DOMAIN_IN_SUBDOMAIN' | translate }}:</span>
                         <span class="sm:text-text-right break-all"><b>{{ form.value.hasDomainInSubdomain ? ('HOME.YES' | translate) : ('HOME.NO' | translate) }}</b></span>
                       </div>
                       <div class="flex flex-col sm:flex-row justify-between gap-1">
-                        <span>{{ 'HOME.BRAND_IN_PATH' | translate }}:</span>
+                        <span>{{ 'HOME.DOMAIN_IN_PATH' | translate }}:</span>
                         <span class="sm:text-text-right break-all"><b>{{ form.value.hasDomainInPath ? ('HOME.YES' | translate) : ('HOME.NO' | translate) }}</b></span>
                       </div>
                       <div class="flex flex-col sm:flex-row justify-between gap-1">

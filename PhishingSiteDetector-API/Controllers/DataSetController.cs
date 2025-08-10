@@ -50,7 +50,13 @@ namespace PhishingSiteDetector_API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.GETTING_DATA_SET_LIST_FAILED, ex));
+                switch (ex.Message)
+                {
+                    case ERROR.INVALID_SORT_FIELD_SPECIFIED:
+                        return BadRequest(await _errorLogService.CreateErrorLogAsync(ERROR.INVALID_SORT_FIELD_SPECIFIED, ex));
+                    default:
+                        return StatusCode(500, await _errorLogService.CreateErrorLogAsync(ERROR.GETTING_DATA_SET_LIST_FAILED, ex));
+                }
             }
         }
 

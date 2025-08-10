@@ -1,14 +1,14 @@
-<div class="title">Zestawy danych</div>
+<div class="title">{{ 'DATA_SETS.HEADER' | translate }}</div>
 <div class="w-full max-w-6xl mx-auto">
 
   <div class="mb-3 flex justify-end">
-    <button pButton type="button" label="Dodaj" icon="pi pi-plus" (click)="showUploadDialog()"></button>
+    <button pButton type="button" label="{{ 'DATA_SETS.ADD' | translate }}" icon="pi pi-plus" (click)="showUploadDialog()"></button>
   </div>
 
   <div class="mb-3">
     <p-iconfield class="w-full block">
         <p-inputicon class="pi pi-search" />
-        <input pInputText id="on_label" placeholder="Szukaj po nazwie pliku" [(ngModel)]="searchText" (ngModelChange)="onSearch()" autocomplete="off" class="w-full" />
+        <input pInputText id="on_label" placeholder="{{ 'DATA_SETS.SEARCH_PLACEHOLDER' | translate }}" [(ngModel)]="searchText" (ngModelChange)="onSearch()" autocomplete="off" class="w-full" />
     </p-iconfield>
   </div>
 
@@ -17,63 +17,81 @@
         <ng-template pTemplate="header">
             <tr>
                 <th [pSortableColumn]="dataSetSortField.Id">
-                    <div class="flex items-center gap-2">Id<p-sortIcon [field]="dataSetSortField.Id" /></div>
+                    <div class="flex items-center gap-2">{{ 'DATA_SETS.ID' | translate }}<p-sortIcon [field]="dataSetSortField.Id" /></div>
                 </th>
                 <th [pSortableColumn]="dataSetSortField.Name">
-                    <div class="flex items-center gap-2">Nazwa pliku<p-sortIcon [field]="dataSetSortField.Name" /></div>
+                    <div class="flex items-center gap-2">{{ 'DATA_SETS.NAME' | translate }}<p-sortIcon [field]="dataSetSortField.Name" /></div>
                 </th>
                 <th [pSortableColumn]="dataSetSortField.IsActiveDataSet">
-                    <div class="flex items-center gap-2">Aktywny<p-sortIcon [field]="dataSetSortField.IsActiveDataSet" /></div>
+                    <div class="flex items-center gap-2">{{ 'DATA_SETS.ACTIVE' | translate }}<p-sortIcon [field]="dataSetSortField.IsActiveDataSet" /></div>
                 </th>
                 <th [pSortableColumn]="dataSetSortField.AddedByUserFullName">
-                    <div class="flex items-center gap-2">Osoba dodająca<p-sortIcon [field]="dataSetSortField.AddedByUserFullName" /></div>
+                    <div class="flex items-center gap-2">{{ 'DATA_SETS.ADDED_BY' | translate }}<p-sortIcon [field]="dataSetSortField.AddedByUserFullName" /></div>
                 </th>
                 <th [pSortableColumn]="dataSetSortField.AddedDate">
-                    <div class="flex items-center gap-2">Data dodania<p-sortIcon [field]="dataSetSortField.AddedDate" /></div>
+                    <div class="flex items-center gap-2">{{ 'DATA_SETS.ADDED_DATE' | translate }}<p-sortIcon [field]="dataSetSortField.AddedDate" /></div>
                 </th>
                 <th></th>
             </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-dataSet>
-        <tr>
-            <td>{{ dataSet.id }}</td>
-            <td>{{ dataSet.name }}</td>
-            <td>
-            <p-toggleswitch [ngModel]="dataSet.isActiveDataSet" (onChange)="updateActivityForDataSet(dataSet)" />
-            </td>
-            <td>{{ dataSet.addedByUserFullName }}</td>
-            <td>{{ dataSet.addedDate | date: 'short' }}</td>
-            <td>
-            <button pButton icon="pi pi-download" class="p-button-text p-button-sm p-button-info" (click)="downloadDataSet(dataSet)" pTooltip="Pobierz" tooltipPosition="top"></button>
-            <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="showDeleteDialog(dataSet.id)" pTooltip="Usuń" tooltipPosition="top"></button>
-            </td>
-        </tr>
+          <tr>
+              <td>{{ dataSet.id }}</td>
+              <td>{{ dataSet.name }}</td>
+              <td>
+              <p-toggleswitch [ngModel]="dataSet.isActiveDataSet" (onChange)="updateActivityForDataSet(dataSet)" />
+              </td>
+              <td>{{ dataSet.addedByUserFullName }}</td>
+              <td>{{ dataSet.addedDate | date: 'short' }}</td>
+              <td>
+              <button pButton icon="pi pi-download" class="p-button-text p-button-sm p-button-info" (click)="downloadDataSet(dataSet)" pTooltip="{{ 'BUTTON.DOWNLOAD' | translate }}" tooltipPosition="top"></button>
+              <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="showDeleteDialog(dataSet.id)" pTooltip="{{ 'BUTTON.DELETE' | translate }}" tooltipPosition="top"></button>
+              </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6" class="empty-data">{{ 'DATA_SETS.EMPTY_MESSAGE' | translate }}</td>
+          </tr>
         </ng-template>
     </p-table>
   </p-card>
 
-  <p-dialog maskStyleClass="backdrop-blur-sm" header="Dodaj nowy zestaw danych" [(visible)]="uploadDialogVisible" [modal]="true" [resizable]="true" [style]="{ width: '35rem' }" (onHide)="hideUploadDialog()">
-    <form [formGroup]="uploadForm" class="flex flex-col gap-3">
-      <p-fileUpload name="file" customUpload="true" (onSelect)="onFileSelected($event)" [auto]="true" [chooseLabel]="'Wybierz plik'" [multiple]="false" chooseIcon="pi pi-upload"/>
+  <p-dialog maskStyleClass="backdrop-blur-sm" header="{{ 'DATA_SETS.ADD_HEADER' | translate }}" [(visible)]="uploadDialogVisible" [modal]="true" [resizable]="true" [style]="{ width: '32rem' }" (onHide)="hideUploadDialog()">
+    <form [formGroup]="uploadForm" class="flex flex-col">
+      <div class="file-drop-area" [class.file-dragover]="isDragOver" (click)="fileInput.click()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" role="button">
+        <ng-container *ngIf="!uploadForm.get('file')?.value; else fileSelectedTemplate">
+          {{ 'DATA_SETS.DRAG_DROP' | translate }}
+        </ng-container>
+      </div>
 
-      <div class="flex align-items-center gap-2">
-        <label for="activeSwitch">Aktywny zestaw:</label>
+      <ng-template #fileSelectedTemplate>
+        <div class="selected-file">
+          <span>{{ uploadForm.get('file')?.value?.name }}</span>
+          <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger" (click)="removeFile($event)" pTooltip="{{ 'BUTTON.DELETE' | translate }}" tooltipPosition="top"></button>
+        </div>
+      </ng-template>
+
+      <input type="file" #fileInput style="display:none"(change)="onFileChange($event)"/>
+      
+      <div class="active-data-set">
+        <label for="activeSwitch">{{ 'DATA_SETS.ACTIVE' | translate }}:</label>
         <p-toggleswitch id="activeSwitch" formControlName="isActiveDataSet"></p-toggleswitch>
       </div>
 
       <div class="flex justify-end gap-2 mt-5">
-        <button pButton label="Anuluj" type="button" (click)="hideUploadDialog()" severity="secondary"></button>
-        <button pButton label="Wgraj" type="button" (click)="uploadDataSet()"></button>
+        <button pButton label="{{ 'BUTTON.CANCEL' | translate }}" type="button" (click)="hideUploadDialog()" severity="secondary" icon="pi pi-times"></button>
+        <button pButton label="{{ 'BUTTON.SAVE' | translate }}" type="button" (click)="uploadDataSet()" icon="pi pi-save" [loading]="loadingUpload"></button>
       </div>
     </form>
   </p-dialog>
   
-  <p-dialog maskStyleClass="backdrop-blur-sm" header="{{ 'DATA_SETS.CONFIRM_DELETE' | translate }}" [(visible)]="deleteDialogVisible" [modal]="true" [resizable]="true" [style]="{ width: '30rem' }" (onHide)="hideDeleteDialog()">
+  <p-dialog maskStyleClass="backdrop-blur-sm" header="{{ 'DATA_SETS.CONFIRM_DELETE' | translate }}" [(visible)]="deleteDialogVisible" [modal]="true" [resizable]="true" [style]="{ width: '32rem' }" (onHide)="hideDeleteDialog()">
     <p>{{ 'DATA_SETS.DELETE_DESCRIPTION' | translate }}<b>{{ dataSetToDeleteId }}</b>?</p>
     <div class="flex justify-end gap-2 mt-5">
-        <p-button label="{{ 'BUTTON.CANCEL' | translate }}" type="button" (click)="hideDeleteDialog()" severity="secondary"></p-button>
-        <p-button label="{{ 'BUTTON.DELETE' | translate }}" type="button" (click)="deleteDataSetConfirmed()" severity="danger"></p-button>
+        <p-button label="{{ 'BUTTON.CANCEL' | translate }}" type="button" (click)="hideDeleteDialog()" severity="secondary" icon="pi pi-times"></p-button>
+        <p-button label="{{ 'BUTTON.DELETE' | translate }}" type="button" (click)="deleteDataSet()" severity="danger" icon="pi pi-trash" [loading]="loadingDelete"></p-button>
     </div>
   </p-dialog>
 </div>

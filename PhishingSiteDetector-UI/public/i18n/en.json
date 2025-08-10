@@ -61,6 +61,7 @@
         "CANCEL": "Cancel",
         "DELETE": "Delete",
         "RESET": "Reset",
+        "DOWNLOAD": "Download",
         "NEXT": "Next",
         "BACK": "Back"
     },
@@ -88,8 +89,8 @@
         "LINK": "Link",
         "FILL_LINK_OPTIONS": "Fill in additional link options",
         "RANDOM_STRING": "Random character string",
-        "BRAND_IN_SUBDOMAIN": "Known brand in subdomain",
-        "BRAND_IN_PATH": "Known brand in path",
+        "DOMAIN_IN_SUBDOMAIN": "Known domain in subdomain",
+        "DOMAIN_IN_PATH": "Known domain in path",
         "HAS_BRAND_NAME": "Contains brand name",
         "CHECK_LINK": "Check link",
         "SUMMARY": "Summary",
@@ -119,7 +120,17 @@
         }
     },
     "DATA_SETS": {
-        "HEADER": "Data sets",
+        "HEADER": "Data Sets",
+        "ADD": "Add",
+        "SEARCH_PLACEHOLDER": "Search by file name",
+        "ID": "Id",
+        "NAME": "File name",
+        "ACTIVE": "Active",
+        "ADDED_BY": "Added by",
+        "ADDED_DATE": "Date added",
+        "EMPTY_MESSAGE": "No data sets found 😢",
+        "ADD_HEADER": "Add data set",
+        "DRAG_DROP": "Drag and drop file here or click to select",
         "CONFIRM_DELETE": "Confirm deletion",
         "DELETE_DESCRIPTION": "Are you sure you want to delete the data set with Id "
     },

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DataSetItemDTO } from '../../interfaces/data-set-item-dto';
@@ -14,7 +14,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../services/common/notification-service';
 import { ResponseDTO } from '../../interfaces/response-dto';
-import { finalize, debounceTime, distinctUntilChanged, tap, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, Subject } from 'rxjs';
 import { CardModule } from 'primeng/card';
 import { TranslateModule } from '@ngx-translate/core';
 import { InputIconModule } from 'primeng/inputicon';
@@ -32,9 +32,13 @@ import { SortOrder } from '../../constants/sort-order';
   providers: [ConfirmationService, MessageService]
 })
 export class DataSetsComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  isDragOver = false;
   dataSets: DataSetItemDTO[] = [];
   count = 0;
   loadingDataSets = false;
+  loadingUpload = false;
+  loadingDelete = false;
   searchText = '';
   pageNumber = 1;
   pageSize = 5;
@@ -42,7 +46,6 @@ export class DataSetsComponent implements OnInit {
   sortOrder: number = SortOrder.Desc;
   dataSetSortField = DataSetSortField
   uploadForm!: FormGroup;
-  selectedFile?: File;
   uploadDialogVisible = false;
   deleteDialogVisible = false;
   dataSetToDeleteId?: number;
@@ -88,15 +91,16 @@ export class DataSetsComponent implements OnInit {
 
   getDataSets(): void {
     this.loadingDataSets = true;
-    this.dataSetApiService.getDataSets(this.searchText, this.pageNumber, this.pageSize, this.sortField, this.sortOrder).pipe(
-      finalize(() => {
-        this.loadingDataSets = false;
-        this.cdr.detectChanges();
-      })
-    ).subscribe({
+    this.dataSetApiService.getDataSets(this.searchText, this.pageNumber, this.pageSize, this.sortField, this.sortOrder).subscribe({
       next: (result) => {
         this.dataSets = result.items;
         this.count = result.count;
+        this.loadingDataSets = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loadingDataSets = false;
+        this.cdr.detectChanges();
       }
     });
   }
@@ -157,51 +161,90 @@ export class DataSetsComponent implements OnInit {
     this.deleteDialogVisible = false;
   }
 
-  deleteDataSetConfirmed() {
-    if (this.dataSetToDeleteId != null) {
-      this.deleteDataSet(this.dataSetToDeleteId);
-    }
-    this.deleteDialogVisible = false;
-  }
+  deleteDataSet(): void {
+    if (!this.dataSetToDeleteId) return;
 
-  deleteDataSet(id: number): void {
-    this.dataSetApiService.deleteDataSet(id).subscribe({
+    this.loadingDelete = true;
+    this.dataSetApiService.deleteDataSet(this.dataSetToDeleteId).subscribe({
       next: (response: ResponseDTO) => {
         this.notificationService.showSuccessToast(response.message);
+        this.deleteDialogVisible = false;
+        this.loadingDelete = false;
         this.getDataSets();
+      },
+      error: () => {
+        this.deleteDialogVisible = false;
+        this.loadingDelete = false;
       }
     });
   }
 
   showUploadDialog(): void {
     this.uploadForm.reset({ isActiveDataSet: false });
-    this.selectedFile = undefined;
+    this.uploadForm.get('file')?.setValue(null);
     this.uploadDialogVisible = true;
   }
 
   hideUploadDialog(): void {
     this.uploadForm.reset();
-    this.selectedFile = undefined;
-    this.uploadDialogVisible = false
+    this.uploadForm.get('file')?.setValue(null);
+    this.uploadDialogVisible = false;
   }
 
-  onFileSelected(event: any): void {
-    if (event.files && event.files.length > 0) {
-      this.selectedFile = event.files[0];
-      this.uploadForm.get('file')?.setValue(this.selectedFile);
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = false;
+    if (event.dataTransfer?.files.length) {
+      this.setFile(event.dataTransfer.files[0]);
     }
   }
 
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.setFile(input.files[0]);
+    }
+  }
+
+  setFile(file: File) {
+    this.uploadForm.get('file')?.setValue(file);
+  }
+
+  removeFile(event: any) {
+    this.uploadForm.get('file')?.setValue(null);
+    this.fileInput.nativeElement.value = '';
+    event.stopPropagation();
+  }
+
   uploadDataSet(): void {
-    if (!this.selectedFile || this.uploadForm.invalid) { return; }
+    if (this.uploadForm.invalid) return;
+
+    this.loadingUpload = true;
     const formData = new FormData();
-    formData.append('file', this.selectedFile);
+    const file = this.uploadForm.get('file')?.value;
+    formData.append('file', file);
     formData.append('isActiveDataSet', this.uploadForm.get('isActiveDataSet')?.value);
+
     this.dataSetApiService.uploadDataSet(formData).subscribe({
       next: (response: ResponseDTO) => {
         this.notificationService.showSuccessToast(response.message);
         this.uploadDialogVisible = false;
+        this.loadingUpload = false;
         this.getDataSets();
+      },
+      error: () => {
+        this.uploadDialogVisible = false;
+        this.loadingUpload = false;
       }
     });
   }
